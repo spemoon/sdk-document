@@ -1,0 +1,38 @@
+      <a href="#" class="btn-top"><span class="vertical">回顶部</span></a>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function(e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        navHtml += '<header><h1>' + $('.nav-title-active').text() + '</h1></header>';
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function(item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        
+      });
+    </script>
+  </body>
+</html>

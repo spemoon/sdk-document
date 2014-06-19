@@ -1,0 +1,24 @@
+@import './core/_setting.scss';
+@import './core/_reset.scss';
+@import './core/_grid.scss';
+@import './core/_css3.scss';
+@import './core/_mixin.scss';
+@import './core/_media-queries.scss';
+@import './globals/_base.scss';
+@import './globals/_header.scss';
+@import '_develop-ct.scss';
+
+body {
+    font-family: 'proxima-nova', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    margin: 0;
+    background: #fff;
+    font-size: 12px;
+    overflow-x: hidden;
+}
+a {
+    color: #128DBE;
+    text-decoration: none;
+    &:hover {
+        color: #0e5f77;
+    }
+}

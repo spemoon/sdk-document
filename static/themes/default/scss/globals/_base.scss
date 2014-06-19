@@ -1,0 +1,271 @@
+$width: 960px;
+$cashWidth: 100%;
+
+$blue: #10638f;
+$liteBlue: #49afcd;
+$orange: #f60;
+$green: #89CC56;
+
+@mixin ell($width: 90px) {
+    display: inline-block;
+    max-width: $width;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.clearfix{*zoom:1;}
+.clearfix:before,.clearfix:after{content:"";display:table;}
+.clearfix:after{clear:both;}
+.clear{clear:both}
+
+.lf{
+    float: left;
+}
+
+.rt{
+    float: right;
+}
+
+.hide{
+    display: none;
+}
+.tips{
+    color: #ccc;
+}
+.error, .star{
+    color: $orange;
+}
+.success{
+    color: $green;
+}
+.star, .space{
+    padding: 0 5px;
+}
+
+.ml{
+    margin-left: 20px;
+}
+
+.mr{
+    margin-right: 20px;
+}
+.mr-5{
+    margin-right: 5px;
+}
+.mt{
+    margin-top: 20px;
+}
+
+p{
+    font-size: 14px;
+    line-height: 24px;
+}
+.line{
+    border-bottom: 1px dotted #ccc;
+}
+
+.ipt, .area-1{
+    height: 24px;
+    padding: 5px 0 5px 5px;
+    width: 350px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+}
+.ipt-1{
+    width: 150px;
+}
+.ipt-2{
+    width: 100px;
+}
+.ipt-error{
+    border: 1px solid #f60;
+}
+.area-1{
+    height: 100px;
+}
+
+.select-1{
+    width: 115px;
+    height: 30px;
+    padding: 5px 0;
+}
+
+.select-2 {
+    width: 355px;
+    height: 30px;
+    padding: 5px 0;
+}
+
+/*.btn{
+    padding: 10px 20px;
+    font-size: 18px;
+    color: #fff;
+    background: $green;
+    border: none;
+    cursor: pointer;
+    @include border-radius(3px);
+}*/
+$tableTrHeight: 50px;
+.table-1{
+    table{
+        width: 100%;
+        tr{
+            min-height: $tableTrHeight;
+            th{
+                vertical-align: top;
+                width: 200px;
+            }
+            .th{
+                height: 38px;
+                text-align: right;
+                width: 200px;
+                span{
+                    vertical-align: middle;
+                    font-size: 14px;
+                    line-height: 38px;
+                }
+            }
+            .td{
+                min-height: $tableTrHeight;
+                width: 600px;
+            }
+            .tips{
+                font-size: 12px;
+                line-height: 24px;
+            }
+            .explan{
+                font-size: 14px;
+                line-height: 24px;
+                padding: 5px 0;
+            }
+            .second{
+                padding: 30px 0 5px;
+            }
+        }
+    }
+}
+.table-2{
+    table{
+        tr{
+            th{
+                vertical-align: middle;
+            }
+        }
+    }
+}
+.table-3{
+    table {
+        tr {
+            .th{
+                width: 100px;
+            }
+            .td{
+                width: 200px;
+            }
+        }
+    }
+}
+.select-3{
+    background: none repeat scroll 0 0 #fff;
+    border: 1px solid #CCCCCC;
+    font-size: 14px;
+    padding: 2px 5px;
+    position: absolute;
+    top: 20px;
+    left: 100px;
+    width: 70px;
+    .input{
+        background: none;
+        border: none;
+        cursor: pointer;
+        height: 24px;
+        font-size: 14px;
+        line-height: 24px;
+        width: 55px;
+    }
+    .arrow{
+        background: url('../images/spirit.png') no-repeat scroll 2px 13px;
+        border: none;
+        cursor: pointer;
+        height: 30px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 15px;
+        display: block;
+        text-indent: -9999px;
+    }
+    .s-l-3{
+        background: none repeat scroll 0 0 #fff;
+        border: 1px solid #C6C6C6;
+        line-height: 24px;
+        position: absolute;
+        right: -1px;
+        top: 28px;
+        width: 80px;
+        z-index: 10;
+        display: none;
+        ul{
+            li{
+                text-align: center;
+                border-bottom: 1px solid #ccc;
+                padding: 3px;
+                cursor: pointer;
+                &.last{
+                    border: none;
+                }
+                &:hover{
+                    background: #eee;
+                }
+            }
+        }
+    }
+}
+.icon{
+    width: 20px;
+    height: 20px;
+    background: url('../images/spirit.png') no-repeat scroll -15px 3px;
+    display: inline-block;
+    text-indent: -9999px;
+    &:hover{
+        background-position: -35px 3px;
+    }
+}
+.icon-sure{
+    background-position: -54px 3px;
+    &:hover{
+        background-position: -74px 3px;
+    }
+}
+.icon-cancle{
+    background-position: -94px 3px;
+    &:hover{
+        background-position: -114px 3px;
+    }
+}
+a {
+    outline: none;
+}
+h1, h2, h3 {
+    color: #06365f;
+}
+h1 {
+    font-size: 36px;
+    line-height: 40px;
+}
+code, .api-rule {
+    font-family: Monaco, Consolas, 'Lucida Console', monospace;
+    -webkit-font-smoothing: subpixel-antialiased;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 15px;
+}
+caption, th {
+    text-align: left;
+}
+caption {
+    display: table-caption;
+}

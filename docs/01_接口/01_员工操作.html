@@ -1,0 +1,515 @@
+    <!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <title>lace Documentation</title>
+        <meta name="keywords" content="documentation,dox" />
+        <meta name="description" content="项目相关文档" />
+        <link rel="stylesheet" type="text/css" href="/Users/lidian/Site/lace/templates/default/assets/base.css" />
+        <link rel="stylesheet" type="text/css" href="/Users/lidian/Site/lace/static/themes/default/css/developer.css" />
+        <script src="/Users/lidian/Site/lace/templates/default/assets/prettify.js"></script>
+        <script src="/Users/lidian/Site/lace/templates/default/assets/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <div class="outer-wrapper">
+            <header class="top-bar top-bar-new">
+                <div class="top-bar-wrapper">
+                    <div class="top-bar-left">
+                        <h1 class="logo"><a href="./index.html">Lace</a></h1>
+                    </div>
+                </div>
+            </header>
+    <div class="sidebar">
+        <div class="wrapper">
+            <nav class="sidebar-nav">
+                <div class="sidebar-content">
+                    <ul>
+                      
+                <li >
+                    <a href="/Users/lidian/Site/lace/docs/00_概述/00_约定.html">概述
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/00_概述/00_约定.html">约定</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/00_概述/01_定义.html">定义</a></li>
+                    
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="/Users/lidian/Site/lace/docs/01_接口/00_账户操作.html">接口
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/00_账户操作.html">账户操作</a></li>
+                    
+                            <li class="active"><a class="nav-title-active" href="/Users/lidian/Site/lace/docs/01_接口/01_员工操作.html">员工操作</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/02_审核接口.html">审核接口</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/03_公共接口.html">公共接口</a></li>
+                    
+                    </ul>
+                </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="main">
+        <div class="wrapper">
+            <section class="nav-page-content" role="main">
+                <h3 id="-">创建员工</h3>
+<ul>
+<li>请求地址：<strong>POST /organizations/\<int:organization_id\>/workers</strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+     &quot;invite_email&quot;: &quot;邮箱账号（必须）&quot;,
+     &quot;contact&quot;: 
+     {
+        &quot;full_name&quot;:&quot;姓名&quot;,
+        &quot;tels&quot;:
+        [
+           {
+              &quot;label&quot;:&quot;手机号&quot;,
+              &quot;value&quot;:&quot;手机号内容&quot;
+           }
+        ]
+     },
+     &quot;status&quot;: &quot;状态：1在职，2离职，3停职&quot;,
+     &quot;remark&quot;:&quot;备注&quot;,
+     &quot;employee_num&quot;: &quot;工号（预留）&quot;,
+     &quot;permissions&quot;:[ ] //1编辑，2审核员 &lt;ENUM PERMISSION_MASK&gt;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">修改员工</h3>
+<ul>
+<li>请求地址：<strong>PUT /organizations/\<int:organization_id\>/workers/\<int:worker_id\></strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+     &quot;invite_email&quot;: &quot;邮箱账号（必须）&quot;,
+     &quot;contact&quot;: 
+     {
+        &quot;full_name&quot;:&quot;姓名&quot;,
+        &quot;tels&quot;:
+        [
+           {
+              &quot;id&quot;:&quot;电话id&quot;, //有id表示修改，没有id表示新增
+              &quot;label&quot;:&quot;手机号&quot;,
+              &quot;value&quot;:&quot;手机号内容&quot;
+           }
+        ]
+     },
+     &quot;status&quot;: &quot;状态：1在职，2离职，3停职&quot;,
+     &quot;remark&quot;:&quot;备注&quot;,
+     &quot;employee_num&quot;: &quot;工号（预留）&quot;,
+     &quot;permissions&quot;:[ ] //1编辑，2审核员 &lt;ENUM PERMISSION_MASK&gt;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">获取员工</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/workers/\<int:worker_id\></strong></li>
+<li>是否认证：是</li>
+<li><p>返回信息：</p>
+<pre><code>  &lt;OBJECT WORKER&gt;
+</code></pre></li>
+</ul>
+<h3 id="-">删除员工</h3>
+<ul>
+<li>请求地址：<strong>DELETE /organizations/\<int:organization_id\>/workers/\<int:worker_id\></strong></li>
+<li>是否认证：是</li>
+</ul>
+<h3 id="-">重置员工账号密码</h3>
+<ul>
+<li>请求地址：<strong>PUT /organizations/<int:organization_id>/workers/<int:worker_id>/password/origin</strong></li>
+<li>认证类型：管理员</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+     &quot;password&quot;:&quot;操作员当前密码&quot;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">创建厂家</h3>
+<ul>
+<li>请求地址：<strong>POST /organizations/\<int:organization_id\>/companies</strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+     &quot;entity&quot;: { //企业信息
+        &quot;intro&quot;: &quot;好棒哦&quot;,
+        &quot;name&quot;: &quot;我添加的厂家&quot;,
+        &quot;website_url&quot;: &quot;http://momo.im&quot;,
+        &quot;address&quot;:{
+           &quot;street1&quot;:&quot;厂家地址&quot;,
+           &quot;zip_code&quot;:&quot;邮编&quot;
+        }
+     },
+     &quot;remark&quot;:&quot;备注&quot;,
+     &quot;entity_type&quot;: 5,
+     &quot;legal&quot;:&quot;法人&quot;,
+     &quot;legal_tel&quot;:&quot;法人电话&quot;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">获取厂家列表</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/companies</strong></li>
+<li>是否认证：是</li>
+<li><p>成功响应：</p>
+<pre><code>  [
+     &lt;OBJECT COMPANY&gt;,
+     ...
+  ]
+</code></pre></li>
+</ul>
+<h3 id="-">修改厂家</h3>
+<ul>
+<li>请求地址：<strong>PUT /organizations/\<int:organization_id\>/companies/\<int:company_id\></strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+     &quot;entity&quot;: { //企业信息
+        &quot;intro&quot;: &quot;好棒哦&quot;,
+        &quot;name&quot;: &quot;我添加的厂家&quot;,
+        &quot;website_url&quot;: &quot;http://momo.im&quot;,
+        &quot;address&quot;:{
+           &quot;street1&quot;:&quot;厂家地址&quot;,
+           &quot;zip_code&quot;:&quot;邮编&quot;
+        }
+     },
+     &quot;remark&quot;:&quot;备注&quot;,
+     &quot;legal&quot;:&quot;法人&quot;,
+     &quot;legal_tel&quot;:&quot;法人电话&quot;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">获取厂家</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/companies/\<int:company_id\></strong></li>
+<li>是否认证：是</li>
+<li><p>成功响应：</p>
+<pre><code>  &lt;OBJECT COMPANY&gt;
+</code></pre></li>
+</ul>
+<h3 id="-">删除厂家</h3>
+<ul>
+<li>请求地址：<strong>DELETE /organizations/\<int:organization_id\>/companies/\<int:company_id\></strong></li>
+<li>是否认证：是</li>
+</ul>
+<h3 id="-">创建厂家联系人</h3>
+<ul>
+<li>请求地址：<strong>POST /organizations/\<int:organization_id\>/companies/\<int:company_id\>/contacts</strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+    &quot;full_name&quot;:&quot;姓名&quot;,
+    &quot;title&quot;:&quot;职位，可选&quot;,
+    &quot;remark&quot;:&quot;备注，可选&quot;,
+    &quot;tels&quot;:[
+       {
+          &quot;label&quot;:&quot;手机号&quot;,
+          &quot;value&quot;:&quot;手机号内容&quot;
+       },
+       {
+          &quot;label&quot;:&quot;传真&quot;,
+          &quot;value&quot;:&quot;传真内容&quot;
+       }
+    ],
+    &quot;emails&quot;:[
+       {
+          &quot;label&quot;:&quot;邮箱&quot;,
+          &quot;value&quot;:&quot;邮箱内容&quot;
+       }
+    ]
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">获取厂家联系人列表</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/companies/\<int:company_id\>/contacts</strong></li>
+<li>是否认证：是</li>
+<li><p>成功返回：</p>
+<pre><code>  [
+      {
+         &quot;id&quot;:&quot;contact_id&quot;,
+         &quot;full_name&quot;:&quot;姓名&quot;,
+         &quot;title&quot;:&quot;职位，可选&quot;,
+         &quot;remark&quot;:&quot;备注，可选&quot;,
+         &quot;tels&quot;:[
+            {
+               &quot;id&quot;:&quot;电话id&quot;,
+               &quot;label&quot;:&quot;手机号&quot;,
+               &quot;value&quot;:&quot;手机号内容&quot;
+            },
+            {
+               &quot;id&quot;:&quot;电话id&quot;,
+               &quot;label&quot;:&quot;传真&quot;,
+               &quot;value&quot;:&quot;传真内容&quot;
+            }
+         ],
+         &quot;emails&quot;:[
+            {
+               &quot;id&quot;:&quot;email id&quot;,
+               &quot;label&quot;:&quot;邮箱&quot;,
+               &quot;value&quot;:&quot;邮箱内容&quot;
+            }
+         ]
+      },
+      ...
+  ]
+</code></pre></li>
+</ul>
+<h3 id="-">编辑厂家联系人</h3>
+<ul>
+<li>请求地址：<strong>PUT /organizations/\<int:organization_id\>/companies/\<int:company_id\>/contacts/<int:contact_id></strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+    &quot;full_name&quot;:&quot;姓名&quot;,
+    &quot;title&quot;:&quot;职位，可选&quot;,
+    &quot;remark&quot;:&quot;备注，可选&quot;,
+    &quot;tels&quot;:[
+       {
+          &quot;id&quot;:&quot;电话id&quot;,
+          &quot;label&quot;:&quot;手机号&quot;,
+          &quot;value&quot;:&quot;手机号内容&quot;
+       },
+       {
+          &quot;id&quot;:&quot;电话id&quot;,
+          &quot;label&quot;:&quot;传真&quot;,
+          &quot;value&quot;:&quot;传真内容&quot;
+       }
+    ],
+    &quot;emails&quot;:[
+       {
+          &quot;id&quot;:&quot;email id&quot;,
+          &quot;label&quot;:&quot;邮箱&quot;,
+          &quot;value&quot;:&quot;邮箱内容&quot;
+       }
+    ]
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">删除厂家联系人</h3>
+<ul>
+<li>请求地址：<strong>DELETE /organizations/\<int:organization_id\>/companies/\<int:company_id\>/contacts/<int:contact_id></strong></li>
+<li>是否认证：是</li>
+</ul>
+<h3 id="-">根据名称模糊查找厂家</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/companies/items?entity_name={名称关键词}</strong></li>
+<li>是否认证：是</li>
+<li><p>成功返回：</p>
+<pre><code>  [
+     {&quot;id&quot;:&quot;厂家id&quot;, &quot;name&quot;:&quot;名称&quot;},
+     ...
+  ]
+</code></pre></li>
+</ul>
+<h3 id="-">批量添加产品</h3>
+<ul>
+<li>请求地址：<strong>POST /organizations/\<int:organization_id\>/companies/\<int:company_id\>/products</strong></li>
+<li>是否认证：是</li>
+<li>最大个数：100</li>
+<li><p>请求参数：</p>
+<pre><code>  [
+     {
+        &quot;code&quot;:&quot;产品编号&quot;,
+        &quot;photo_src&quot;:&quot;图片src&quot;
+     },
+     ...
+  ]        
+</code></pre></li>
+</ul>
+<h3 id="-excel">导入产品excel</h3>
+<ul>
+<li>请求地址：<strong>POST /organizations/\<int:organization_id\>/companies/\<int:company_id\>/products.excel</strong></li>
+<li>是否认证：是</li>
+<li>请求格式：multipart/form-data</li>
+<li>请求字段<ul>
+<li>file 文件</li>
+</ul>
+</li>
+</ul>
+<h3 id="-">获取产品列表</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/products?company_id={厂家id过滤}&amp;code={获取指定编号的产品}&amp;ctime={0表示获取未编辑的产品}&amp;worker_id={根据worker_id过滤，worker_id=me 表示过滤自己添加的产品}</strong></li>
+<li>是否认证：是</li>
+<li><p>成功响应：</p>
+<pre><code>  [
+     &lt;OBJECT PRODUCT&gt;,
+     ...
+  ]
+</code></pre></li>
+</ul>
+<h3 id="-">验证产品编号是否合法</h3>
+<ul>
+<li>请求地址：<strong>GET /validators/products/code?code={产品编号}&amp;id={产品id，如果是新增可不传或传0}</strong></li>
+<li>是否认证：否</li>
+</ul>
+<h3 id="-">新建产品</h3>
+<ul>
+<li>请求地址：<strong>POST /organizations/\<int:organization_id\>/products</strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+      &quot;company&quot;:{&quot;id&quot;:&quot;厂家id&quot;}
+      &quot;brand&quot;: &quot;品牌&quot;,
+      &quot;code&quot;: &quot;产品编号&quot;,
+      &quot;factory_code&quot;:&quot;工厂编号&quot;,
+      &quot;machine_type&quot;:&quot;机器类型&quot;,
+      &quot;error&quot;:&quot;数据错误原因&quot;,
+      &quot;ctime&quot;: &quot;创建时间，如果是0表示草稿&quot;,
+      &quot;detail&quot;: &quot;详情&quot;,
+      &quot;factory_price_per_kg&quot;: &quot;每kg出产价&quot;,
+      &quot;factory_price_per_yard&quot;: &quot;每码出产价&quot;,
+      &quot;height&quot;: &quot;高度&quot;,
+      &quot;ingredient&quot;: {
+          &quot;cotton&quot;: &quot;棉&quot;,
+          &quot;nylon&quot;: &quot;锦纶&quot;,
+          &quot;polyester&quot;: &quot;涤纶&quot;,
+          &quot;rayon&quot;: &quot;人造丝&quot;,
+          &quot;spandex&quot;: &quot;氨纶&quot;,
+          &quot;golden_thread&quot;:&quot;金丝&quot;, 
+          &quot;silver_thread&quot;:&quot;银丝&quot;,
+          &quot;color_silk&quot;:&quot;彩丝&quot;,
+          &quot;dyed_yarn&quot;:&quot;色纱&quot;
+      },
+      &quot;length&quot;: &quot;长&quot;,
+      &quot;market_price_per_kg&quot;: &quot;每kg市场价&quot;,
+      &quot;market_price_per_yard&quot;: &quot;每码市场价&quot;,
+      &quot;min_order_kg&quot;: &quot;最小起订kg&quot;,
+      &quot;min_order_yard&quot;: &quot;最小起订码&quot;,
+      &quot;name&quot;: &quot;名称&quot;,
+      &quot;pattern_type&quot;: &quot;图案类型&quot;,
+      &quot;photo_src&quot;: &quot;20000000000082_mrKtZbHbuz5jj0QA&quot;,
+      &quot;verify_status&quot;: &quot;是否已经验证&quot;,
+      &quot;waveform_type&quot;: &quot;波纹类型&quot;,
+      &quot;weight&quot;: &quot;重&quot;,
+      &quot;width&quot;: &quot;宽&quot;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">编辑产品</h3>
+<ul>
+<li>请求地址：<strong>PUT /organizations/\<int:organization_id\>/products/\<int:product_id\></strong></li>
+<li>是否认证：是</li>
+<li><p>请求参数：</p>
+<pre><code>  {
+      &quot;company&quot;:{&quot;id&quot;:&quot;厂家id&quot;}
+      &quot;brand&quot;: &quot;品牌&quot;,
+      &quot;code&quot;: &quot;产品编号&quot;,
+      &quot;factory_code&quot;:&quot;工厂编号&quot;,
+      &quot;machine_type&quot;:&quot;机器类型&quot;,
+      &quot;error&quot;:&quot;数据错误原因&quot;,
+      &quot;ctime&quot;: &quot;创建时间，如果是0表示草稿&quot;,
+      &quot;detail&quot;: &quot;详情&quot;,
+      &quot;factory_price_per_kg&quot;: &quot;每kg出产价&quot;,
+      &quot;factory_price_per_yard&quot;: &quot;每码出产价&quot;,
+      &quot;height&quot;: &quot;高度&quot;,
+      &quot;ingredient&quot;: {
+          &quot;cotton&quot;: &quot;棉&quot;,
+          &quot;nylon&quot;: &quot;锦纶&quot;,
+          &quot;polyester&quot;: &quot;涤纶&quot;,
+          &quot;rayon&quot;: &quot;人造丝&quot;,
+          &quot;spandex&quot;: &quot;氨纶&quot;,
+          &quot;golden_thread&quot;:&quot;金丝&quot;, 
+          &quot;silver_thread&quot;:&quot;银丝&quot;,
+          &quot;color_silk&quot;:&quot;彩丝&quot;,
+          &quot;dyed_yarn&quot;:&quot;色纱&quot;
+      },
+      &quot;length&quot;: &quot;长&quot;,
+      &quot;market_price_per_kg&quot;: &quot;每kg市场价&quot;,
+      &quot;market_price_per_yard&quot;: &quot;每码市场价&quot;,
+      &quot;min_order_kg&quot;: &quot;最小起订kg&quot;,
+      &quot;min_order_yard&quot;: &quot;最小起订码&quot;,
+      &quot;name&quot;: &quot;名称&quot;,
+      &quot;pattern_type&quot;: &quot;图案类型&quot;,
+      &quot;photo_src&quot;: &quot;20000000000082_mrKtZbHbuz5jj0QA&quot;,
+      &quot;verify_status&quot;: &quot;是否已经验证&quot;,
+      &quot;waveform_type&quot;: &quot;波纹类型&quot;,
+      &quot;weight&quot;: &quot;重&quot;,
+      &quot;width&quot;: &quot;宽&quot;
+  }
+</code></pre></li>
+</ul>
+<h3 id="-">删除产品</h3>
+<ul>
+<li>请求地址：<strong>PUT /organizations/\<int:organization_id\>/products/\<int:product_id\></strong></li>
+<li>是否认证：是</li>
+</ul>
+<h3 id="-">获取预定义的成分</h3>
+<ul>
+<li>请求地址：<strong>GET /organizations/\<int:organization_id\>/products/ingredients</strong></li>
+<li>是否认证：是</li>
+<li><p>成功返回：</p>
+<pre><code>  [
+     {
+          &quot;cotton&quot;: &quot;棉&quot;,
+          &quot;nylon&quot;: &quot;锦纶&quot;,
+          &quot;polyester&quot;: &quot;涤纶&quot;,
+          &quot;rayon&quot;: &quot;人造丝&quot;,
+          &quot;spandex&quot;: &quot;氨纶&quot;,
+          &quot;golden_thread&quot;:&quot;金丝&quot;, 
+          &quot;silver_thread&quot;:&quot;银丝&quot;,
+          &quot;color_silk&quot;:&quot;彩丝&quot;,
+          &quot;dyed_yarn&quot;:&quot;色纱&quot;
+      },
+      ...
+  ]
+</code></pre></li>
+</ul>
+
+            </section>
+        </div>
+    </div>
+</div>
+      <a href="#" class="btn-top"><span class="vertical">回顶部</span></a>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function(e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        navHtml += '<header><h1>' + $('.nav-title-active').text() + '</h1></header>';
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function(item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,286 @@
+    <!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <title>lace Documentation</title>
+        <meta name="keywords" content="documentation,dox" />
+        <meta name="description" content="项目相关文档" />
+        <link rel="stylesheet" type="text/css" href="/Users/lidian/Site/lace/templates/default/assets/base.css" />
+        <link rel="stylesheet" type="text/css" href="/Users/lidian/Site/lace/static/themes/default/css/developer.css" />
+        <script src="/Users/lidian/Site/lace/templates/default/assets/prettify.js"></script>
+        <script src="/Users/lidian/Site/lace/templates/default/assets/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <div class="outer-wrapper">
+            <header class="top-bar top-bar-new">
+                <div class="top-bar-wrapper">
+                    <div class="top-bar-left">
+                        <h1 class="logo"><a href="./index.html">Lace</a></h1>
+                    </div>
+                </div>
+            </header>
+    <div class="sidebar">
+        <div class="wrapper">
+            <nav class="sidebar-nav">
+                <div class="sidebar-content">
+                    <ul>
+                      
+                <li class="active">
+                    <a href="/Users/lidian/Site/lace/docs/00_概述/00_约定.html">概述
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li class="active"><a class="nav-title-active" href="/Users/lidian/Site/lace/docs/00_概述/00_约定.html">约定</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/00_概述/01_定义.html">定义</a></li>
+                    
+                    </ul>
+                </li>
+
+                <li >
+                    <a href="/Users/lidian/Site/lace/docs/01_接口/00_账户操作.html">接口
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/00_账户操作.html">账户操作</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/01_员工操作.html">员工操作</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/02_审核接口.html">审核接口</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/03_公共接口.html">公共接口</a></li>
+                    
+                    </ul>
+                </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="main">
+        <div class="wrapper">
+            <section class="nav-page-content" role="main">
+                <h2 id="http-">HTTP返回码</h2>
+<ul>
+<li>200 成功</li>
+<li>500 服务器内部错误</li>
+<li>502 应用程序错误</li>
+<li>504 应用程序超时</li>
+</ul>
+<h2 id="http-200-">HTTP 200 接口返回值结构</h2>
+<pre><code>{
+   &quot;meta&quot;:
+   {
+      &quot;code&quot;: &quot;业务码&quot;,
+      &quot;message&quot;: &quot;状态信息&quot;
+   },
+   &quot;pagination&quot;: 
+   {
+      &quot;rows_found&quot;: &quot;找到的总记录数&quot;,
+      &quot;offset&quot;: &quot;起始游标&quot;,
+      &quot;since&quot;: &quot;往此游标向后追溯&quot;,
+      &quot;until&quot;: &quot;往此游标向前追溯&quot;,
+      &quot;limit&quot;: &quot;条数&quot;
+   },
+   &quot;data&quot;: ...
+}
+</code></pre><p><em>若无特殊说明以下接口响应结果指的是此结构的data字段的值。</em></p>
+<h3 id="-">全局业务码</h3>
+<ul>
+<li>1000 请求成功</li>
+<li>1001 请求失败</li>
+<li>1002 需要认证（请求未带有access_token）</li>
+<li>1003 无权限（access_token正确但是无权限）</li>
+<li>1004 请求资源不存在</li>
+<li>1005 不支持的方法</li>
+<li>1006 请求不被接受（POST空数据、非JSON对象或编码错误）</li>
+<li>1007 认证错误（access_token不正确）</li>
+<li>1008 认证过期（access_token已经过期）</li>
+<li>1009 账号未激活</li>
+<li>1010 非该企业员工</li>
+<li>1011 员工无操作权限</li>
+<li>1012 分页大小超过限制</li>
+<li>1013 密码不可用，必须强制更新</li>
+<li>1999 未名错误</li>
+</ul>
+<h3 id="-">业务码</h3>
+<pre><code>OK = ResponseMeta(1000, &#39;请求成功&#39;)
+ERROR = ResponseMeta(1001, &#39;请求失败&#39;)
+AUTH_REQUIRED = ResponseMeta(1002, &#39;需要认证（请求未带有access_token）&#39;)
+AUTH_FORBIDDEN = ResponseMeta(1003, &#39;无权限（access_token正确但是无权限）&#39;)
+NOT_FOUND = ResponseMeta(1004, &#39;请求资源不存在&#39;)
+METHOD_NOT_ALLOWED = ResponseMeta(1005, &#39;不支持的方法&#39;)
+NOT_ACCEPTABLE = ResponseMeta(1006, &#39;请求不被接受（POST空数据、非JSON对象或编码错误）&#39;)
+AUTH_UNAUTHORIZED = ResponseMeta(1007, &#39;认证错误（access_token不正确）&#39;)
+AUTH_EXPIRED = ResponseMeta(1008, &#39;认证过期（access_token已经过期）&#39;)
+NOT_ACTIVATED = ResponseMeta(1009, &#39;账号未激活&#39;)
+INVALID_WORKER = ResponseMeta(1010, &#39;非该企业员工&#39;)
+WORKER_FORBIDDEN = ResponseMeta(1011, &#39;员工无操作权限&#39;)
+PAGE_SIZE_LIMIT = ResponseMeta(1012, &#39;分页大小超过限制&#39;)
+PASSWORD_INVALID = ResponseMeta(1013, &#39;密码不可用&#39;)
+UNKNOWN = ResponseMeta(1999, &#39;未名错误&#39;)
+
+OAUTH2_UNAUTHORIZED_CLIENT = ResponseMeta(3010001, &#39;client_id不存在&#39;)
+OAUTH2_UNSUPPORTED_GRANT_TYPE = ResponseMeta(3010002, &#39;不支持的grant_type&#39;)
+OAUTH2_INVALID_CLIENT = ResponseMeta(3010003, &#39;client secret错误&#39;)
+OAUTH2_ACCOUNT_NOT_FOUND = ResponseMeta(3010004, &#39;账号不存在&#39;)
+OAUTH2_ACCOUNT_WRONG_PASSWORD = ResponseMeta(3010005, &#39;账号密码错误&#39;)
+OAUTH2_ACCOUNT_WRONG_REFRESH_TOKEN = ResponseMeta(3010006, &#39;refresh_token错误&#39;)
+
+ACCOUNT_ATTRIBUTES_NOT_NULL = ResponseMeta(1010001, &#39;email，密码，联系信息等不能为空&#39;)
+ACCOUNT_EMAIL_INVALID = ResponseMeta(1010002, &#39;email格式错误&#39;)
+ACCOUNT_PASSWORD_INVALID = ResponseMeta(1010003, &#39;密码格式错误&#39;)
+ACCOUNT_EXIST = ResponseMeta(1010004, &#39;账号已经存在&#39;)
+ACCOUNT_SAVE_FAIL = ResponseMeta(1010005, &#39;保存失败&#39;)
+ACCOUNT_ADD_FAIL = ResponseMeta(1010006, &#39;创建失败&#39;)
+
+WORKER_ATTRIBUTES_NOT_NULL = ResponseMeta(1070001, &#39;邀请email，联系信息不能为空&#39;)
+WORKER_EMAIL_INVALID = ResponseMeta(1070002, &#39;email格式错误&#39;)
+WORKER_STATUS_INVALID = ResponseMeta(1070003, &#39;员工状态未定义&#39;)
+WORKER_NOT_FOUND = ResponseMeta(1070004, &#39;员工不存在&#39;)
+WORKER_FOUNDER_CHANGE_FORBIDDEN = ResponseMeta(1070005, &#39;创始人的绑定email不允许更改&#39;)
+WORKER_FOUNDER_REMOVE_FORBIDDEN = ResponseMeta(1070006, &#39;创始人不允许删除&#39;)
+WORKER_FOUNDER_CHMOD_FORBIDDEN = ResponseMeta(1070007, &#39;创始人不允许设置权限&#39;)
+WORKER_VERIFY_OBJECT_NOT_SUPPORT = ResponseMeta(1070008, &#39;不支持审核的对象&#39;)
+WORKER_VERIFY_OBJECT_NOT_FOUND = ResponseMeta(1070009, &#39;找不到对象&#39;)
+WORKER_VERIFY_FORBIDDEN = ResponseMeta(1070010, &#39;不允许操作不属于贵公司资源&#39;)
+WORKER_VERIFY_TYPE_INVALID = ResponseMeta(1070011, &#39;审核状态未定义&#39;)
+WORKER_ACCOUNT_NOT_BOUND = ResponseMeta(1070012, &#39;员工没有绑定账号&#39;)
+WORKER_ACCOUNT_PASSWORD_INVALID = ResponseMeta(1070013, &#39;密码不能为空&#39;)
+WORKER_INVITE_EMAIL_BOUND = ResponseMeta(1070014, &#39;邮箱账号已经绑定&#39;)
+WORKER_CANNOT_REMOVE_SELF = ResponseMeta(1070015, &#39;不能删除自己&#39;)
+
+CONTACT_ATTRIBUTES_NOT_NULL = ResponseMeta(1040001, &#39;至少指定一个联系人名称&#39;)
+
+ADDRESS_ATTRIBUTES_NOT_NULL = ResponseMeta(1030001, &#39;主地址不能为空&#39;)
+
+COMPANY_ATTRIBUTES_NOT_NULL = ResponseMeta(1090001, &#39;企业名称不能为空&#39;)
+COMPANY_NOT_FOUND = ResponseMeta(1090002, &#39;企业不存在&#39;)
+COMPANY_IN_USAGE = ResponseMeta(1090003, &#39;企业正在使用不能删除&#39;)
+COMPANY_ENTITY_TYPE_INVALID = ResponseMeta(1090004, &#39;企业类型错误&#39;)
+COMPANY_SEARCH_ARGUMENT_INVALID = ResponseMeta(1090005, &#39;查询参数错误&#39;)
+
+FACTORY_ATTRIBUTES_NOT_NULL = ResponseMeta(1050001, &#39;厂家名称不能为空&#39;)
+
+TRADER_ATTRIBUTES_NOT_NULL = ResponseMeta(1060001, &#39;贸易商名称不能为空&#39;)
+
+PHOTO_MULTIPART_FILE_NULL = ResponseMeta(1020001, &#39;上传文件数据为空&#39;)
+PHOTO_DATA_ERROR = ResponseMeta(1020002, &#39;上传文件数据为空&#39;)
+PHOTO_FORMAT_FORBIDDEN = ResponseMeta(1020003, &#39;不支持的图片类型&#39;)
+PHOTO_THUMB_MODE_INVALID = ResponseMeta(1020004, &#39;缩略图方式未定义&#39;)
+PHOTO_ALIOSS_GET_FAIL = ResponseMeta(1020005, &#39;无法获取原图数据&#39;)
+
+PRODUCT_INGREDIENT_INVALID = ResponseMeta(1080001, &#39;工艺成分相加不为100&#39;)
+PRODUCT_INGREDIENT_SAVE_FAIL = ResponseMeta(1080002, &#39;工艺成分保存失败&#39;)
+PRODUCT_INGREDIENT_NOT_NULL = ResponseMeta(1080003, &#39;工艺成分不能为空&#39;)
+PRODUCT_CODE_EXIST = ResponseMeta(1080004, &#39;产品编号已经存在&#39;)
+PRODUCT_ATTRIBUTES_NOT_NULL = ResponseMeta(1080005, &#39;产品编号、图片、所属厂家和名称不能为空&#39;)
+PRODUCT_WAVEFORM_INVALID = ResponseMeta(1080006, &#39;未定义的波形类型&#39;)
+PRODUCT_PATTERN_INVALID = ResponseMeta(1080007, &#39;未定义的图案类型&#39;)
+</code></pre><h2 id="-4-http-">接口支持4种HTTP方法</h2>
+<ul>
+<li><strong>GET</strong> 获取对象</li>
+<li><strong>PUT</strong> 替换和更新对象</li>
+<li><strong>POST</strong> 创建新的对象</li>
+<li><strong>DELETE</strong> 删除对象</li>
+</ul>
+<h2 id="url-">URL全局参数</h2>
+<ul>
+<li><strong>q</strong> 用于文本查询</li>
+<li><strong>limit</strong>, <strong>offset</strong> 分页方式读取列表</li>
+<li><strong>until</strong>, <strong>since</strong> 流方式读取列表</li>
+</ul>
+<h2 id="oauth2-0-">OAuth2.0认证协议</h2>
+<h3 id="http-headers-">HTTP Headers 格式</h3>
+<pre><code>Content-Type: application/json  //请求内容都是以json格式提交
+Authorization: Bearer xxxxxxxx  //xxxxxxxx即为access_token
+</code></pre><h3 id="-code">获取code</h3>
+<p>针对的是Client Types为public的应用，confidential的应用直接调用Token endpoint。</p>
+<ul>
+<li>/oauth2/authorize (Authorization endpoint)</li>
+<li>/oauth2/cb (Redirection endpoint)</li>
+</ul>
+<h3 id="-access_token-token-endpoint-">获取access_token（Token endpoint）</h3>
+<ul>
+<li>请求地址：<strong>POST /oauth2/token</strong></li>
+<li><p>请求内容：</p>
+<ul>
+<li><p>首次认证</p>
+<pre><code>{
+   &quot;client_id&quot;:&quot;1&quot;, //Client Types为confidential
+   &quot;client_secret&quot;:&quot;c4ca4238a0b923820dcc509a6f75849b&quot;,
+   &quot;grant_type&quot;:&quot;password&quot;,
+   &quot;username&quot;:&quot;email账号&quot;,
+   &quot;password&quot;:&quot;账号密码&quot;
+}
+</code></pre></li>
+<li><p>刷新认证</p>
+<pre><code>{
+   &quot;client_id&quot;:&quot;1&quot;,
+   &quot;client_secret&quot;:&quot;c4ca4238a0b923820dcc509a6f75849b&quot;,
+   &quot;grant_type&quot;:&quot;refresh_token&quot;,
+   &quot;refresh_token&quot;:&quot;首次认证获取的refresh_token&quot;
+}
+</code></pre></li>
+</ul>
+</li>
+<li><p>成功响应：</p>
+<pre><code>  {
+     &quot;token_type&quot;:&quot;Bearer&quot;,
+     &quot;access_token&quot;:&quot;认证码&quot;,
+     &quot;expires_in&quot;:&quot;过期时长&quot;,
+     &quot;refresh_token&quot;:&quot;只记录在client端，每次重新生成之后，之前的refresh_token会吊销&quot;,
+  }
+</code></pre></li>
+</ul>
+<h2 id="url-me">URL 中的 me</h2>
+<p>在URL中 <code>{endpoint}/me</code> 表示获取当前认证用户的对象。如： <code>accounts/me</code> 表示获取当前认证用户的 <code>account</code> 对象。</p>
+
+            </section>
+        </div>
+    </div>
+</div>
+      <a href="#" class="btn-top"><span class="vertical">回顶部</span></a>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function(e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        navHtml += '<header><h1>' + $('.nav-title-active').text() + '</h1></header>';
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function(item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        
+      });
+    </script>
+  </body>
+</html>

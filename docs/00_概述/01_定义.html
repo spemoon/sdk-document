@@ -1,0 +1,279 @@
+    <!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8" />
+        <title>lace Documentation</title>
+        <meta name="keywords" content="documentation,dox" />
+        <meta name="description" content="项目相关文档" />
+        <link rel="stylesheet" type="text/css" href="/Users/lidian/Site/lace/templates/default/assets/base.css" />
+        <link rel="stylesheet" type="text/css" href="/Users/lidian/Site/lace/static/themes/default/css/developer.css" />
+        <script src="/Users/lidian/Site/lace/templates/default/assets/prettify.js"></script>
+        <script src="/Users/lidian/Site/lace/templates/default/assets/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <div class="outer-wrapper">
+            <header class="top-bar top-bar-new">
+                <div class="top-bar-wrapper">
+                    <div class="top-bar-left">
+                        <h1 class="logo"><a href="./index.html">Lace</a></h1>
+                    </div>
+                </div>
+            </header>
+    <div class="sidebar">
+        <div class="wrapper">
+            <nav class="sidebar-nav">
+                <div class="sidebar-content">
+                    <ul>
+                      
+                <li class="active">
+                    <a href="/Users/lidian/Site/lace/docs/00_概述/00_约定.html">概述
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/00_概述/00_约定.html">约定</a></li>
+                    
+                            <li class="active"><a class="nav-title-active" href="/Users/lidian/Site/lace/docs/00_概述/01_定义.html">定义</a></li>
+                    
+                    </ul>
+                </li>
+
+                <li >
+                    <a href="/Users/lidian/Site/lace/docs/01_接口/00_账户操作.html">接口
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/00_账户操作.html">账户操作</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/01_员工操作.html">员工操作</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/02_审核接口.html">审核接口</a></li>
+                    
+                            <li ><a  href="/Users/lidian/Site/lace/docs/01_接口/03_公共接口.html">公共接口</a></li>
+                    
+                    </ul>
+                </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="main">
+        <div class="wrapper">
+            <section class="nav-page-content" role="main">
+                <h3 id="-">类型定义</h3>
+<h4 id="enum-object_type-">ENUM OBJECT_TYPE 主对象</h4>
+<pre><code>#账号
+ACCOUNT = 1
+#照片
+PHOTO = 2
+#地址信息
+ADDRESS = 3
+#联系信息
+CONTACT = 4
+#厂家
+FACTORY = 5
+#贸易商
+TRADER = 6
+#员工
+WORKER = 7
+#产品
+PRODUCT = 8
+#名录
+COMPANY = 9
+</code></pre><h4 id="enum-waveform_type-">ENUM WAVEFORM_TYPE 波纹类型</h4>
+<pre><code>#直边
+STRAIGHT = 1
+#单波
+SINGLE = 2
+#双波
+DOUBLE = 3
+</code></pre><h4 id="enum-pattern_type-">ENUM PATTERN_TYPE 图案类型</h4>
+<pre><code>#大花
+BIG_FLOWER = 1
+#小花
+SMALL_FLOWER = 2
+#几何
+GEOMETRY = 3
+#中空
+CAVITY = 4
+</code></pre><h4 id="enum-machine_type-">ENUM MACHINE_TYPE 机器类型</h4>
+<pre><code>MRS32 = 1
+MRS36 = 2
+MRS42 = 3
+MRS-AB = 4
+MRSS42 = 5
+MRS-SU = 6
+ML = 7
+MRGF = 8
+MRGF-AB = 9
+MRGF-SU = 10
+MRESJ 43/1 = 11
+MRESJ 59/1 = 12
+PL 65/1 = 13
+MRESJ 73/1 = 14
+MRESJ 78/1 = 15
+RSJ 4/1 = 16
+RSJ 5/1 = 17
+241 = 18
+MRESJF 31/1/24 = 19
+MRESJF 53/1/24 = 20
+MRESJF 59/1/24 = 21
+MRESJF 66/1/24 = 22
+MRESJF 71/1/24 = 23
+</code></pre><h4 id="enum-worker_status-">ENUM WORKER_STATUS 员工状态</h4>
+<pre><code>#在职
+INCUMBENT = 1
+#离职
+DIMISSION = 2
+#停职
+SUSPENSION = 3
+#删除
+REMOVED = 4
+</code></pre><h4 id="enum-permission_mask-">ENUM PERMISSION_MASK 权限项</h4>
+<pre><code>#编辑
+EDITOR ＝ 1
+#审核
+VERIFIER ＝ 2
+#员工管理
+HR = 4
+</code></pre><h3 id="-">对象定义</h3>
+<h4 id="object-address">OBJECT ADDRESS</h4>
+<pre><code>{
+   &quot;id&quot;:&quot;地址信息id&quot;,
+   &quot;country&quot;:&quot;国家id&quot;,
+   &quot;province&quot;:&quot;省id&quot;,
+   &quot;city&quot;:&quot;城市id&quot;,
+   &quot;district&quot;:&quot;地区/县id&quot;,
+   &quot;location&quot;:{
+      &quot;country&quot;:&quot;国家&quot;
+      &quot;province&quot;:&quot;省&quot;,
+      &quot;city&quot;:&quot;城市&quot;,
+      &quot;district&quot;:&quot;地区/县&quot;,
+   }
+   &quot;street1&quot;:&quot;主街道&quot;,
+   &quot;street2&quot;:&quot;次街道&quot;,
+   &quot;zip_code&quot;:&quot;邮编&quot;,
+   &quot;lat&quot;:&quot;纬度&quot;,
+   &quot;lng&quot;:&quot;经度&quot;
+}
+</code></pre><h4 id="object-contact">OBJECT CONTACT</h4>
+<pre><code>{
+   &quot;id&quot;:&quot;联系信息id&quot;,
+   &quot;family_name&quot;:&quot;姓氏（第一次添加姓名和名字必填其一）&quot;,
+   &quot;given_name&quot;:&quot;名字（第一次添加姓名和名字必填其一）&quot;,
+   &quot;full_name&quot;:&quot;姓名&quot;,
+   &quot;nickname&quot;:&quot;昵称，可选&quot;,
+   &quot;company&quot;:&quot;公司，可选&quot;,
+   &quot;department&quot;:&quot;部门，可选&quot;,
+   &quot;title&quot;:&quot;职位，可选&quot;,
+   &quot;birthday&quot;:&quot;生日，可选，整型时间戳&quot;,
+   &quot;birthday_lunar&quot;:&quot;农历生日，可选，整型时间戳&quot;,
+   &quot;remark&quot;:&quot;备注，可选&quot;,
+   &quot;tels&quot;:[
+      {
+         &quot;id&quot;:&quot;电话id&quot;,
+         &quot;label&quot;:&quot;标签&quot;,
+         &quot;value&quot;:&quot;电话内容&quot;
+      },
+      ...
+   ]
+}
+</code></pre><h4 id="object-factory">OBJECT FACTORY</h4>
+<pre><code>{
+   &quot;id&quot;:&quot;厂家id&quot;,
+   &quot;name&quot;:&quot;厂家名称&quot;,
+   &quot;intro&quot;:&quot;简介&quot;,
+   &quot;website_url&quot;:&quot;网址&quot;,
+   &quot;address&quot;:&lt;OBJECT ADDRESS&gt;
+}
+</code></pre><h4 id="object-trader">OBJECT TRADER</h4>
+<pre><code>{
+   &quot;id&quot;:&quot;贸易商id&quot;,
+   &quot;name&quot;:&quot;贸易商名称&quot;,
+   &quot;intro&quot;:&quot;简介&quot;,
+   &quot;website_url&quot;:&quot;网址&quot;,
+   &quot;address&quot;:&lt;OBJECT ADDRESS&gt;
+}
+</code></pre><h4 id="object-account">OBJECT ACCOUNT</h4>
+<pre><code>{
+   &quot;id&quot;: &quot;账户id&quot;,
+   &quot;email&quot;: &quot;邮箱账号&quot;,
+   &quot;email_checked&quot;: &quot;邮箱是否已经认证：0未认证，1已认证&quot;,
+   &quot;ctime&quot;: &quot;账户创建时间&quot;,
+   &quot;password_utime&quot;: &quot;密码更新时间&quot;,
+   &quot;contact&quot;: &lt;OBJECT CONTACT&gt; //没有此字段说明没有完善信息
+}
+</code></pre><h4 id="object-worker">OBJECT WORKER</h4>
+<pre><code>{
+   &quot;id&quot;:&quot;员工id&quot;,
+   &quot;employee_num&quot;: &quot;工号（预留）&quot;,
+   &quot;invite_email&quot;: &quot;邮箱账号&quot;,
+   &quot;contact&quot;: &lt;OBJECT CONTACT&gt;, //没有此字段说明没有完善信息
+   &quot;account&quot;: &lt;OBJECT ACCOUNT&gt;, //没有此字段说明没有关联的账号
+   &quot;status&quot;: &quot;状态：1在职，2离职，3停职&quot;,
+   &quot;remark&quot;:&quot;备注&quot;,
+   &quot;worker&quot;:&lt;OBJECT WORKER&gt;, //创建记录的员工
+   &quot;ctime&quot;:&quot;创建时间&quot;,
+   &quot;verify_status&quot;:&quot;审核状态：0未审核，1审核通过，2审核不通过（创建和修改都会使其为0）&quot;,
+   &quot;permissions&quot;:[] //权限列表
+}
+</code></pre><h4 id="object-company">OBJECT COMPANY</h4>
+<pre><code>{
+   &quot;ctime&quot;: 1392273016,
+   &quot;entity&quot;: &lt;OBJECT FACTORY&gt; | &lt;OBJECT TRADER&gt;, 
+   &quot;entity_type&quot;: 5, //企业类型：5厂家，6贸易商
+   &quot;id&quot;: 90000000000003,
+   &quot;invite_email&quot;: &quot;&quot;,
+   &quot;legal&quot;:&quot;法人&quot;,
+   &quot;legal_tel&quot;:&quot;法人电话&quot;,
+   &quot;worker&quot;: &lt;OBJECT WORKER&gt; //创建记录的员工
+}
+</code></pre>
+            </section>
+        </div>
+    </div>
+</div>
+      <a href="#" class="btn-top"><span class="vertical">回顶部</span></a>
+    <script>
+      $(function() {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function(e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        navHtml += '<header><h1>' + $('.nav-title-active').text() + '</h1></header>';
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function(item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        
+      });
+    </script>
+  </body>
+</html>

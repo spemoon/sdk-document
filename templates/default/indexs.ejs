@@ -1,0 +1,33 @@
+<% 
+    var list = indexs;
+    var iterator = (function(list) {
+        list.forEach(function(item, index) {
+            if (item.children.length != 0) {
+%>
+                <li <%if(item['active']) {%>class="active"<%}%>>
+                    <a href="<%=item['children'][0]['url']%>"><%=item.xname%>
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    <%
+                        item.children.forEach(function(sitem, index) {
+                            if (sitem.children.length == 0) {
+                    %>
+                            <li <%if(sitem['active']) {%>class="active"<%}%>><a <%if(sitem['active']) {%>class="nav-title-active"<%}%> href="<%=sitem['url']%>"><%=sitem.xname%></a></li>
+                    <%
+                            } else {
+                                iterator(sitem.children);
+                            }
+                        });
+                    %>
+                    </ul>
+                </li>
+<%
+            } else {
+%>
+            <li><a href="<%item['url']%>"><%=item.xname%></a><i class="disclosure"></i></li>
+<%
+            }
+        });
+    })(list);
+%>
