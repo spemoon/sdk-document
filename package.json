@@ -6,9 +6,9 @@
   "scripts": {
     "test": "make test"
   },
-  "docsurl": "/Users/lidian/Site/lace/docs",
+  "docsurl": "../../docs",
   "link": {
-    "default": "/Users/lidian/Site/lace"
+    "default": "../.."
   },
   "bin": {
     "doxmate": "bin/doxmate",
