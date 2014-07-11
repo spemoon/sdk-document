@@ -1,7 +1,7 @@
 {
-  "name": "开发文档",
+  "name": "文档中心",
   "version": "0.0.1",
-  "description": "项目相关文档",
+  "description": "项目开发相关文档",
   "main": "index.js",
   "scripts": {
     "test": "make test"

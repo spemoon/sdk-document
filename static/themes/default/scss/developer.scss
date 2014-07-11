@@ -7,18 +7,18 @@
 @import './globals/_base.scss';
 @import './globals/_header.scss';
 @import '_develop-ct.scss';
-
 body {
-    font-family: 'proxima-nova', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    margin: 0;
-    background: #fff;
-    font-size: 12px;
-    overflow-x: hidden;
+//      font-family: 'proxima-nova', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-family: "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
+  margin: 0;
+  background: #fff;
+  font-size: 16px;
+  overflow-x: hidden;
 }
 a {
-    color: #128DBE;
-    text-decoration: none;
-    &:hover {
-        color: #0e5f77;
-    }
+  color: #128DBE;
+  text-decoration: none;
+  &:hover {
+    color: #0e5f77;
+  }
 }

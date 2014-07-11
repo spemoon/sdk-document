@@ -1,0 +1,21 @@
+    <% include header %>
+    <div class="sidebar">
+        <div class="wrapper">
+            <nav class="sidebar-nav">
+                <div class="sidebar-content">
+                    <ul>
+                      <% include indexs %>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="main">
+        <div class="wrapper">
+            <section class="nav-page-content typo typo-selection" role="main">
+                <%- content %>
+            </section>
+        </div>
+    </div>
+</div>
+<% include footer %>

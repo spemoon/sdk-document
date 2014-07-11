@@ -14,7 +14,7 @@ var program = require('commander'),
 program
   .option('-o, --output <folder>', 'which folder to output.')
   .option('-d, --dir <folder>', 'which folder to find source code.')
-  .option('-s, --skin <folder>', 'where is the skin.', 'default'); //default skin /templates/default
+  .option('-s, --skin <folder>', 'where is the skin.', 'developer'); //default skin /templates/default
 
 // parse argv
 program.parse(process.argv);
