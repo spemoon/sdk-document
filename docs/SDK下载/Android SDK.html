@@ -83,16 +83,121 @@
     <div class="main">
         <div class="wrapper">
             <section class="nav-page-content typo typo-selection" role="main">
-                <h1 id="gameservice-sdk-_v1-0-0">GameService SDK 说明文档_V1.0.0</h1>
+                <h1 id="-xxxxx-gameservice-sdk-_v1-0-0">=xxxxx=GameService SDK 说明文档_V1.0.0</h1>
 <p><a href="http://api.gameservice.com/gc1/pkgs/files/newgame_v0.1.20.apk" target="_blank" class="sdk-download">下载Android SDK</a></p>
 <hr>
 <h2 id="-sdk-">一、SDK包含内容</h2>
 <h2 id="-">二、项目配置</h2>
-<ol>
-<li>增加工程依赖push-library，alipay_lib；</li>
-<li>修改pushsdk_thirdparty_string；</li>
-<li>在AndroidManifest中添加声明permission；</li>
-</ol>
+<p>2.1 增加工程依赖PushSDK_Release，alipay_lib；
+2.2 在res/values/pushsdk_thirdparty_string.xml 中</p>
+<pre><code>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;no&quot;?&gt;
+    &lt;resources&gt;
+    &lt;string name=&quot;permission_service&quot;&gt;[your_prefix].android.permissions.SERVICE&lt;/string&gt;
+    &lt;string name=&quot;permission_provider&quot;&gt;[your_prefix].android.permissions.PROVIDER&lt;/string&gt;
+    &lt;string name=&quot;permission_vote&quot;&gt;[your_prefix].android.permissions.VOTE&lt;/string&gt;
+    &lt;string name=&quot;permission_client&quot;&gt;[your_prefix].android.permissions.CLIENT&lt;/string&gt;
+    &lt;string name=&quot;action_protect_service_start&quot;&gt;[your_prefix].intent.protect.service.action.START&lt;/string&gt;
+    &lt;string name=&quot;action_protect_broadcast_service&quot;&gt;[your_prefix].intent.protect.service.action.BROADCAST&lt;/string&gt;
+    &lt;string name=&quot;action_protect_broadcast_clinet&quot;&gt;[your_prefix].intent.protect.client.action.BROADCAST&lt;/string&gt;
+    &lt;string name=&quot;action_opensdk_vote&quot;&gt;[your_prefix].intent.opensdk.action.VOTE&lt;/string&gt;
+    &lt;string name=&quot;action_opensdk_consult&quot;&gt;[your_prefix].intent.opensdk.action.CONSULT&lt;/string&gt;
+    &lt;string name=&quot;action_api_service_start&quot;&gt;[your_prefix].intent.api.service.action.START&lt;/string&gt;
+    &lt;string name=&quot;sdk_appid&quot;&gt;3 &lt;/string&gt;
+    &lt;string name=&quot;sdk_appkey&quot;&gt;m2VXU9c8mh8p4Hemhc7ROJf5HeCmg2dZ&lt;/string&gt;
+    &lt;string name=&quot;sdk_domain&quot;&gt;TGXD_201405141634230591ktsNZU1FF&lt;/string&gt;
+    &lt;string name=&quot;sdk_scheme&quot;&gt;[your_prefix]&lt;/string&gt;
+    &lt;/resources&gt;
+</code></pre><p>将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)。如：ndgs。
+sdk_appid 的值为你真实分配到的appid,
+sdk_appkey 的值为你真实分配到的appkey.在此需要注意的地方是 这些参数应与主项目中AndroidManifest中的数据对应（即2.3中说明部分）.</p>
+<p>2.3 在主工程AndroidManifest中添加如下声明permission并做出相应替换：</p>
+<pre><code>    &lt;uses-permission android:name=&quot;android.permission.BATTERY_STATS&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.CHANGE_NETWORK_STATE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.CHANGE_WIFI_STATE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.VIBRATE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.GET_PACKAGE_SIZE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.BROADCAST_STICKY&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.READ_CALL_LOG&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.GET_TASKS&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.REORDER_TASKS&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot; /&gt;
+    &lt;uses-permission android:name=&quot;android.permission.BLUETOOTH_ADMIN&quot;/&gt;
+    &lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot;/&gt;
+    &lt;uses-permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; /&gt;
+    &lt;uses-permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; /&gt;
+    &lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot; /&gt;
+    &lt;uses-permission android:name=&quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&quot; /&gt;
+    &lt;permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; android:protectionLevel=&quot;normal&quot; /&gt;
+    &lt;permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; android:protectionLevel=&quot;normal&quot; /&gt;
+    &lt;permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; android:protectionLevel=&quot;normal&quot; /&gt;
+</code></pre><h6 id="-your_prefix-uses-permission-android-name-ngds-android-permissions-service-">注意在权限中以下是需要修改的（把[your_prefix]修改成你需要的如：<uses-permission android:name="ngds.android.permissions.SERVICE" />）</h6>
+<pre><code>&lt;uses-permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; /&gt;
+&lt;uses-permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; /&gt;
+&lt;uses-permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; /&gt;
+
+&lt;permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; android:protectionLevel=&quot;normal&quot; /&gt;
+&lt;permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; android:protectionLevel=&quot;normal&quot; /&gt;
+&lt;permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; android:protectionLevel=&quot;normal&quot; /&gt;                
+</code></pre><p>2.4 在主工程AndroidManifest中增加服务：</p>
+<pre><code>    &lt;service
+        android:name=&quot;com.tgx.push.sdk.MasterService&quot;
+        android:permission=&quot;[your_prefix].android.permissions.SERVICE&quot;
+        &gt;
+          &lt;intent-filter&gt;
+              &lt;action android:name=&quot;[your_prefix].intent.protect.service.action.START&quot; /&gt;
+          &lt;/intent-filter&gt;
+     &lt;/service&gt;
+     &lt;service android:name=&quot;com.tgx.push.sdk.SdkService&quot; /&gt;
+     &lt;receiver
+        android:name=&quot;com.tgx.push.sdk.AutoConsultReceiver&quot;
+        android:permission=&quot;[your_prefix].android.permissions.VOTE&quot;
+        &gt;
+          &lt;intent-filter android:priority=&quot;1&quot; &gt;
+               &lt;action android:name=&quot;[your_prefix].intent.opensdk.action.VOTE&quot; /&gt;
+               &lt;data android:host=&quot;[your_host]&quot; android:scheme=&quot;[your_prefix]&quot; /&gt;
+          &lt;/intent-filter&gt;
+     &lt;/receiver&gt;
+
+     &lt;receiver android:name=&quot;com.gameservice.sdk.util.NgdsStaticReceiver&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_ADDED&quot; /&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_CHANGED&quot; /&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_DATA_CLEARED&quot; /&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_INSTALL&quot; /&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_REMOVED&quot; /&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_REPLACED&quot; /&gt;
+            &lt;action android:name=&quot;android.intent.action.PACKAGE_RESTARTED&quot; /&gt;
+            &lt;action android:name=&quot;android.net.conn.CONNECTIVITY_CHANGE&quot; /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/receiver&gt;
+    &lt;service
+        android:name=&quot;com.gameservice.sdk.collection.service.CollectService&quot;
+        android:process=&quot;:remote&quot;&gt;
+        &lt;intent-filter&gt;
+            &lt;action android:name=&quot;com.gameservice.sdk.collection.service.ICollectService&quot; /&gt;
+            &lt;action android:name=&quot;com.gameservice.sdk.collection.service.ISecondary&quot; /&gt;
+            &lt;action android:name=&quot;com.gameservice.sdk.collection.service.REMOTE_SERVICE&quot; /&gt;
+        &lt;/intent-filter&gt;
+    &lt;/service&gt;
+
+    &lt;receiver
+        android:name=&quot;com.gameservice.sdk.collection.util.AlarmReceiver&quot;
+        android:process=&quot;:remote&quot; /&gt;
+
+    &lt;activity
+    android:name=&quot;com.tgx.push.sdk.app.parser.view.PushSdkInfoActivity&quot;/&gt;
+    &lt;activity
+    android:name=&quot;com.tgx.push.sdk.app.parser.view.PushSdkDialogActivity&quot;/&gt;
+</code></pre><h6 id="-your_prefix-ndgs-">注意需要修改的（把[your_prefix]修改成你实际的参数、如ndgs.</h6>
+<h6 id="-your_host-pushsdk_thirdparty_string-xml-sdk_domain-">[your_host]可修改配置中pushsdk_thirdparty_string.xml的sdk_domain.</h6>
+<p>2.5 channel的添加</p>
 <h2 id="-api-">三、API使用说明</h2>
 <h3 id="3-1-">3.1 设置屏幕方向</h3>
 <pre><code>GameService.setScreenOrientation(int orientation)
@@ -148,8 +253,137 @@ GameService.pay(this, order, new Callback.OnPayListener() {
         Log.d(&quot;onPay&quot;, code + &quot;: &quot; + msg);
     }
 });
-</code></pre><h3 id="3-5-">3.5 推送相关</h3>
-<h2 id="-">四、相关类介绍</h2>
+</code></pre><h3 id="3-5-">3.5 统计采集</h3>
+<p> 正确集成如下代码，才能够保证获取正确的用户使用基本数据。</p>
+<ul>
+<li>在每个Activity的onResume方法中调用 GameService.onResume(this) ,onPause方法中调用  GameService.onPause(this)</li>
+</ul>
+<pre><code>@Override
+protected void onPause() {
+    GameService.onPause(this);
+    super.onPause();
+}
+
+
+@Override
+protected void onResume() {
+    GameService.onResume(this);
+    super.onResume();
+} 
+</code></pre><ul>
+<li>确保在所有的Activity中都调用 MobclickAgent.onResume() 和MobclickAgent.onPause()方法，这两个调用将不会阻塞应用程序的主线程，也不会影响应用程序的性能。</li>
+<li>玩家用户登录行为记录（用于玩家行为统计以及进行玩家间p2p推送）：</li>
+</ul>
+<pre><code>    GameService.onPlayerLogin(context, PLAYER_ID); 
+</code></pre><p>其中PLAYER_ID为玩家id。</p>
+<ul>
+<li><p>玩家用户登出记录（用于玩家行为统计以及不再接收玩家间p2p推送）：</p>
+<pre><code>  GameService.onPlayerLogout(Context context); 
+</code></pre></li>
+<li><p>玩家用户付款行为统计：</p>
+<pre><code>  GameService.onPay(Context context, String playerId, String payAmount)
+</code></pre></li>
+</ul>
+<h3 id="3-6-">3.6 推送服务开启和停止</h3>
+<ul>
+<li><p>push服务初始化及绑定</p>
+<ul>
+<li>方法： GameService.<strong>startPushService</strong> (Context ctx) </li>
+<li>功能： 完成push服务的初始化工作，以及与MasterService的自动绑定工作。当masterService第一次启动完成登录操作。</li>
+<li>参数： ctx 当前执行的上下文。</li>
+</ul>
+</li>
+<li><p>push 服务的停止</p>
+<ul>
+<li>方法： GameService.<strong>stopPushService</strong>(Context ctx)    + 功能： 停止当前应用的push服务，以及与MasterService 的解绑操作。</li>
+<li>参数： ctx 当前上下文</li>
+</ul>
+</li>
+<li><p>设置Tags</p>
+<ul>
+<li>方法： GameService.<strong>setPushTags</strong> (Context context,String[] tags,String charset)</li>
+<li>功能： 为App进行属性标注，最大标签数100，使用时必须使用一致的charset，cid不能作为tag使用</li>
+<li>参数 <ul>
+<li>tags 你当前需要的标签集合</li>
+<li>charset 当前tags 的编码格式，不设置默认为‘UTF-8‘。         </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="abstractmsgreceiver-">AbstractMsgReceiver（消息接收父类）</h5>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>功能</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>push消息接口</td>
+<td>回调 push 消息</td>
+<td>onMessage</td>
+</tr>
+<tr>
+<td>调试消息接口</td>
+<td>回调 debug 消息</td>
+<td>onDebug</td>
+</tr>
+<tr>
+<td>p2p消息接口</td>
+<td>回调 p2p 消息</td>
+<td>onImReceive</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p>接收到的push消息</p>
+<ul>
+<li>方法： public abstract void <strong>onMessage</strong>(String message)</li>
+<li>功能： 接收到的push消息回调</li>
+<li>参数： push 内容</li>
+</ul>
+</li>
+<li><p>接收到的debug消息</p>
+<ul>
+<li>方法： public void <strong>onDebug</strong>(String message)</li>
+<li>功能： 获取设备ID</li>
+<li>参数： debug 内容</li>
+</ul>
+</li>
+<li><p>接收到的p2p消息</p>
+<ul>
+<li>方法： public void <strong>onImReceive</strong>(String fromTuid,String toTuid,String message)</li>
+<li>功能： 获取设备ID</li>
+<li>参数<ul>
+<li>fromTuid 发送消息的来源 Tuid</li>
+<li>toTuid   消息的目标     Tuid</li>
+<li>message  p2p 消息内容</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>注册消息接收者</p>
+<ul>
+<li>方法： GameService.<strong>registerReceiver</strong>(Class&lt;? extends AbstractMsgReceiver&gt; clzz)</li>
+<li>功能： 为App注册消息接收接口。</li>
+<li>参数： 消息处理类</li>
+</ul>
+</li>
+<li><p>反注册消息接收者</p>
+<ul>
+<li>方法： GameService.<strong>unRegisterReceiver</strong>()</li>
+<li>功能： 为App反注册消息接收者。</li>
+</ul>
+</li>
+</ul>
+<p><strong>如果要保证能正常接收消息一定要在代码中实现继承AbstractMsgReceiver并做以下调用正常开启推送服务，内容在PushServiceActivity中：</strong></p>
+<pre><code>GameService.registerMsgReceiver(PushMessageReceiver.class);
+        GameService.setPushTags(getApplicationContext(), new String[]{&quot;your tag&quot;}, null);//设置标签为可选项
+        GameService.startPushService(this);
+</code></pre><h2 id="-">四、相关类介绍</h2>
 <h3 id="4-1-">4.1 回调函数类</h3>
 <pre><code>public class Callback {
 
@@ -275,156 +509,6 @@ GameService.pay(this, order, new Callback.OnPayListener() {
 <pre><code>    -libraryjars libs/*.jar 
 </code></pre><p>以避免GameService的相关的 jar 包被混淆。</p>
 <h2 id="-faq">七、FAQ</h2>
-<h3 id="-sdk-app-">一、将SDK添加到APP工程</h3>
-<ol>
-<li>将SDK包中libs目录中的文件，添加进开发者工程的libs的目录下</li>
-<li>将上述jar包添加进Java Build Path中去。</li>
-<li>在AndroidManifest中添加声明permission</li>
-</ol>
-<pre><code>    &lt;uses-permission android:name=&quot;android.permission.BATTERY_STATS&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.ACCESS_FINE_LOCATION&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.ACCESS_COARSE_LOCATION&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.CHANGE_NETWORK_STATE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.CHANGE_WIFI_STATE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.VIBRATE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.GET_PACKAGE_SIZE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.BROADCAST_STICKY&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.READ_CALL_LOG&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.GET_TASKS&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.REORDER_TASKS&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot; /&gt;
-        &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;
-
-      &lt;uses-permission android:name=&quot;tgx.android.permissions.SERVICE&quot; /&gt;
-      &lt;uses-permission android:name=&quot;tgx.android.permissions.CLIENT&quot; /&gt;
-      &lt;uses-permission android:name=&quot;tgx.android.permissions.VOTE&quot; /&gt;
-      &lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot; /&gt;
-      &lt;uses-permission android:name=&quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&quot; /&gt;
-
-      &lt;permission
-          android:name=&quot;tgx.android.permissions.SERVICE&quot;
-          android:protectionLevel=&quot;normal&quot; /&gt;
-      &lt;permission
-          android:name=&quot;tgx.android.permissions.CLIENT&quot;
-          android:protectionLevel=&quot;normal&quot; /&gt;
-      &lt;permission
-          android:name=&quot;tgx.android.permissions.VOTE&quot;
-          android:protectionLevel=&quot;normal&quot; /&gt;
-
-      &lt;uses-permission android:name=&quot;android.permission.BLUETOOTH_ADMIN&quot; /&gt;
-      &lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot; /&gt;
-
-以及在&lt;application&gt;&lt;/application&gt;中添加如下代码
-
-    &lt;service
-        android:name=&quot;com.tgx.push.sdk.MasterService&quot;
-        android:permission=&quot;tgx.android.permissions.SERVICE&quot;
-        android:process=&quot;com.tgx.pushsdk.master.service&quot;
-        &gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;tgx.intent.protect.service.action.START&quot; /&gt;
-        &lt;/intent-filter&gt;
-    &lt;/service&gt;
-    &lt;service android:name=&quot;com.tgx.push.sdk.SdkService&quot;
-        /&gt;
-    &lt;receiver
-        android:name=&quot;com.tgx.push.sdk.AutoConsultReceiver&quot;
-        android:permission=&quot;tgx.android.permissions.VOTE&quot;
-        android:process=&quot;com.tgx.pushsdk.master.service&quot;
-        &gt;
-        &lt;intent-filter android:priority=&quot;1&quot; &gt;
-            &lt;action android:name=&quot;tgx.intent.opensdk.action.VOTE&quot; /&gt;
-
-            &lt;data
-                android:host=&quot;TGXD_201405141634230591ktsNZU1FF&quot;
-                android:scheme=&quot;tgx&quot; /&gt;
-        &lt;/intent-filter&gt;
-    &lt;/receiver&gt;
-    &lt;activity android:name=&quot;com.tgx.push.sdk.app.parser.view.PushSdkInfoActivity&quot;&gt;
-    &lt;/activity&gt;
-    &lt;activity android:name=&quot;com.tgx.push.sdk.app.parser.view.PushSdkDialogActivity&quot;&gt;
-    &lt;/activity&gt;
-    &lt;receiver android:name=&quot;com.ngds.sdk.util.NgdsStaticReceiver&quot;
-               android:process=&quot;com.tgx.pushsdk.master.service&quot;&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_ADDED&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_CHANGED&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_DATA_CLEARED&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_INSTALL&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_REMOVED&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_REPLACED&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.PACKAGE_RESTARTED&quot; /&gt;
-            &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt;
-            &lt;action android:name=&quot;android.net.conn.CONNECTIVITY_CHANGE&quot; /&gt;
-        &lt;/intent-filter&gt;
-    &lt;/receiver&gt;
-
-    &lt;service
-        android:name=&quot;com.ngds.sdk.collection.service.CollectService&quot;
-        android:process=&quot;:remote&quot;&gt;
-        &lt;intent-filter&gt;
-            &lt;action android:name=&quot;com.ngds.sdk.collection.service.ICollectService&quot; /&gt;
-            &lt;action android:name=&quot;com.ngds.sdk.collection.service.ISecondary&quot; /&gt;
-            &lt;action android:name=&quot;com.ngds.sdk.collection.service.REMOTE_SERVICE&quot; /&gt;
-        &lt;/intent-filter&gt;
-    &lt;/service&gt;
-    &lt;receiver
-        android:name=&quot;com.ngds.sdk.collection.util.AlarmReceiver&quot;
-        android:process=&quot;:remote&quot; /&gt;
-</code></pre><h3 id="-api-">二、API说明</h3>
-<ol>
-<li><p>类说明</p>
-<p> 类|描述
-:--|:--
-PushSDKAPI|Push 服务的对外API接口<br>IMsgReceiver|Push消息回调接口</p>
-</li>
-<li><p>PushSDKAPI</p>
-<p> 分类|功能|方法
-:--|:--|:--
-Push服务接口|提供push服务|start ,stop 
-Tag 管理接口|Tag的创建与删除|setTags,delTags
-消息接口|消息回调接口的注册|registerReceiver</p>
-</li>
-<li><p>AbstractMsgReceiver</p>
-<p> 分类|功能|方法
-:--|:--|:--
-消息接口|用于消息的接收|onMessage
-调试接口|用于调试时的消息回调|onDebug</p>
-<p> 继承抽象类AbstractMsgReceiver,实现如下方法：</p>
-<p>3.1 接受到的push消息</p>
-<p> public abstract void onMessage(String message)
- 功能:接收到的push消息回调。
- 参数:message 消息内容    </p>
-<p>3.2 接收到的调试过程信息</p>
-<p> public void onDebug(String message)
- 功能:接收一些用于调试用的过程信息
- 参数:message 调试内容</p>
-</li>
-<li><p>方法说明</p>
-<p> 4.1 push服务初始化及绑定</p>
-<pre><code> public final static void start(Context ctx)
- 功能:完成push服务的初始化工作，以及与MasterService的自动绑定工作。当masterService第一次启动完成登录操作。
-</code></pre><p> 4.2 停止push服务</p>
-<pre><code> public final static void stop(Context ctx)
- 功能:停止当前应用的push服务，以及与MasterService 的解绑操作。
- 参数:ctx 上下文    
-</code></pre><p> 4.3 设置Tags</p>
-<pre><code> public final static void setTags(String[] tags,String charset)
- 功能:为App进行属性标注，最大标签数100，使用时必须使用一致的charset，cid不能作        为tag使用
-</code></pre><p> 4.4 删除Tags</p>
-<pre><code> 方法 public final static void delTags(String tag,String charset)
- 功能:为App删除标注。
-</code></pre><p> 4.5 注册消息接收者</p>
-<pre><code> 方法 public final static void registerReceiver(Class&lt;? extends         AbstractMsgReceiver&gt; clzz)
- 功能:为App注册消息接收接口
-</code></pre></li>
-</ol>
 
             </section>
         </div>
@@ -443,8 +527,7 @@ Tag 管理接口|Tag的创建与删除|setTags,delTags
         var navHtml = '';
         var text = $('.nav-title-active').text();
         if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1) {
-            console.log(text);
-            console.log('加载纟纟x');
+//            console.log(text);
             //抽取标题索引
         }else{
             navHtml += '<header><h1>' + text + '</h1></header>';
