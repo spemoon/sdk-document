@@ -1,33 +1,39 @@
     <!doctype html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8" />
-        <title>开发文档</title>
-        <meta name="keywords" content="documentation,dox" />
-        <meta name="description" content="项目相关文档" />
-        <link rel="stylesheet" type="text/css" href="../../templates/default/assets/base.css" />
-        <link rel="stylesheet" type="text/css" href="../../static/themes/default/css/developer.css" />
-        <script src="../../templates/default/assets/prettify.js"></script>
-        <script src="../../templates/default/assets/jquery-1.8.2.min.js"></script>
-    </head>
-    <body>
-        <div class="outer-wrapper">
-            <header class="top-bar top-bar-new">
-                <div class="top-bar-wrapper">
-                    <div class="top-bar-left">
-                        <h1 class="logo"><a href="#">开发文档</a></h1>
-                    </div>
-                </div>
-            </header>
+<!--[if lt IE 7]>
+<html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <title>文档中心</title>
+    <meta name="keywords" content="documentation,dox"/>
+    <meta name="description" content="项目开发相关文档"/>
+    <link rel="stylesheet" type="text/css" href="../../templates/developer/assets/base.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/themes/default/css/developer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/themes/default/css/typo.css"/>
+    <script src="../../templates/default/assets/prettify.js"></script>
+    <script src="../../templates/default/assets/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+<div class="outer-wrapper">
+    <header class="top-bar top-bar-new">
+        <div class="top-bar-wrapper">
+            <div class="top-bar-left">
+                <h1 class="logo"><a href="#">文档中心</a></h1>
+            </div>
+        </div>
+    </header>
     <div class="sidebar">
         <div class="wrapper">
             <nav class="sidebar-nav">
                 <div class="sidebar-content">
                     <ul>
-                      
+                      <h1 class="nav-title">API文档</h1>
+
                 <li >
                     <a href="../../docs/00_概述/00_约定.html">概述
                         <i class="disclosure"></i>
@@ -58,6 +64,17 @@
                     </ul>
                 </li>
 
+                <li >
+                    <a href="../../docs/SDK下载/Android SDK.html">SDK下载
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="../../docs/SDK下载/Android SDK.html">Android SDK</a></li>
+                    
+                    </ul>
+                </li>
+
                     </ul>
                 </div>
             </nav>
@@ -65,7 +82,7 @@
     </div>
     <div class="main">
         <div class="wrapper">
-            <section class="nav-page-content" role="main">
+            <section class="nav-page-content typo typo-selection" role="main">
                 <section class="api-section" id="api-section-1"><header><h2><span class="api-method">POST</span><span class="api-rule">/accounts</span></h2></header><div class="api-url"><ul class="actions"><li><a class="button response-btn"><b>Response</b></a></li></ul><code>http://115.29.15.90:8081/v1/accounts?access_token=ACCESS-TOKEN
 </code></div><div class="api-response hide"><div class="api-seperate"><strong>RESPONSE</strong><i></i></div><pre><code class="lang-json">
     {
@@ -219,22 +236,29 @@
         </div>
     </div>
 </div>
-      <a href="#" class="btn-top"><span class="vertical">回顶部</span></a>
-    <script>
-      $(function() {
+<a href="#" class="btn-top" id="btn_top"><span class="vertical">回顶部</span></a>
+<script>
+    $(function () {
         $('pre').addClass('prettyprint');
         $('td pre').removeClass('prettyprint');
         prettyPrint();
-        $('.response-btn').on('click', function(e) {
+        $('.response-btn').on('click', function (e) {
             var sectionNode = $(this).closest('.api-section');
             sectionNode.find('.api-response').slideToggle();
         });
         var navHtml = '';
-        navHtml += '<header><h1>' + $('.nav-title-active').text() + '</h1></header>';
+        var text = $('.nav-title-active').text();
+        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1) {
+            console.log(text);
+            console.log('加载纟纟x');
+            //抽取标题索引
+        }else{
+            navHtml += '<header><h1>' + text + '</h1></header>';
+        }
         if ($('.api-section').length > 0) {
             navHtml += '<div class="index-nav index-endpoints">';
             navHtml += '    <ul>';
-            $('.api-section').each(function(item) {
+            $('.api-section').each(function (item) {
                 var id = $(this).attr('id');
                 var method = $(this).find('.api-method').eq(0).text().toUpperCase();
                 var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
@@ -252,8 +276,14 @@
             navHtml += '</div>';
         }
         $('.nav-page-content').prepend(navHtml);
-        
-      });
-    </script>
-  </body>
+        $(window).on('scroll',function(){
+            if($(this).scrollTop() > $(this).height()){
+               $('#btn_top').show();
+            }else{
+                $('#btn_top').hide();
+            }
+        })
+    });
+</script>
+</body>
 </html>
