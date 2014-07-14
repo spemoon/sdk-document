@@ -72,6 +72,8 @@
                     
                             <li class="active"><a class="nav-title-active" href="../../docs/SDK下载/Android SDK.html">Android SDK</a></li>
                     
+                            <li ><a  href="../../docs/SDK下载/服务端接入.html">服务端接入</a></li>
+                    
                     </ul>
                 </li>
 
@@ -83,13 +85,27 @@
     <div class="main">
         <div class="wrapper">
             <section class="nav-page-content typo typo-selection" role="main">
-                <h1 id="-xxxxx-gameservice-sdk-_v1-0-0">=xxxxx=GameService SDK 说明文档_V1.0.0</h1>
-<p><a href="http://api.gameservice.com/gc1/pkgs/files/newgame_v0.1.20.apk" target="_blank" class="sdk-download">下载Android SDK</a></p>
-<hr>
+                <h1 id="gameservice-sdk-_v1-0-0">GameService SDK 说明文档_V1.0.0</h1>
+<h2 id="-a-href-static-download-android-zip-target-_blank-class-sdk-download-android-sdk-a-"><a href="../../static/download/android.zip" target="_blank" class="sdk-download">下载Android SDK</a></h2>
 <h2 id="-sdk-">一、SDK包含内容</h2>
+<ul>
+<li><p>GameService SDK 说明文档_V1.0.0.pdf</p>
+</li>
+<li><p>依赖工程 library</p>
+<ul>
+<li>PushSDK_Release</li>
+<li>alipay_lib</li>
+</ul>
+</li>
+<li><p>示例程序工程 samples</p>
+</li>
+<li><p>示例程序安装包 SDKSample_V1.0.0.apk</p>
+</li>
+</ul>
 <h2 id="-">二、项目配置</h2>
-<p>2.1 增加工程依赖PushSDK_Release，alipay_lib；
-2.2 在res/values/pushsdk_thirdparty_string.xml 中</p>
+<p>2.1 增加工程依赖项目PushSDK_Release，alipay_lib；</p>
+<p>2.2 拷贝 SDKSample libs 下的文件到主工程的libs下；</p>
+<p>2.3 在PushSDK_Release的res/values/pushsdk_thirdparty_string.xml 中：</p>
 <pre><code>    &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; standalone=&quot;no&quot;?&gt;
     &lt;resources&gt;
     &lt;string name=&quot;permission_service&quot;&gt;[your_prefix].android.permissions.SERVICE&lt;/string&gt;
@@ -102,15 +118,20 @@
     &lt;string name=&quot;action_opensdk_vote&quot;&gt;[your_prefix].intent.opensdk.action.VOTE&lt;/string&gt;
     &lt;string name=&quot;action_opensdk_consult&quot;&gt;[your_prefix].intent.opensdk.action.CONSULT&lt;/string&gt;
     &lt;string name=&quot;action_api_service_start&quot;&gt;[your_prefix].intent.api.service.action.START&lt;/string&gt;
-    &lt;string name=&quot;sdk_appid&quot;&gt;3 &lt;/string&gt;
-    &lt;string name=&quot;sdk_appkey&quot;&gt;m2VXU9c8mh8p4Hemhc7ROJf5HeCmg2dZ&lt;/string&gt;
+    &lt;string name=&quot;sdk_appid&quot;&gt;8&lt;/string&gt;
+    &lt;string name=&quot;sdk_appkey&quot;&gt;sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44&lt;/string&gt;
     &lt;string name=&quot;sdk_domain&quot;&gt;TGXD_201405141634230591ktsNZU1FF&lt;/string&gt;
     &lt;string name=&quot;sdk_scheme&quot;&gt;[your_prefix]&lt;/string&gt;
     &lt;/resources&gt;
-</code></pre><p>将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)。如：ndgs。
-sdk_appid 的值为你真实分配到的appid,
-sdk_appkey 的值为你真实分配到的appkey.在此需要注意的地方是 这些参数应与主项目中AndroidManifest中的数据对应（即2.3中说明部分）.</p>
-<p>2.3 在主工程AndroidManifest中添加如下声明permission并做出相应替换：</p>
+</code></pre><ul>
+<li><p>将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)。如：ngds。</p>
+</li>
+<li><p>sdk_appid 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的appid,</p>
+</li>
+<li><p>sdk_appkey 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>真实分配到的appkey。</p>
+</li>
+</ul>
+<p>2.4 在主工程AndroidManifest中添加如下声明permission并做出相应替换：</p>
 <pre><code>    &lt;uses-permission android:name=&quot;android.permission.BATTERY_STATS&quot; /&gt;
     &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
     &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot; /&gt;
@@ -129,27 +150,102 @@ sdk_appkey 的值为你真实分配到的appkey.在此需要注意的地方是 �
     &lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot; /&gt;
     &lt;uses-permission android:name=&quot;android.permission.BLUETOOTH_ADMIN&quot;/&gt;
     &lt;uses-permission android:name=&quot;android.permission.BLUETOOTH&quot;/&gt;
+    &lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot; /&gt;
+    &lt;uses-permission android:name=&quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&quot; /&gt;
+
     &lt;uses-permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; /&gt;
     &lt;uses-permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; /&gt;
     &lt;uses-permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; /&gt;
-    &lt;uses-permission android:name=&quot;com.android.launcher.permission.INSTALL_SHORTCUT&quot; /&gt;
-    &lt;uses-permission android:name=&quot;com.android.launcher.permission.UNINSTALL_SHORTCUT&quot; /&gt;
     &lt;permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; android:protectionLevel=&quot;normal&quot; /&gt;
     &lt;permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; android:protectionLevel=&quot;normal&quot; /&gt;
     &lt;permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; android:protectionLevel=&quot;normal&quot; /&gt;
-</code></pre><h6 id="-your_prefix-uses-permission-android-name-ngds-android-permissions-service-">注意在权限中以下是需要修改的（把[your_prefix]修改成你需要的如：<uses-permission android:name="ngds.android.permissions.SERVICE" />）</h6>
-<pre><code>&lt;uses-permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; /&gt;
-&lt;uses-permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; /&gt;
-&lt;uses-permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; /&gt;
+</code></pre><ul>
+<li>将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)，如：ngds，须和pushsdk_thirdparty_string.xml中的设置保持一致。</li>
+</ul>
+<p>2.5 在主工程AndroidManifest中增加如下activity, meta-data, service, receiver：</p>
+<pre><code>    &lt;!-- 渠道号 --&gt;
+    &lt;meta-data
+        android:name=&quot;NGDS_CHANNEL&quot;
+        android:value=&quot;14&quot; /&gt;
 
-&lt;permission android:name=&quot;[your_prefix].android.permissions.SERVICE&quot; android:protectionLevel=&quot;normal&quot; /&gt;
-&lt;permission android:name=&quot;[your_prefix].android.permissions.CLIENT&quot; android:protectionLevel=&quot;normal&quot; /&gt;
-&lt;permission android:name=&quot;[your_prefix].android.permissions.VOTE&quot; android:protectionLevel=&quot;normal&quot; /&gt;                
-</code></pre><p>2.4 在主工程AndroidManifest中增加服务：</p>
-<pre><code>    &lt;service
+    &lt;!-- 登陆 --&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.LoginSelectActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.Translucent.NoTitleBar.Fullscreen&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.LoginMobileActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.LoginVerifyCodeActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+
+    &lt;!--支付--&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.PayTypeSelectActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.BankCardActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.PayCodeActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.CoinActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.CoinRechargeActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.PhoneCardActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.PhoneCardLoginActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.PhoneCardResultActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+
+    &lt;!--用户中心--&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.UserCenterActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.UserBalanceActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.UserPwdActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.UserPwdForgetCodeActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+
+    &lt;!--Web页面--&gt;
+    &lt;activity
+        android:name=&quot;com.gameservice.sdk.activity.WebActivity&quot;
+        android:configChanges=&quot;keyboardHidden|orientation&quot;
+        android:theme=&quot;@android:style/Theme.NoTitleBar&quot; /&gt;
+
+    &lt;!--push--&gt;
+    &lt;service
         android:name=&quot;com.tgx.push.sdk.MasterService&quot;
-        android:permission=&quot;[your_prefix].android.permissions.SERVICE&quot;
-        &gt;
+        android:permission=&quot;[your_prefix].android.permissions.SERVICE&quot;&gt;
           &lt;intent-filter&gt;
               &lt;action android:name=&quot;[your_prefix].intent.protect.service.action.START&quot; /&gt;
           &lt;/intent-filter&gt;
@@ -157,8 +253,7 @@ sdk_appkey 的值为你真实分配到的appkey.在此需要注意的地方是 �
      &lt;service android:name=&quot;com.tgx.push.sdk.SdkService&quot; /&gt;
      &lt;receiver
         android:name=&quot;com.tgx.push.sdk.AutoConsultReceiver&quot;
-        android:permission=&quot;[your_prefix].android.permissions.VOTE&quot;
-        &gt;
+        android:permission=&quot;[your_prefix].android.permissions.VOTE&quot;&gt;
           &lt;intent-filter android:priority=&quot;1&quot; &gt;
                &lt;action android:name=&quot;[your_prefix].intent.opensdk.action.VOTE&quot; /&gt;
                &lt;data android:host=&quot;[your_host]&quot; android:scheme=&quot;[your_prefix]&quot; /&gt;
@@ -195,22 +290,24 @@ sdk_appkey 的值为你真实分配到的appkey.在此需要注意的地方是 �
     android:name=&quot;com.tgx.push.sdk.app.parser.view.PushSdkInfoActivity&quot;/&gt;
     &lt;activity
     android:name=&quot;com.tgx.push.sdk.app.parser.view.PushSdkDialogActivity&quot;/&gt;
-</code></pre><h6 id="-your_prefix-ndgs-">注意需要修改的（把[your_prefix]修改成你实际的参数、如ndgs.</h6>
-<h6 id="-your_host-pushsdk_thirdparty_string-xml-sdk_domain-">[your_host]可修改配置中pushsdk_thirdparty_string.xml的sdk_domain.</h6>
-<p>2.5 channel的添加</p>
+</code></pre><ul>
+<li><p>将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)，如：ngds，须和pushsdk_thirdparty_string.xml中的设置保持一致。</p>
+</li>
+<li><p>将[your_host]修改成pushsdk_thirdparty_string.xml的sdk_domain。</p>
+</li>
+<li><p>渠道号，默认配置成14，有发渠道包的请填具体的渠道号。</p>
+</li>
+</ul>
 <h2 id="-api-">三、API使用说明</h2>
 <h3 id="3-1-">3.1 设置屏幕方向</h3>
 <pre><code>GameService.setScreenOrientation(int orientation)
 </code></pre><p>使用SDK业务接口前调用该函数。参数orientation取值如下：</p>
-<pre><code>// 横屏
-GameService.SCREEN_ORIENTATION_LANDSCAPE         
-// 竖屏
-GameService.SCREEN_ORIENTATION_PORTRAIT          
-</code></pre><h3 id="3-2-">3.2 设置业务环境</h3>
-<h3 id="3-3-">3.3 登陆</h3>
-<pre><code>GameService.login(Context context, Callback.OnLoginListener listener)
+<pre><code>GameService.SCREEN_ORIENTATION_LANDSCAPE             // 横屏
+GameService.SCREEN_ORIENTATION_PORTRAIT              // 竖屏
+</code></pre><h3 id="3-2-">3.2 登陆</h3>
+<pre><code>GameService.login(Context context, OnLoginListener listener)
 </code></pre><p>调用示例:</p>
-<pre><code>GameService.login(MainActivity.this, new Callback.OnLoginListener() {
+<pre><code>GameService.login(MainActivity.this, new OnLoginListener() {
     @Override
     public void finish(int code, OAuthInfo oAuthInfo) {
         String msg = &quot;&quot;;
@@ -228,8 +325,8 @@ GameService.SCREEN_ORIENTATION_PORTRAIT
         Log.d(&quot;OAuth: &quot;, +code + &quot;: &quot; + msg);
     }
 });
-</code></pre><h3 id="3-4-">3.4 支付</h3>
-<pre><code>GameService.pay(Context context, Order order, Callback.OnPayListener listener)
+</code></pre><h3 id="3-3-">3.3 支付</h3>
+<pre><code>GameService.pay(Context context, Order order, OnPayListener listener)
 </code></pre><p>调用示例：</p>
 <pre><code>Order order = testOrder();
 String orderStr = getOrderString(order);
@@ -237,7 +334,7 @@ Log.d(&quot;orderStr:&quot;, orderStr);
 order.setSign(com.gameservice.sdk.sample.view.main.Rsa
     .sign(orderStr, com.gameservice.sdk.sample.view.main.Keys.PRIVATE));
 Log.d(&quot;signStr: &quot;, order.getSign());
-GameService.pay(this, order, new Callback.OnPayListener() {
+GameService.pay(this, order, new OnPayListener() {
     @Override public void finish(int code, String msg) {
         switch (code) {
             case StatusCode.FINISH:
@@ -253,30 +350,38 @@ GameService.pay(this, order, new Callback.OnPayListener() {
         Log.d(&quot;onPay&quot;, code + &quot;: &quot; + msg);
     }
 });
-</code></pre><h3 id="3-5-">3.5 统计采集</h3>
+</code></pre><h5 id="-">支付回调:</h5>
+<p>请求地址：POST {{生成订单传的notify_url}}</p>
+<p>请求内容：</p>
+<pre><code>amount=1&amp;app_id=1&amp;app_order_id=123467983411&amp;app_user_id=123&amp;app_user_name=角色名&amp;body=充值卡测试1&amp;create_time=1403896654&amp;notify_time=1403897051&amp;order_id=20140627162026744468&amp;payment_time=1403897051&amp;status=STATUS_SUCCESS&amp;subject=充值卡测试1
+</code></pre><ul>
+<li><p>成功响应： 根据status判断是否STATUS_SUCCESS</p>
+</li>
+<li><p>失败响应： 除了status为STATUS_SUCCESS以外，都认为是失败</p>
+</li>
+</ul>
+<h3 id="3-4-">3.4 统计采集</h3>
 <p> 正确集成如下代码，才能够保证获取正确的用户使用基本数据。</p>
 <ul>
-<li>在每个Activity的onResume方法中调用 GameService.onResume(this) ,onPause方法中调用  GameService.onPause(this)</li>
-</ul>
-<pre><code>@Override
-protected void onPause() {
-    GameService.onPause(this);
-    super.onPause();
-}
+<li><p>在每个Activity的onResume方法中调用 GameService.onResume(this) ,onPause方法中调用  GameService.onPause(this)</p>
+<pre><code>  @Override
+  protected void onPause() {
+      GameService.onPause(this);
+      super.onPause();
+  }
 
-
-@Override
-protected void onResume() {
-    GameService.onResume(this);
-    super.onResume();
-} 
-</code></pre><ul>
-<li>确保在所有的Activity中都调用 MobclickAgent.onResume() 和MobclickAgent.onPause()方法，这两个调用将不会阻塞应用程序的主线程，也不会影响应用程序的性能。</li>
-<li>玩家用户登录行为记录（用于玩家行为统计以及进行玩家间p2p推送）：</li>
-</ul>
-<pre><code>    GameService.onPlayerLogin(context, PLAYER_ID); 
+  @Override
+  protected void onResume() {
+      GameService.onResume(this);
+      super.onResume();
+  } 
+</code></pre></li>
+<li><p>确保在所有的Activity中都调用 MobclickAgent.onResume() 和MobclickAgent.onPause()方法，这两个调用将不会阻塞应用程序的主线程，也不会影响应用程序的性能。</p>
+</li>
+<li><p>玩家用户登录行为记录（用于玩家行为统计以及进行玩家间p2p推送）：    </p>
+<pre><code>  GameService.onPlayerLogin(context, PLAYER_ID); 
 </code></pre><p>其中PLAYER_ID为玩家id。</p>
-<ul>
+</li>
 <li><p>玩家用户登出记录（用于玩家行为统计以及不再接收玩家间p2p推送）：</p>
 <pre><code>  GameService.onPlayerLogout(Context context); 
 </code></pre></li>
@@ -284,7 +389,7 @@ protected void onResume() {
 <pre><code>  GameService.onPay(Context context, String playerId, String payAmount)
 </code></pre></li>
 </ul>
-<h3 id="3-6-">3.6 推送服务开启和停止</h3>
+<h3 id="3-5-">3.5 推送服务开启和停止</h3>
 <ul>
 <li><p>push服务初始化及绑定</p>
 <ul>
@@ -385,9 +490,7 @@ protected void onResume() {
         GameService.startPushService(this);
 </code></pre><h2 id="-">四、相关类介绍</h2>
 <h3 id="4-1-">4.1 回调函数类</h3>
-<pre><code>public class Callback {
-
-    // 支付回调
+<pre><code>    // 支付回调
     public static interface OnPayListener {
         void finish(int code, String msg);
     }
@@ -396,8 +499,6 @@ protected void onResume() {
     public static interface OnLoginListener {
         void finish(int code, OAuthInfo authInfo);
     }
-
-}
 </code></pre><h3 id="4-2-">4.2 状态码类</h3>
 <pre><code>public class StatusCode {
 
@@ -432,7 +533,6 @@ protected void onResume() {
 
     // 认证Token
     public String getAccessToken() 
-
 
     // 用户ID
     public String getUserId() 
@@ -502,11 +602,50 @@ protected void onResume() {
     public void setSign(String sign) 
 }
 </code></pre><h2 id="-">五、交易签名</h2>
-<p>交易签名</p>
+<h3 id="-">需要参与签名的参数</h3>
+<ul>
+<li>在请求参数列表中，除去sign、payment参数外，其他需要使用到的参数皆是要签名的参数。</li>
+<li>在服务器异步通知参数列表中，除去sign参数外，凡是通知返回回来的参数皆是要验签的参数。</li>
+</ul>
+<h3 id="-">生成待签名字符串</h3>
+<p>对于如下的参数：</p>
+<pre><code>{
+    &quot;body&quot;: &quot;【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15&quot;,
+    &quot;subject&quot;: &quot;珍珠项链 【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15&quot;,
+    &quot;amount&quot;: 2,
+    &quot;app_user_name&quot;: &quot;角色名&quot;,
+    &quot;app_id&quot;: &quot;1&quot;,
+    &quot;app_order_id&quot;: &quot;201404250461774836&quot;,
+    &quot;imei&quot;: &quot;447769804451095&quot;,
+    &quot;ext&quot;: &quot;&quot;,
+    &quot;notify_url&quot;: &quot;http://127.0.0.1/pay/test&quot;,
+    &quot;app_user_id&quot;: &quot;123&quot;,
+    &quot;mac_address&quot;: &quot;05-16-DC-59-C2-34&quot;,
+    &quot;bind_id&quot;: &quot;6306&quot;,
+    &quot;channel_id&quot;: &quot;test&quot;,
+    &quot;sign&quot;: &quot;&quot;
+}
+</code></pre><p>去掉sign参数，将其他参数按照字母顺序升序排列，再把所有数组值以“&amp;”字符连接起来：</p>
+<p>amount=2&amp;app_id=1&amp;app_order_id=201404250461774836&amp;app_user_id=123&amp;app_user_name=角色名&amp;bind_id=6306&amp;body=【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15&amp;channel_id=test&amp;imei=447769804451095&amp;mac_address=05-16-DC-59-C2-34&amp;notify_url=<a href="http://127.0.0.1/pay/test&amp;subject=珍珠项链">http://127.0.0.1/pay/test&amp;subject=珍珠项链</a> 【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15
+即为待签名字符串。 </p>
+<p>注意：没有值的参数无需传递，也无需包含到待签名数据中；</p>
+<h3 id="rsa-">RSA签名</h3>
+<p>在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。 公钥、私钥暂时用支付宝的测试。</p>
+<ul>
+<li><p>请求时签名 当拿到请求时的待签名字符串后，把待签名字符串与客户的私钥一同放入RSA的签名函数中进行签名运算，从而得到签名结果字符串。</p>
+</li>
+<li><p>通知返回时验证签名 当获得到通知返回时的待签名字符串后，把待签名字符串、新游提供的公钥、新游通知返回参数中的参数sign的值三者一同放入RSA的签名函数中进行非对称的签名运算，来判断签名是否验证通过。</p>
+</li>
+<li><p>签名函数 RSA sign + base64 encode</p>
+</li>
+</ul>
 <h2 id="-">六、代码混淆</h2>
-<p>GameService的SDK 包是以 jar 包及资源文件提供给用户的,您在混淆自 己 APK 包的时候请不要将 GameService 的 jar 包一起混淆,因为里面有些自定义 UI 控件,若被混 淆后会因为无法找到相关类而抛异常。
+<p>GameService的SDK 包是以 jar 包及资源文件提供给用户的,您在混淆自己 APK 包的时候请不要将 GameService 的 jar 包一起混淆, 若被混淆后会因为无法找到相关类而抛异常。
 您可以在用 ant 构建混淆包的 build.xml 里面对应位置或者在工程的混淆配置文件里加入:</p>
 <pre><code>    -libraryjars libs/*.jar 
+    -keep class com.gameservice.sdk.**
+    -keep class com.tgx.push.**
+    -keep class com.alipay.**
 </code></pre><p>以避免GameService的相关的 jar 包被混淆。</p>
 <h2 id="-faq">七、FAQ</h2>
 
