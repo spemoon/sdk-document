@@ -509,7 +509,10 @@
         if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1) {
 //            console.log(text);
             //抽取标题索引
-        }else{
+            $('h1,h2,h3,h4,h5,h6').each(function (i) {
+                $(this).attr('id', 'anchor-' + i);
+            })
+        } else {
             navHtml += '<header><h1>' + text + '</h1></header>';
         }
         if ($('.api-section').length > 0) {
@@ -533,10 +536,19 @@
             navHtml += '</div>';
         }
         $('.nav-page-content').prepend(navHtml);
-        $(window).on('scroll',function(){
-            if($(this).scrollTop() > $(this).height()){
-               $('#btn_top').show();
-            }else{
+        var sidebar = $('.sidebar');
+        $(window).on('scroll', function () {
+            scrollTop = $(this).scrollTop();
+
+            if (scrollTop > 62) {
+                sidebar.css({'position': 'fixed', 'top': '0'});
+            } else {
+                console.log(scrollTop);
+                sidebar.css({'position': 'absolute','top':62});
+            }
+            if (scrollTop > $(this).height()) {
+                $('#btn_top').show();
+            } else {
                 $('#btn_top').hide();
             }
         })
