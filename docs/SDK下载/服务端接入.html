@@ -1,0 +1,217 @@
+    <!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <title>文档中心</title>
+    <meta name="keywords" content="documentation,dox"/>
+    <meta name="description" content="项目开发相关文档"/>
+    <link rel="stylesheet" type="text/css" href="../../templates/developer/assets/base.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/themes/default/css/developer.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/themes/default/css/typo.css"/>
+    <script src="../../templates/default/assets/prettify.js"></script>
+    <script src="../../templates/default/assets/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+<div class="outer-wrapper">
+    <header class="top-bar top-bar-new">
+        <div class="top-bar-wrapper">
+            <div class="top-bar-left">
+                <h1 class="logo"><a href="#">文档中心</a></h1>
+            </div>
+        </div>
+    </header>
+    <div class="sidebar">
+        <div class="wrapper">
+            <nav class="sidebar-nav">
+                <div class="sidebar-content">
+                    <ul>
+                      <h1 class="nav-title">API文档</h1>
+
+                <li >
+                    <a href="../../docs/00_概述/00_约定.html">概述
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="../../docs/00_概述/00_约定.html">约定</a></li>
+                    
+                            <li ><a  href="../../docs/00_概述/01_定义.html">定义</a></li>
+                    
+                    </ul>
+                </li>
+
+                <li >
+                    <a href="../../docs/01_接口/00_账户操作.html">接口
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="../../docs/01_接口/00_账户操作.html">账户操作</a></li>
+                    
+                            <li ><a  href="../../docs/01_接口/01_员工操作.html">员工操作</a></li>
+                    
+                            <li ><a  href="../../docs/01_接口/02_审核接口.html">审核接口</a></li>
+                    
+                            <li ><a  href="../../docs/01_接口/03_公共接口.html">公共接口</a></li>
+                    
+                    </ul>
+                </li>
+
+                <li class="active">
+                    <a href="../../docs/SDK下载/Android SDK.html">SDK下载
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="../../docs/SDK下载/Android SDK.html">Android SDK</a></li>
+                    
+                            <li class="active"><a class="nav-title-active" href="../../docs/SDK下载/服务端接入.html">服务端接入</a></li>
+                    
+                    </ul>
+                </li>
+
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div class="main">
+        <div class="wrapper">
+            <section class="nav-page-content typo typo-selection" role="main">
+                <p><a href="../../static/download/sdk_server_demo_v1.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a></p>
+<h2 id="-">环境</h2>
+<ul>
+<li>测试环境：<a href="/" title="测试环境"> http://test.gameservice.com:15205 </a></li>
+<li>仿真环境：<a href="/" title="仿真环境"> http://test.api.gameservice.com </a></li>
+<li>正式环境：<a href="/" title="正式环境"> https://api.gameservice.com </a></li>
+</ul>
+<h3 id="sdk-">SDK测试:</h3>
+<ul>
+<li>APP_ID = 8  # android</li>
+<li><p>APP_SECRET = &#39;sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44&#39;</p>
+</li>
+<li><p>APP_ID = 9  # ios</p>
+</li>
+<li><p>APP_SECRET = &#39;0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&#39;</p>
+</li>
+<li><p>CHANNEL_ID = 14</p>
+</li>
+</ul>
+<h2 id="-">开发者服务器回调</h2>
+<ul>
+<li>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></li>
+<li><p>请求内容：</p>
+<p>  amount=1&amp;app_id=1&amp;app_order_id=123467983411&amp;app_user_id=123&amp;app_user_name=角色名&amp;body=充值卡测试1&amp;create_time=1403896654&amp;notify_time=1403897051&amp;order_id=20140627162026744468&amp;payment_time=1403897051&amp;status=STATUS_SUCCESS&amp;subject=充值卡测试1</p>
+</li>
+<li><p>成功响应：
+  根据status判断是否STATUS_SUCCESS，是处理相关业务后，直接输出 success，业务处理失败输出fail</p>
+</li>
+<li>失败响应:
+  除了success以外，都认为是失败</li>
+</ul>
+<h2 id="-">签名机制</h2>
+<h3 id="-">需要参与签名的参数</h3>
+<ul>
+<li>在请求参数列表中，除去sign、payment参数外，其他需要使用到的参数皆是要签名的参数。</li>
+<li>在服务器异步通知参数列表中，除去sign参数外，凡是通知返回回来的参数皆是要验签的参数。<h3 id="-">生成待签名字符串</h3>
+生成订单待签名字符串生成</li>
+</ul>
+<p>对于如下的参数数组：</p>
+<pre><code>    {
+        &quot;body&quot;: &quot;新游测试商品2&quot;,
+        &quot;subject&quot;: &quot;新游测试商品2&quot;,
+        &quot;amount&quot;: 2,
+        &quot;app_user_name&quot;: &quot;新游角色名&quot;,
+        &quot;app_id&quot;: 8,
+        &quot;app_order_id&quot;: &quot;201407071002&quot;,
+        &quot;imei&quot;: &quot;447769804451095&quot;,
+        &quot;ext&quot;: &quot;&quot;,
+        &quot;notify_url&quot;: &quot;http://test.gameservice.com:15205/test_pay/test&quot;,
+        &quot;app_user_id&quot;: &quot;123&quot;,
+        &quot;mac_address&quot;: &quot;05-16-DC-59-C2-34&quot;,
+        &quot;channel_id&quot;: &quot;14&quot;,
+        &quot;payment&quot;: {
+            &quot;payment_type&quot;: 5
+        }
+    }
+</code></pre><p>去掉sign、payment参数，将其他参数按照字母顺序升序排列，再把所有数组值以“&amp;”字符连接起来：</p>
+<pre><code>amount=2&amp;app_id=8&amp;app_order_id=201407071002&amp;app_user_id=123&amp;app_user_name=新游角色名&amp;body=新游测试商品2&amp;channel_id=14&amp;imei=447769804451095&amp;mac_address=05-16-DC-59-C2-34&amp;notify_url=http://test.gameservice.com:15205/test_pay/test&amp;subject=新游测试商品2
+</code></pre><p>即为待签名字符串。
+注意：</p>
+<ul>
+<li>没有值的参数无需传递，也无需包含到待签名数据中；</li>
+</ul>
+<h3 id="rsa-">RSA签名</h3>
+<p>在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。
+公钥、私钥暂时用支付宝的测试。</p>
+<p>*请求时签名
+当拿到请求时的待签名字符串后，把待签名字符串与客户的私钥一同放入RSA的签名函数中进行签名运算，从而得到签名结果字符串。</p>
+<p>*通知返回时验证签名
+当获得到通知返回时的待签名字符串后，把待签名字符串、新游提供的公钥、新游通知返回参数中的参数sign的值三者一同放入RSA的签名函数中进行非对称的签名运算，来判断签名是否验证通过。</p>
+<p>*签名函数
+ RSA sign + base64 encode</p>
+<p> 具体实现见范例代码。</p>
+<p>上例中签名结果为</p>
+<pre><code>GY5RuVWYjP4BiTLX67GeiTDwpi2+deuXO/pkVvoxiiOCtcKsNnSE4niFQIa2F2tz/VpVXfyEoKFxjXJ3e8J+r76ERtd2MlpIJ0bEWb5/J9OFDcZjEUXAJ0+h1xeoVtid6FHsC3ERN2iOFD8UUvk6HnUyo5ZmIrILVgOUglQBvk8=
+</code></pre>
+            </section>
+        </div>
+    </div>
+</div>
+<a href="#" class="btn-top" id="btn_top"><span class="vertical">回顶部</span></a>
+<script>
+    $(function () {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function (e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        var text = $('.nav-title-active').text();
+        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1) {
+//            console.log(text);
+            //抽取标题索引
+        }else{
+            navHtml += '<header><h1>' + text + '</h1></header>';
+        }
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function (item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        $(window).on('scroll',function(){
+            if($(this).scrollTop() > $(this).height()){
+               $('#btn_top').show();
+            }else{
+                $('#btn_top').hide();
+            }
+        })
+    });
+</script>
+</body>
+</html>
