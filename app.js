@@ -28,7 +28,7 @@ http.createServer(function (request, response) {
             return;
         }
 
-        if (fs.statSync(filename).isDirectory()) filename += '/docs/00_概述/00_约定.html';
+        if (fs.statSync(filename).isDirectory()) filename += '/docs/00_平台基本概述/00_平台概述.html';
         fs.readFile(filename, "binary", function (err, file) {
             if (err) {
                 response.writeHead(500, {"Content-Type": "text/plain"});

@@ -1,6 +1,4 @@
 # GameService SDK 说明文档_V1.0.0 
-
-<a href="../../static/download/android.zip" target="_blank" class="sdk-download">下载Android SDK</a>
 ------
 
 ## 一、SDK包含内容
@@ -432,7 +430,7 @@
 	
 	    public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
 	
-	    public static final String GRANT_TYPE_SNS_TOKEN = "sns_token”;
+	    public static final String GRANT_TYPE_SNS_TOKEN = "sns_token";
 	
 	    // 认证类型
 	    public String getGrantType() 
@@ -560,10 +558,10 @@ amount=2&app_id=1&app_order_id=201404250461774836&app_user_id=123&app_user_name=
 GameService的SDK 包是以 jar 包及资源文件提供给用户的,您在混淆自己 APK 包的时候请不要将 GameService 的 jar 包一起混淆, 若被混淆后会因为无法找到相关类而抛异常。
 您可以在用 ant 构建混淆包的 build.xml 里面对应位置或者在工程的混淆配置文件里加入:
         
-        -libraryjars libs/*.jar 
-        -keep class com.gameservice.sdk.**
-        -keep class com.tgx.push.**
-        -keep class com.alipay.**
+-libraryjars libs/\*.jar   
+-keep class com.gameservice.sdk.\*\*  
+-keep class com.tgx.push.\*\*  
+-keep class com.alipay.\*\*
         
 以避免GameService的相关的 jar 包被混淆。
 
