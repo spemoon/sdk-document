@@ -92,7 +92,7 @@
                 <p><a href="../../static/download/sdk_server_demo_v1.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a></p>
 <h2 id="-">环境</h2>
 <ul>
-<li>测试环境：<a href="/" title="测试环境"> http://test.gameservice.com:15205 </a></li>
+<li>测试环境：<a href="/" title="测试环境"> http://dev.api.gameservice.com:8000 </a></li>
 <li>仿真环境：<a href="/" title="仿真环境"> http://test.api.gameservice.com </a></li>
 <li>正式环境：<a href="/" title="正式环境"> https://api.gameservice.com </a></li>
 </ul>
@@ -111,12 +111,12 @@
 <h2 id="-">开发者服务器回调</h2>
 <ul>
 <li>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></li>
-<li><p>请求内容：</p>
-<p>  amount=1&amp;app_id=1&amp;app_order_id=123467983411&amp;app_user_id=123&amp;app_user_name=角色名&amp;body=充值卡测试1&amp;create_time=1403896654&amp;notify_time=1403897051&amp;order_id=20140627162026744468&amp;payment_time=1403897051&amp;status=STATUS_SUCCESS&amp;subject=充值卡测试1</p>
-</li>
-<li><p>成功响应：
-  根据status判断是否STATUS_SUCCESS，是处理相关业务后，直接输出 success，业务处理失败输出fail</p>
-</li>
+<li>请求内容：</li>
+</ul>
+<pre><code>subject=测试商品名称&amp;body=测试商品名称&amp;app_user_id=0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&amp;app_user_name=角色名&amp;app_id=9&amp;amount=10&amp;order_id=20140715139304463057&amp;app_order_id=1405394642&amp;status=STATUS_SUCCESS&amp;create_time=1405394603&amp;payment_time=0&amp;notify_time=0&amp;sign=ipeVRi2oBfXWDdQ77GUEzGUTl+jQxivFbyqfcCLKz9ht+j1tLO7WxHqfbRYQ+wAboALIcMY8JQgdLXamHNc7wekvjk+fwSzXTfq1too4MOAKKcvEoKKZGijwzKVR5b+fEwR+pIAyY/F5lc+6zMq5YOZeSEWRVUEVwgOmGREMF04=
+</code></pre><ul>
+<li>成功响应：
+  根据status判断是否STATUS_SUCCESS，是处理相关业务后，直接输出 success，业务处理失败输出fail</li>
 <li>失败响应:
   除了success以外，都认为是失败</li>
 </ul>
@@ -128,33 +128,33 @@
 生成订单待签名字符串生成</li>
 </ul>
 <p>对于如下的参数数组：</p>
-<pre><code>    {
-        &quot;body&quot;: &quot;新游测试商品2&quot;,
-        &quot;subject&quot;: &quot;新游测试商品2&quot;,
-        &quot;amount&quot;: 2,
-        &quot;app_user_name&quot;: &quot;新游角色名&quot;,
-        &quot;app_id&quot;: 8,
-        &quot;app_order_id&quot;: &quot;201407071002&quot;,
-        &quot;imei&quot;: &quot;447769804451095&quot;,
-        &quot;ext&quot;: &quot;&quot;,
-        &quot;notify_url&quot;: &quot;http://test.gameservice.com:15205/test_pay/test&quot;,
-        &quot;app_user_id&quot;: &quot;123&quot;,
-        &quot;mac_address&quot;: &quot;05-16-DC-59-C2-34&quot;,
-        &quot;channel_id&quot;: &quot;14&quot;,
-        &quot;payment&quot;: {
-            &quot;payment_type&quot;: 5
-        }
-    }
-</code></pre><p>去掉sign、payment参数，将其他参数按照字母顺序升序排列，再把所有数组值以“&amp;”字符连接起来：</p>
-<pre><code>amount=2&amp;app_id=8&amp;app_order_id=201407071002&amp;app_user_id=123&amp;app_user_name=新游角色名&amp;body=新游测试商品2&amp;channel_id=14&amp;imei=447769804451095&amp;mac_address=05-16-DC-59-C2-34&amp;notify_url=http://test.gameservice.com:15205/test_pay/test&amp;subject=新游测试商品2
+<pre><code>subject=测试商品名称&amp;body=测试商品名称&amp;app_user_id=0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&amp;app_user_name=角色名&amp;app_id=9&amp;amount=10&amp;order_id=20140715139304463057&amp;app_order_id=1405394642&amp;status=STATUS_SUCCESS&amp;create_time=1405394603&amp;payment_time=0&amp;notify_time=0&amp;sign=ipeVRi2oBfXWDdQ77GUEzGUTl+jQxivFbyqfcCLKz9ht+j1tLO7WxHqfbRYQ+wAboALIcMY8JQgdLXamHNc7wekvjk+fwSzXTfq1too4MOAKKcvEoKKZGijwzKVR5b+fEwR+pIAyY/F5lc+6zMq5YOZeSEWRVUEVwgOmGREMF04=
+</code></pre><p>去掉sign参数，将其他参数按照字母顺序升序排列，再把所有数组值以“&amp;”字符连接起来：</p>
+<pre><code>amount=10&amp;app_id=9&amp;app_order_id=1405394642&amp;app_user_id=0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&amp;app_user_name=角色名&amp;body=测试商品名称&amp;create_time=1405394603&amp;notify_time=0&amp;order_id=20140715139304463057&amp;payment_time=0&amp;status=STATUS_SUCCESS&amp;subject=测试商品名称
 </code></pre><p>即为待签名字符串。
 注意：</p>
 <ul>
 <li>没有值的参数无需传递，也无需包含到待签名数据中；</li>
 </ul>
 <h3 id="rsa-">RSA签名</h3>
-<p>在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。
-公钥、私钥暂时用支付宝的测试。</p>
+<p>在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥提交到开发者平台与新游平台的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。</p>
+<ul>
+<li><p>RSA密钥生成命令</p>
+<pre><code>  生成RSA私钥
+
+  openssl&gt;genrsa -out rsa_private_key.pem 1024
+
+  生成RSA公钥
+
+  openssl&gt;rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+
+  将RSA私钥转换成PKCS8格式
+
+  openssl&gt;pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
+
+  注意：“&gt;”符号后面的才是需要输入的命令。
+</code></pre></li>
+</ul>
 <p>*请求时签名
 当拿到请求时的待签名字符串后，把待签名字符串与客户的私钥一同放入RSA的签名函数中进行签名运算，从而得到签名结果字符串。</p>
 <p>*通知返回时验证签名
@@ -162,8 +162,8 @@
 <p>*签名函数
  RSA sign + base64 encode</p>
 <p> 具体实现见范例代码。</p>
-<p>上例中签名结果为</p>
-<pre><code>GY5RuVWYjP4BiTLX67GeiTDwpi2+deuXO/pkVvoxiiOCtcKsNnSE4niFQIa2F2tz/VpVXfyEoKFxjXJ3e8J+r76ERtd2MlpIJ0bEWb5/J9OFDcZjEUXAJ0+h1xeoVtid6FHsC3ERN2iOFD8UUvk6HnUyo5ZmIrILVgOUglQBvk8=
+<p>例如上例中签名结果为</p>
+<pre><code>ipeVRi2oBfXWDdQ77GUEzGUTl+jQxivFbyqfcCLKz9ht+j1tLO7WxHqfbRYQ+wAboALIcMY8JQgdLXamHNc7wekvjk+fwSzXTfq1too4MOAKKcvEoKKZGijwzKVR5b+fEwR+pIAyY/F5lc+6zMq5YOZeSEWRVUEVwgOmGREMF04=
 </code></pre>
             </section>
         </div>

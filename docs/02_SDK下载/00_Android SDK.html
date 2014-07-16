@@ -90,7 +90,7 @@
         <div class="wrapper">
             <section class="nav-page-content typo typo-selection" role="main">
                 <h1 id="gameservice-sdk-_v1-0-0">GameService SDK 说明文档_V1.0.0</h1>
-<p><a href="../../static/download/android.zip" target="_blank" class="sdk-download">下载服务端SDK</a></p>
+<p><a href="../../static/download/GameService 开发包 V1.0.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a></p>
 <hr>
 <h2 id="-sdk-">一、SDK包含内容</h2>
 <ul>
@@ -105,6 +105,8 @@
 <li><p>示例程序工程 samples</p>
 </li>
 <li><p>示例程序安装包 SDKSample_V1.0.0.apk</p>
+</li>
+<li><p>密钥生成工具 openssl</p>
 </li>
 </ul>
 <h2 id="-">二、项目配置</h2>
@@ -394,7 +396,7 @@ GameService.pay(this, order, new OnPayListener() {
 <pre><code>  GameService.onPay(Context context, String playerId, String payAmount)
 </code></pre></li>
 </ul>
-<h3 id="3-5-">3.5 推送服务开启和停止</h3>
+<h3 id="3-5-">3.5 推送服务</h3>
 <ul>
 <li><p>push服务初始化及绑定</p>
 <ul>
@@ -415,7 +417,18 @@ GameService.pay(this, order, new OnPayListener() {
 <li>功能： 为App进行属性标注，最大标签数100，使用时必须使用一致的charset，cid不能作为tag使用</li>
 <li>参数 <ul>
 <li>tags 你当前需要的标签集合</li>
-<li>charset 当前tags 的编码格式，不设置默认为‘UTF-8‘。         </li>
+<li>charset 当前tags 的编码格式，不设置默认为‘UTF-8‘</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>p2p消息发送（用于游戏内一个玩家给另外一个玩家发送消息）<ul>
+<li>方法： GameService.<strong>sendMsg</strong> (Context context, String fromPlayerId, String toPlayerId, String msg)</li>
+<li>功能： 用于游戏内一个玩家给另外一个玩家发送消息</li>
+<li>参数 <ul>
+<li>context 内容上下文</li>
+<li>fromPlayerId 发送者的id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）</li>
+<li>toPlayerId 信息接收用户id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）         </li>
 </ul>
 </li>
 </ul>
@@ -607,6 +620,18 @@ GameService.pay(this, order, new OnPayListener() {
     public void setSign(String sign) 
 }
 </code></pre><h2 id="-">五、交易签名</h2>
+<h3 id="-">密钥生成命令</h3>
+<pre><code>// 生成RSA私钥
+openssl&gt;genrsa -out rsa_private_key.pem 1024
+
+// 生成RSA公钥
+openssl&gt;rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+
+// 将RSA私钥转换成PKCS8格式
+openssl&gt;pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
+</code></pre><ul>
+<li>注意：“&gt;”符号后面的才是需要输入的命令。</li>
+</ul>
 <h3 id="-">需要参与签名的参数</h3>
 <ul>
 <li>在请求参数列表中，除去sign、payment参数外，其他需要使用到的参数皆是要签名的参数。</li>
@@ -635,7 +660,7 @@ GameService.pay(this, order, new OnPayListener() {
 即为待签名字符串。 </p>
 <p>注意：没有值的参数无需传递，也无需包含到待签名数据中；</p>
 <h3 id="rsa-">RSA签名</h3>
-<p>在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。 公钥、私钥暂时用支付宝的测试。</p>
+<p>在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。 </p>
 <ul>
 <li><p>请求时签名 当拿到请求时的待签名字符串后，把待签名字符串与客户的私钥一同放入RSA的签名函数中进行签名运算，从而得到签名结果字符串。</p>
 </li>
@@ -649,7 +674,6 @@ GameService.pay(this, order, new OnPayListener() {
 您可以在用 ant 构建混淆包的 build.xml 里面对应位置或者在工程的混淆配置文件里加入:</p>
 <p>-libraryjars libs/*.jar<br>-keep class com.gameservice.sdk.**<br>-keep class com.tgx.push.**<br>-keep class com.alipay.**</p>
 <p>以避免GameService的相关的 jar 包被混淆。</p>
-<h2 id="-faq">七、FAQ</h2>
 
             </section>
         </div>
