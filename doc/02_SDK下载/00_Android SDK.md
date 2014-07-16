@@ -1,6 +1,6 @@
 # GameService SDK 说明文档_V1.0.0 
 
-<a href="../../static/download/GameService 开发包 V1.0.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a>
+<a href="../../static/download/GameService 开发包 V1.0.0.zip" target="_blank" class="sdk-download">下载SDK</a>
 
 ------
 
