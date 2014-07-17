@@ -110,7 +110,7 @@
 </ul>
 <h2 id="-">验证获取用户信息</h2>
 <ul>
-<li>请求地址: <strong>GET /gc1/users/me</strong></li>
+<li>请求地址: <strong>GET /gc1/token_info</strong></li>
 <li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
 access_token 从客户端获取的access_token</li>
 <li><p>成功响应:</p>
@@ -118,8 +118,6 @@ access_token 从客户端获取的access_token</li>
 
   {
       &quot;id&quot;: &quot;用户id&quot;,
-      &quot;mobile_zone&quot;: &quot;国家区号&quot;,
-      &quot;mobile&quot;: &quot;手机号作为账号&quot;,
       &quot;name&quot;: &quot;用户名（全局唯一）&quot;,
       &quot;nick_name&quot;: &quot;昵称&quot;,
       &quot;ctime&quot;: &quot;创建时间&quot;,
