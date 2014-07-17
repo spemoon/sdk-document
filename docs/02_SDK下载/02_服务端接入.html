@@ -91,9 +91,8 @@
             <section class="nav-page-content typo typo-selection" role="main">
                 <p><a href="../../static/download/sdk_server_demo_v1.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a></p>
 <h2 id="-">环境</h2>
+<p>目前接入环境都是正式环境，接口请求地址前都需要加上环境。</p>
 <ul>
-<li>测试环境：<a href="/" title="测试环境"> http://dev.api.gameservice.com:8000 </a></li>
-<li>仿真环境：<a href="/" title="仿真环境"> http://test.api.gameservice.com </a></li>
 <li>正式环境：<a href="/" title="正式环境"> https://api.gameservice.com </a></li>
 </ul>
 <h3 id="sdk-">SDK测试:</h3>
@@ -110,9 +109,8 @@
 </ul>
 <h2 id="-">验证获取用户信息</h2>
 <ul>
-<li>请求地址: <strong>GET /gc1/oauth2/token_info</strong></li>
-<li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
-access_token 从客户端获取的access_token</li>
+<li>请求地址: <strong>GET /gc1/users/token_info</strong></li>
+<li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}<br>access_token 从客户端获取的access_token</li>
 <li><p>成功响应:</p>
 <pre><code>  //HTTP状态码200
 
