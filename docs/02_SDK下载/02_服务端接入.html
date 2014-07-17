@@ -144,8 +144,25 @@ access_token 从客户端获取的access_token</li>
 </ul>
 <pre><code>subject=测试商品名称&amp;body=测试商品名称&amp;app_user_id=0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&amp;app_user_name=角色名&amp;app_id=9&amp;amount=10&amp;order_id=20140715139304463057&amp;app_order_id=1405394642&amp;status=STATUS_SUCCESS&amp;create_time=1405394603&amp;payment_time=0&amp;notify_time=0&amp;sign=ipeVRi2oBfXWDdQ77GUEzGUTl+jQxivFbyqfcCLKz9ht+j1tLO7WxHqfbRYQ+wAboALIcMY8JQgdLXamHNc7wekvjk+fwSzXTfq1too4MOAKKcvEoKKZGijwzKVR5b+fEwR+pIAyY/F5lc+6zMq5YOZeSEWRVUEVwgOmGREMF04=
 </code></pre><ul>
-<li>成功响应：
-  根据status判断是否STATUS_SUCCESS，是处理相关业务后，直接输出 success，业务处理失败输出fail</li>
+<li><p>字段说明</p>
+<pre><code>  &quot;subject&quot;: &quot;商品名,字符串&quot;,
+  &quot;body&quot;: &quot;商品描述,字符串&quot;,
+  &quot;app_user_id&quot;: &quot;应用用户ID,字符串&quot;,
+  &quot;app_user_name&quot;: &quot;应用用户名,字符串&quot;,
+  &quot;app_id&quot;: &quot;应用ID,字符串&quot;,
+  &quot;amount&quot;: &quot;价格，单位分,整型&quot;,
+  &quot;order_id&quot;: &quot;平台订单号,字符串&quot;,
+  &quot;app_order_id&quot;: &quot;应用订单号,字符串&quot;,
+  &quot;status&quot;: &quot;订单状态，STATUS_SUCCESS 或 STATUS_FAIL&quot;,
+  &quot;create_time&quot;: &quot;创建UTC时间戳，整型&quot;,
+  &quot;payment_time&quot;: &quot;支付UTC时间戳，整型&quot;,
+  &quot;notify_time&quot;: &quot;通知UTC时间戳，整型&quot;,
+  &quot;ext&quot;: &quot;扩展信息，开发者选填，空时不传&quot;,
+  &quot;sign&quot;: &quot;签名，字符串&quot;,
+</code></pre></li>
+<li><p>成功响应：
+  根据status判断是否STATUS_SUCCESS，是处理相关业务后，直接输出 success，业务处理失败输出fail</p>
+</li>
 <li>失败响应:
   除了success以外，都认为是失败</li>
 </ul>
