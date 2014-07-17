@@ -1,6 +1,6 @@
 # GameService SDK 说明文档_V1.0.0 
 
-<a href="../../static/download/android.zip" target="_blank" class="sdk-download">下载服务端SDK</a>
+<a href="../../static/download/GameService 开发包 V1.0.0.zip" target="_blank" class="sdk-download">下载SDK</a>
 
 ------
 
@@ -15,6 +15,8 @@
 * 示例程序工程 samples
 
 * 示例程序安装包 SDKSample_V1.0.0.apk
+
+* 密钥生成工具 openssl
 
 ## 二、项目配置
 
@@ -51,32 +53,8 @@
 2.4 在主工程AndroidManifest中添加如下声明permission并做出相应替换：
 
 		<uses-permission android:name="android.permission.BATTERY_STATS" />
-		<uses-permission android:name="android.permission.INTERNET" />
-	    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-	    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-	    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-	    <uses-permission android:name="android.permission.VIBRATE" />
-	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-	    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />
-	    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
-	    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-	    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
-	    <uses-permission android:name="android.permission.READ_CALL_LOG" />
-	    <uses-permission android:name="android.permission.GET_TASKS" />
-	    <uses-permission android:name="android.permission.REORDER_TASKS" />
-	    <uses-permission android:name="android.permission.WAKE_LOCK" />
-	    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-	    <uses-permission android:name="android.permission.BLUETOOTH"/>
-	    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
-		<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-
-	    <uses-permission android:name="[your_prefix].android.permissions.SERVICE" />
-	    <uses-permission android:name="[your_prefix].android.permissions.CLIENT" />
-	    <uses-permission android:name="[your_prefix].android.permissions.VOTE" />
-		<permission android:name="[your_prefix].android.permissions.SERVICE" android:protectionLevel="normal" />
-	    <permission android:name="[your_prefix].android.permissions.CLIENT" android:protectionLevel="normal" />
-	    <permission android:name="[your_prefix].android.permissions.VOTE" android:protectionLevel="normal" />
+		<uses-permission android:name="android.permission.INTERNET" />	    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />	    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />	    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />	    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />	    <uses-permission android:name="android.permission.VIBRATE" />	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />	    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />	    <uses-permission android:name="android.permission.BROADCAST_STICKY" />	    <uses-permission android:name="android.permission.READ_PHONE_STATE" />	    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />	    <uses-permission android:name="android.permission.READ_CALL_LOG" />	    <uses-permission android:name="android.permission.GET_TASKS" />	    <uses-permission android:name="android.permission.REORDER_TASKS" />	    <uses-permission android:name="android.permission.WAKE_LOCK" />	    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>	    <uses-permission android:name="android.permission.BLUETOOTH"/>	    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />		<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
+	    <uses-permission android:name="[your_prefix].android.permissions.SERVICE" />	    <uses-permission android:name="[your_prefix].android.permissions.CLIENT" />	    <uses-permission android:name="[your_prefix].android.permissions.VOTE" />		<permission android:name="[your_prefix].android.permissions.SERVICE" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.CLIENT" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.VOTE" android:protectionLevel="normal" />
 	
 * 将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)，如：ngds，须和pushsdk_thirdparty_string.xml中的设置保持一致。
 
@@ -163,24 +141,7 @@
             android:theme="@android:style/Theme.NoTitleBar" />
             
         <!--push-->
-		<service
-		    android:name="com.tgx.push.sdk.MasterService"
-		    android:permission="[your_prefix].android.permissions.SERVICE">
-		      <intent-filter>
-		          <action android:name="[your_prefix].intent.protect.service.action.START" />
-		      </intent-filter>
-		 </service>
-		 <service android:name="com.tgx.push.sdk.SdkService" />
-		 <receiver
-		    android:name="com.tgx.push.sdk.AutoConsultReceiver"
-		    android:permission="[your_prefix].android.permissions.VOTE">
-		      <intent-filter android:priority="1" >
-		           <action android:name="[your_prefix].intent.opensdk.action.VOTE" />
-		           <data android:host="[your_host]" android:scheme="[your_prefix]" />
-		      </intent-filter>
-		 </receiver>
-		     
-		 <receiver android:name="com.gameservice.sdk.util.NgdsStaticReceiver">
+		<service		    android:name="com.tgx.push.sdk.MasterService"		    android:permission="[your_prefix].android.permissions.SERVICE">		      <intent-filter>		          <action android:name="[your_prefix].intent.protect.service.action.START" />		      </intent-filter>		 </service>		 <service android:name="com.tgx.push.sdk.SdkService" />		 <receiver		    android:name="com.tgx.push.sdk.AutoConsultReceiver"		    android:permission="[your_prefix].android.permissions.VOTE">		      <intent-filter android:priority="1" >		           <action android:name="[your_prefix].intent.opensdk.action.VOTE" />		           <data android:host="[your_host]" android:scheme="[your_prefix]" />		      </intent-filter>		 </receiver>		     		 <receiver android:name="com.gameservice.sdk.util.NgdsStaticReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
@@ -327,7 +288,7 @@
 		GameService.onPay(Context context, String playerId, String payAmount)
 
 
-### 3.5 推送服务开启和停止
+### 3.5 推送服务
 + push服务初始化及绑定
 	+ 方法： GameService.**startPushService** (Context ctx) 
 	+ 功能： 完成push服务的初始化工作，以及与MasterService的自动绑定工作。当masterService第一次启动完成登录操作。
@@ -342,7 +303,14 @@
 	+ 功能： 为App进行属性标注，最大标签数100，使用时必须使用一致的charset，cid不能作为tag使用
 	+ 参数 
 		 + tags 你当前需要的标签集合
-		 + charset 当前tags 的编码格式，不设置默认为‘UTF-8‘。		 
+		 + charset 当前tags 的编码格式，不设置默认为‘UTF-8‘
++ p2p消息发送（用于游戏内一个玩家给另外一个玩家发送消息）
+	+ 方法： GameService.**sendMsg** (Context context, String fromPlayerId, String toPlayerId, String msg)
+	+ 功能： 用于游戏内一个玩家给另外一个玩家发送消息
+	+ 参数 
+		 + context 内容上下文
+		 + fromPlayerId 发送者的id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）
+		 + toPlayerId 信息接收用户id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）		 
 
 #####AbstractMsgReceiver（消息接收父类）
 
@@ -512,6 +480,17 @@
     }
 
 ## 五、交易签名
+### 密钥生成命令
+	// 生成RSA私钥
+	openssl>genrsa -out rsa_private_key.pem 1024
+	
+	// 生成RSA公钥
+	openssl>rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
+	
+	// 将RSA私钥转换成PKCS8格式
+	openssl>pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
+	
+* 注意：“>”符号后面的才是需要输入的命令。
 
 ### 需要参与签名的参数
 
@@ -548,7 +527,7 @@ amount=2&app_id=1&app_order_id=201404250461774836&app_user_id=123&app_user_name=
 
 ### RSA签名
 
-在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。 公钥、私钥暂时用支付宝的测试。
+在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。 
 
 * 请求时签名 当拿到请求时的待签名字符串后，把待签名字符串与客户的私钥一同放入RSA的签名函数中进行签名运算，从而得到签名结果字符串。
 
@@ -567,8 +546,6 @@ GameService的SDK 包是以 jar 包及资源文件提供给用户的,您在混�
 -keep class com.alipay.\*\*
         
 以避免GameService的相关的 jar 包被混淆。
-
-## 七、FAQ
 
 
 
