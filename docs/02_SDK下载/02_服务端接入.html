@@ -108,6 +108,35 @@
 <li><p>CHANNEL_ID = 14</p>
 </li>
 </ul>
+<h2 id="-">验证获取用户信息</h2>
+<ul>
+<li>请求地址: <strong>GET /gc1/users/me</strong></li>
+<li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
+access_token 从客户端获取的access_token</li>
+<li><p>成功响应:</p>
+<pre><code>  //HTTP状态码200
+
+  {
+      &quot;id&quot;: &quot;用户id&quot;,
+      &quot;mobile_zone&quot;: &quot;国家区号&quot;,
+      &quot;mobile&quot;: &quot;手机号作为账号&quot;,
+      &quot;name&quot;: &quot;用户名（全局唯一）&quot;,
+      &quot;nick_name&quot;: &quot;昵称&quot;,
+      &quot;ctime&quot;: &quot;创建时间&quot;,
+      &quot;avatar_url&quot;: &quot;头像地址&quot;
+  }
+</code></pre></li>
+<li><p>失败响应：</p>
+<pre><code>  //HTTP状态码403
+
+  {
+      &quot;meta&quot;:
+      {
+          &quot;code&quot;: 403 # 没有权限
+      }
+  }
+</code></pre></li>
+</ul>
 <h2 id="-">开发者服务器回调</h2>
 <ul>
 <li>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></li>
