@@ -1,20 +1,23 @@
-<h1 class="nav-title">API文档</h1>
+<ul>
 <%
     var list = indexs;
+//    console.log(config);
     var iterator = (function(list) {
         list.forEach(function(item, index) {
             if (item.children.length != 0) {
 %>
                 <li <%if(item['active']) {%>class="active"<%}%>>
-                    <a href="<%=item['children'][0]['url']%>"><%=item.xname%>
+                    <a href="<%=item['children'][0]['url']%>"><%=config[item.xname]%>
                         <i class="disclosure"></i>
                     </a>
                     <ul>
                     <%
                         item.children.forEach(function(sitem, index) {
                             if (sitem.children.length == 0) {
+//                        console.log(sitem['url']);
+                        sitem['url'] = sitem['url'].replace(/[0-9]{2}_/g,'');
                     %>
-                            <li <%if(sitem['active']) {%>class="active"<%}%>><a <%if(sitem['active']) {%>class="nav-title-active"<%}%> href="<%=sitem['url']%>"><%=sitem.xname%></a></li>
+                            <li <%if(sitem['active']) {%>class="active"<%}%>><a <%if(sitem['active']) {%>class="nav-title-active"<%}%> href="<%=sitem['url']%>"><%=config[sitem.xname]%></a></li>
                     <%
                             } else {
                                 iterator(sitem.children);
@@ -32,3 +35,4 @@
         });
     })(list);
 %>
+</ul>
