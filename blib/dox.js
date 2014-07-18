@@ -37,6 +37,21 @@ var getTemplates = function (skin, input) {
     return templates;
 };
 
+var config = {
+    'platform':'平台基本概述',
+    'overview':'平台概述',
+    'agreement':'开发者协议',
+    'publish':'应用上线流程',
+    'abort':'应用下线流程',
+    'apps':'应用接入',
+    'access':'接入流程',
+    'audit':'通用包审核标准',
+    'distribution':'渠道包生成和分发',
+    'sdk':'SDK下载',
+    'Android-SDK':'Android SDK',
+    'iOS-SDK':'iOS SDK',
+    'server':'服务端接入'
+};
 
 var readFolder = (function(){
     function iterator(item, tree){
@@ -148,6 +163,8 @@ exports.process = function (input, output, skin, dir) {
         list.forEach(function(item) {
             if (item.children.length > 0) {
                 var folderUrl = (item.path.replace(/\.(\w+)$/, '')).replace(libDir, output);
+                folderUrl = folderUrl.replace(/[0-9]{2}_/g,'');
+//                console.log(folderUrl);
                 if (!fs.existsSync(folderUrl)) {
                     fs.mkdirSync(folderUrl);
                 }
@@ -157,9 +174,11 @@ exports.process = function (input, output, skin, dir) {
                         item['active'] = true;
                         sitem['active'] = true;
                         sitem['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, obj.docsurl);
+                        sitem['url'] = sitem['url'].replace(/[0-9]{2}_/g,'');//去掉00_
                         var text = decoder.write(fs.readFileSync(sitem.path));
                         obj.content = markdown(text);
-                        console.log(obj.content);
+                        htmlUrl = htmlUrl.replace(/[0-9]{2}_/g,'');//去掉00_
+                        obj.config = config;
                         fs.writeFileSync(htmlUrl, ejs.render(doc, obj), 'utf8');
                         item['active'] = false;
                         sitem['active'] = false;
@@ -173,6 +192,7 @@ exports.process = function (input, output, skin, dir) {
                 item['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, obj.docsurl);
                 var text = decoder.write(fs.readFileSync(item.path));
                 obj.content = markdown(text);
+
                 fs.writeFileSync(htmlUrl, ejs.render(doc, obj), 'utf8');
                 sitem['active'] = false;
             }

@@ -1,5 +1,8 @@
 
+# 服务端接入 说明文档_V1.0.0 
+
 <a href="../../static/download/sdk_server_demo_v1.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a>
+
 
 ## 环境
 目前接入环境都是正式环境，接口请求地址前都需要加上环境。
@@ -26,11 +29,14 @@
         //HTTP状态码200
         
         {
-            "id": "用户id",
-            "name": "用户名（全局唯一）",
-            "nick_name": "昵称",
-            "ctime": "创建时间",
-            "avatar_url": "头像地址"
+            "data":
+            {
+                "id": "用户id",
+                "name": "用户名（全局唯一）",
+                "nick_name": "昵称",
+                "ctime": "创建时间",
+                "avatar_url": "头像地址"
+            }
         }
 
 - 失败响应：
