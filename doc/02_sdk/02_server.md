@@ -23,20 +23,24 @@
 
 - 请求地址: **GET /gc1/oauth2/token_info**
 - 是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
+
     {{access_token}} 代表从客户端获取的access_token
 - 成功响应:
 
         //HTTP状态码200
         
         {
-            "data":
-            {
-                "id": "用户id",
-                "name": "用户名（全局唯一）",
-                "nick_name": "昵称",
-                "ctime": "创建时间",
-                "avatar_url": "头像地址"
-            }
+		    "client": 
+		    {
+		        "id": "应用id"
+		    },
+		    "user": //此字段可选，access_token是用户认证时
+		    {
+		        "id": "用户id",
+		        "name": "用户名",
+		        "nick_name": "昵称",
+		        "avatar_url": "头像地址"
+		    }
         }
 
 - 失败响应：
@@ -50,21 +54,15 @@
             }
         }
         
-	2.HTTP状态码400，错误有2种，grant type错误 或 账号不存在，响应如下：
+	2.HTTP状态码400，错误只有1种，账号不存在，响应如下：
         
         {
             "meta":
             {
-                "code": 1002,
-                "message": "grant type错误"
+                "code": 2002,
+                "message": "账号不存在"
             }
         }
-
-        
-    | code |  message      |
-    | ----:| -------------:|
-    |1002  | grant type错误 |
-    |2002  | 账号不存在      |
 
 
 ## 开发者服务器回调
