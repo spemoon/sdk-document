@@ -22,8 +22,8 @@
 ## 验证获取用户信息
 
 - 请求地址: **GET /gc1/oauth2/token_info**
-- 是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}   
-  access_token 从客户端获取的access_token
+- 是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
+    {{access_token}} 代表从客户端获取的access_token
 - 成功响应:
 
         //HTTP状态码200
@@ -41,7 +41,7 @@
 
 - 失败响应：
 
-        //HTTP状态码403
+	1.HTTP状态码403,错误只有1种，没有权限，响应如下：
         
         {
             "meta":
@@ -49,9 +49,29 @@
                 "code": 403 # 没有权限
             }
         }
+        
+	2.HTTP状态码400，错误有2种，grant type错误 或 账号不存在，响应如下：
+        
+        {
+            "meta":
+            {
+                "code": 1002,
+                "message": "grant type错误"
+            }
+        }
+
+        
+    | code |  message      |
+    | ----:| -------------:|
+    |1002  | grant type错误 |
+    |2002  | 账号不存在      |
+
 
 ## 开发者服务器回调
 - 请求地址：**POST {{生成订单传的notify_url}} **
+
+    {{生成订单传的notify_url}} 表示在生成订单时客户端提交的回调地址
+
 - 请求内容：
 
 
