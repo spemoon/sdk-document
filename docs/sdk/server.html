@@ -112,18 +112,22 @@
 <h2 id="-">验证获取用户信息</h2>
 <ul>
 <li>请求地址: <strong>GET /gc1/oauth2/token_info</strong></li>
-<li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
-  {{access_token}} 代表从客户端获取的access_token</li>
+<li><p>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}</p>
+<p>  {{access_token}} 代表从客户端获取的access_token</p>
+</li>
 <li><p>成功响应:</p>
 <pre><code>  //HTTP状态码200
 
   {
-      &quot;data&quot;:
+      &quot;client&quot;: 
+      {
+          &quot;id&quot;: &quot;应用id&quot;
+      },
+      &quot;user&quot;: //此字段可选，access_token是用户认证时
       {
           &quot;id&quot;: &quot;用户id&quot;,
-          &quot;name&quot;: &quot;用户名（全局唯一）&quot;,
+          &quot;name&quot;: &quot;用户名&quot;,
           &quot;nick_name&quot;: &quot;昵称&quot;,
-          &quot;ctime&quot;: &quot;创建时间&quot;,
           &quot;avatar_url&quot;: &quot;头像地址&quot;
       }
   }
@@ -136,21 +140,17 @@
           &quot;code&quot;: 403 # 没有权限
       }
   }
-</code></pre><p>  2.HTTP状态码400，错误有2种，grant type错误 或 账号不存在，响应如下：</p>
+</code></pre><p>  2.HTTP状态码400，错误只有1种，账号不存在，响应如下：</p>
 <pre><code>  {
       &quot;meta&quot;:
       {
-          &quot;code&quot;: 1002,
-          &quot;message&quot;: &quot;grant type错误&quot;
+          &quot;code&quot;: 2002,
+          &quot;message&quot;: &quot;账号不存在&quot;
       }
   }
 </code></pre></li>
 </ul>
-<pre><code>| code |  message      |
-| ----:| -------------:|
-|1002  | grant type错误 |
-|2002  | 账号不存在      |
-</code></pre><h2 id="-">开发者服务器回调</h2>
+<h2 id="-">开发者服务器回调</h2>
 <ul>
 <li><p>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></p>
 <p>  {{生成订单传的notify_url}} 表示在生成订单时客户端提交的回调地址</p>
