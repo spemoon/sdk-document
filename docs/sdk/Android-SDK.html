@@ -342,14 +342,39 @@ SDK提供了3中认证方式：手机认证登陆、QQ第3方登陆、新浪微�
 <pre><code>  GameService.login(Context context, boolean enableSkip, OnLoginListener listener)
 </code></pre></li>
 <li><p>参数说明：</p>
-<p>  | 参数名称           | 说明                        |
-  | -----------------    |--------------------------|
-  | context            | 上下文句柄                   |
-  | enableSkip         | 是否允许跳过登录：         |
-  |             | true 允许，登录选择页面会出现跳过按钮；           |
-  |             | false 不允许，登录选择页面不会出现跳过按钮；              |
-  | listener         | 登录回调函数               |</p>
 </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>context</td>
+<td>上下文句柄</td>
+</tr>
+<tr>
+<td>enableSkip</td>
+<td>是否允许跳过登录：</td>
+</tr>
+<tr>
+<td></td>
+<td>true 允许，登录选择页面会出现跳过按钮；</td>
+</tr>
+<tr>
+<td></td>
+<td>false 不允许，登录选择页面不会出现跳过按钮；</td>
+</tr>
+<tr>
+<td>listener</td>
+<td>登录回调函数</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li><p>调用示例：</p>
 <pre><code>  GameService.login(MainActivity.this, false, new OnLoginListener() {
      @Override
@@ -386,12 +411,31 @@ SDK提供了银行卡、充值卡、支付宝登录多种支付方式。调用�
 <pre><code>  GameService.pay(Context context, Order order, OnPayListener listener)
 </code></pre></li>
 <li><p>参数说明：</p>
-<p>  | 参数名称           | 说明                        |
-  | -----------------    |--------------------------|
-  | context            | 上下文句柄                   |
-  | order             | 业务订单信息         |
-  | listener            | 支付回调函数           |</p>
 </li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>参数名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>context</td>
+<td>上下文句柄</td>
+</tr>
+<tr>
+<td>order</td>
+<td>业务订单信息</td>
+</tr>
+<tr>
+<td>listener</td>
+<td>支付回调函数</td>
+</tr>
+</tbody>
+</table>
+<ul>
 <li><p>调用示例：</p>
 <pre><code>  Order order = testOrder();
   String orderStr = getOrderString(order);

@@ -146,11 +146,25 @@
   }
 </code></pre></li>
 </ul>
-<pre><code>| code |  message      |
-| ----:| -------------:|
-|1002  | grant type错误 |
-|2002  | 账号不存在      |
-</code></pre><h2 id="-">开发者服务器回调</h2>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1002</td>
+<td>grant type错误</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>账号不存在</td>
+</tr>
+</tbody>
+</table>
+<h2 id="-">开发者服务器回调</h2>
 <ul>
 <li><p>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></p>
 <p>  {{生成订单传的notify_url}} 表示在生成订单时客户端提交的回调地址</p>
