@@ -5,6 +5,7 @@
     var iterator = (function(list) {
         list.forEach(function(item, index) {
             if (item.children.length != 0) {
+            item['children'][0]['url'] = item['children'][0]['url'].replace(/[0-9]{2}_/g,'')
 %>
                 <li <%if(item['active']) {%>class="active"<%}%>>
                     <a href="<%=item['children'][0]['url']%>"><%=config[item.xname]%>
