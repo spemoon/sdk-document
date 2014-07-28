@@ -42,20 +42,20 @@
         $('.nav-page-content').prepend(navHtml);
         var sidebar = $('.sidebar');
         $(window).on('scroll', function () {
-            scrollTop = $(this).scrollTop();
-
-            if (scrollTop > 62) {
-                sidebar.css({'position': 'fixed', 'top': '0'});
-            } else {
-                console.log(scrollTop);
-                sidebar.css({'position': 'absolute','top':62});
-            }
+            var scrollTop = $(this).scrollTop();
+//            console.log(scrollTop);
+//            if (scrollTop > 62) {
+//                sidebar.css({'position': 'fixed', 'top': '0'});
+//            }
+//            else {
+//                sidebar.css({'position': 'absolute', 'top': scrollTop});
+//            }
             if (scrollTop > $(this).height()) {
                 $('#btn_top').show();
             } else {
                 $('#btn_top').hide();
             }
-        })
+        });
     });
 </script>
 </body>

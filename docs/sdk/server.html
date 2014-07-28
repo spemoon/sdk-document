@@ -19,14 +19,15 @@
     <script src="../../templates/default/assets/jquery-1.8.2.min.js"></script>
 </head>
 <body>
-<div class="outer-wrapper">
-    <header class="top-bar top-bar-new">
-        <div class="top-bar-wrapper">
-            <div class="top-bar-left">
-                <h1 class="logo"><a href="#">文档中心</a></h1>
-            </div>
+<div class="top-bar top-bar-new">
+    <div class="top-bar-wrapper">
+        <div class="top-bar-left">
+            <h1 class="logo"><a href="#">文档中心</a></h1>
         </div>
-    </header>
+    </div>
+</div>
+<div class="outer-wrapper">
+
 <div class="sidebar">
     <div class="wrapper">
         <nav class="sidebar-nav">
@@ -89,7 +90,7 @@
 </div>
 <div class="main">
     <div class="wrapper">
-        <section class="nav-page-content typo typo-selection" role="main">
+        <div class="nav-page-content typo typo-selection" role="main">
             <h1 id="-_v1-0-0">服务端接入 说明文档_V1.0.0</h1>
 <p><a href="../../static/download/sdk_server_demo_v1.0.zip" target="_blank" class="sdk-download">下载服务端SDK</a></p>
 <h2 id="-">环境</h2>
@@ -111,37 +112,66 @@
 </ul>
 <h2 id="-">验证获取用户信息</h2>
 <ul>
-<li>请求地址: <strong>GET /gc1/users/token_info</strong></li>
-<li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}<br>access_token 从客户端获取的access_token</li>
+<li>请求地址: <strong>GET /gc1/oauth2/token_info</strong></li>
+<li>是否认证: 是，在HTTP头需要设置Authorization: Bearer {{access_token}}
+  {{access_token}} 代表从客户端获取的access_token</li>
 <li><p>成功响应:</p>
 <pre><code>  //HTTP状态码200
 
   {
       &quot;data&quot;:
       {
-          &quot;id&quot;: &quot;用户id&quot;,
-          &quot;name&quot;: &quot;用户名（全局唯一）&quot;,
-          &quot;nick_name&quot;: &quot;昵称&quot;,
-          &quot;ctime&quot;: &quot;创建时间&quot;,
-          &quot;avatar_url&quot;: &quot;头像地址&quot;
+          &quot;id&quot;: &quot;用户id,长整型&quot;,
+          &quot;name&quot;: &quot;用户名（全局唯一），字符串&quot;,
+          &quot;nick_name&quot;: &quot;昵称，字符串&quot;,
+          &quot;ctime&quot;: &quot;创建时间戳，整型&quot;,
+          &quot;avatar_url&quot;: &quot;头像地址，字符串&quot;
       }
   }
 </code></pre></li>
 <li><p>失败响应：</p>
-<pre><code>  //HTTP状态码403
-
-  {
+<p>  1.HTTP状态码403,错误只有1种，没有权限，响应如下：</p>
+<pre><code>  {
       &quot;meta&quot;:
       {
           &quot;code&quot;: 403 # 没有权限
       }
   }
+</code></pre><p>  2.HTTP状态码400，错误有2种，grant type错误 或 账号不存在，响应如下：</p>
+<pre><code>  {
+      &quot;meta&quot;:
+      {
+          &quot;code&quot;: 1002,
+          &quot;message&quot;: &quot;grant type错误&quot;
+      }
+  }
 </code></pre></li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>code</th>
+<th>message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1002</td>
+<td>grant type错误</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>账号不存在</td>
+</tr>
+</tbody>
+</table>
 <h2 id="-">开发者服务器回调</h2>
 <ul>
-<li>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></li>
-<li>请求内容：</li>
+<li><p>请求地址：<strong>POST {{生成订单传的notify_url}} </strong></p>
+<p>  {{生成订单传的notify_url}} 表示在生成订单时客户端提交的回调地址</p>
+</li>
+<li><p>请求内容：</p>
+</li>
 </ul>
 <pre><code>subject=测试商品名称&amp;body=测试商品名称&amp;app_user_id=0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&amp;app_user_name=角色名&amp;app_id=9&amp;amount=10&amp;order_id=20140715139304463057&amp;app_order_id=1405394642&amp;status=STATUS_SUCCESS&amp;create_time=1405394603&amp;payment_time=0&amp;notify_time=0&amp;sign=ipeVRi2oBfXWDdQ77GUEzGUTl+jQxivFbyqfcCLKz9ht+j1tLO7WxHqfbRYQ+wAboALIcMY8JQgdLXamHNc7wekvjk+fwSzXTfq1too4MOAKKcvEoKKZGijwzKVR5b+fEwR+pIAyY/F5lc+6zMq5YOZeSEWRVUEVwgOmGREMF04=
 </code></pre><ul>
@@ -212,7 +242,7 @@
 <p>例如上例中签名结果为</p>
 <pre><code>ipeVRi2oBfXWDdQ77GUEzGUTl+jQxivFbyqfcCLKz9ht+j1tLO7WxHqfbRYQ+wAboALIcMY8JQgdLXamHNc7wekvjk+fwSzXTfq1too4MOAKKcvEoKKZGijwzKVR5b+fEwR+pIAyY/F5lc+6zMq5YOZeSEWRVUEVwgOmGREMF04=
 </code></pre>
-        </section>
+        </div>
     </div>
 </div>
 </div>
@@ -260,20 +290,20 @@
         $('.nav-page-content').prepend(navHtml);
         var sidebar = $('.sidebar');
         $(window).on('scroll', function () {
-            scrollTop = $(this).scrollTop();
-
-            if (scrollTop > 62) {
-                sidebar.css({'position': 'fixed', 'top': '0'});
-            } else {
-                console.log(scrollTop);
-                sidebar.css({'position': 'absolute','top':62});
-            }
+            var scrollTop = $(this).scrollTop();
+//            console.log(scrollTop);
+//            if (scrollTop > 62) {
+//                sidebar.css({'position': 'fixed', 'top': '0'});
+//            }
+//            else {
+//                sidebar.css({'position': 'absolute', 'top': scrollTop});
+//            }
             if (scrollTop > $(this).height()) {
                 $('#btn_top').show();
             } else {
                 $('#btn_top').hide();
             }
-        })
+        });
     });
 </script>
 </body>
