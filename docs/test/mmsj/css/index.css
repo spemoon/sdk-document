@@ -1,0 +1,430 @@
+/* line 1, ../scss/_reset.scss */
+.clearfix:before, .clearfix:after {
+  content: "";
+  display: table;
+}
+
+/* line 1, ../scss/_reset.scss */
+.clearfix:after {
+  clear: both;
+}
+
+/* line 1, ../scss/_reset.scss */
+html, body {
+  height: 100%;
+}
+
+/* line 1, ../scss/_reset.scss */
+html {
+  font-family: "Helvetica Neue",Helvetica,STHeiTi,Arial,sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  font-size: 62.5%;
+}
+
+/* line 1, ../scss/_reset.scss */
+body {
+  margin: 0;
+  font-size: 1.4rem;
+  line-height: 1.5;
+  color: #333;
+  background-color: #fff;
+}
+
+/* line 1, ../scss/_reset.scss */
+article, aside, details, figcaption, figure, footer, header, hgroup, main, nav, section, summary {
+  display: block;
+}
+
+/* line 1, ../scss/_reset.scss */
+audio, canvas, progress, video {
+  display: inline-block;
+  vertical-align: baseline;
+}
+
+/* line 1, ../scss/_reset.scss */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+[hidden], template {
+  display: none;
+}
+
+/* line 1, ../scss/_reset.scss */
+a {
+  background: transparent;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+  color: #08c;
+}
+
+/* line 1, ../scss/_reset.scss */
+a:active {
+  outline: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+a:active {
+  color: #069;
+}
+
+/* line 1, ../scss/_reset.scss */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+
+/* line 1, ../scss/_reset.scss */
+b, strong {
+  font-weight: bold;
+}
+
+/* line 1, ../scss/_reset.scss */
+dfn {
+  font-style: italic;
+}
+
+/* line 1, ../scss/_reset.scss */
+mark {
+  background: #ff0;
+  color: #000;
+}
+
+/* line 1, ../scss/_reset.scss */
+small {
+  font-size: 80%;
+}
+
+/* line 1, ../scss/_reset.scss */
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+/* line 1, ../scss/_reset.scss */
+sup {
+  top: -0.5em;
+}
+
+/* line 1, ../scss/_reset.scss */
+sub {
+  bottom: -0.25em;
+}
+
+/* line 1, ../scss/_reset.scss */
+img {
+  border: 0;
+  vertical-align: middle;
+}
+
+/* line 1, ../scss/_reset.scss */
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* line 1, ../scss/_reset.scss */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+pre {
+  overflow: auto;
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+/* line 1, ../scss/_reset.scss */
+code, kbd, pre, samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+/* line 1, ../scss/_reset.scss */
+button, input, optgroup, select, textarea {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+button {
+  overflow: visible;
+}
+
+/* line 1, ../scss/_reset.scss */
+button, select {
+  text-transform: none;
+}
+
+/* line 1, ../scss/_reset.scss */
+button, html input[type="button"], input[type="reset"], input[type="submit"] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+/* line 1, ../scss/_reset.scss */
+button[disabled], html input[disabled] {
+  cursor: default;
+}
+
+/* line 1, ../scss/_reset.scss */
+button::-moz-focus-inner, input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+input {
+  line-height: normal;
+}
+
+/* line 1, ../scss/_reset.scss */
+input[type="checkbox"], input[type="radio"] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/* line 1, ../scss/_reset.scss */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 1, ../scss/_reset.scss */
+input[type="search"]::-webkit-search-cancel-button, input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/* line 1, ../scss/_reset.scss */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/* line 1, ../scss/_reset.scss */
+legend {
+  border: 0;
+  padding: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+/* line 1, ../scss/_reset.scss */
+optgroup {
+  font-weight: bold;
+}
+
+/* line 1, ../scss/_reset.scss */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+td, th {
+  padding: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+html, button, input, select, textarea {
+  font-family: "Helvetica Neue",Helvetica,STHeiTi,Arial,sans-serif;
+}
+
+/* line 1, ../scss/_reset.scss */
+h1, h2, h3, h4, h5, h6, p, figure, form, blockquote {
+  margin: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+ul, ol, li, dl, dd {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 1, ../scss/_reset.scss */
+ul, ol {
+  list-style: none outside none;
+}
+
+/* line 1, ../scss/_reset.scss */
+h1, h2, h3 {
+  line-height: 2;
+  font-weight: normal;
+}
+
+/* line 1, ../scss/_reset.scss */
+h1 {
+  font-size: 1.8rem;
+}
+
+/* line 1, ../scss/_reset.scss */
+h2 {
+  font-size: 1.6rem;
+}
+
+/* line 1, ../scss/_reset.scss */
+h3 {
+  font-size: 1.4rem;
+}
+
+/* line 1, ../scss/_reset.scss */
+input::-moz-placeholder, textarea::-moz-placeholder {
+  color: #ccc;
+}
+
+/* line 1, ../scss/_reset.scss */
+input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+  color: #ccc;
+}
+
+/* line 1, ../scss/_reset.scss */
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+  color: #ccc;
+}
+
+/* line 1, ../scss/_reset.scss */
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* line 3, ../scss/index.scss */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* line 8, ../scss/index.scss */
+body {
+  overflow-x: hidden;
+  font-size: 62.5%;
+}
+
+/* line 13, ../scss/index.scss */
+.header {
+  border-top: 1px solid #d3d1d1;
+  padding: 36px 0 0 182px;
+  position: relative;
+}
+/* line 17, ../scss/index.scss */
+.header img {
+  position: absolute;
+  left: 42px;
+}
+/* line 21, ../scss/index.scss */
+.header h3 {
+  font-size: 28px;
+  font-size: 2.8rem;
+  font-weight: 700;
+}
+/* line 26, ../scss/index.scss */
+.header p {
+  color: #646464;
+  line-height: 24px;
+}
+/* line 28, ../scss/index.scss */
+.header p label {
+  color: #bababa;
+}
+/* line 33, ../scss/index.scss */
+.header .star {
+  width: 124px;
+  height: 22px;
+  background: url(../images/bg.png) no-repeat;
+}
+/* line 38, ../scss/index.scss */
+.header .size {
+  padding-top: 8px;
+  font-size: 22px;
+  font-size: 2.2rem;
+}
+/* line 43, ../scss/index.scss */
+.header .btn-download {
+  position: absolute;
+  left: 460px;
+  top: 70px;
+  width: 160px;
+  height: 56px;
+  line-height: 56px;
+  color: #fff;
+  font-size: 22px;
+  font-size: 2.2rem;
+  border-radius: 28px;
+  text-indent: 80px;
+  background: url(../images/bg.png) no-repeat -60px -55px #ff6927;
+}
+
+/* line 58, ../scss/index.scss */
+.album {
+  padding: 30px 0 0 0;
+}
+/* line 60, ../scss/index.scss */
+.album h3 {
+  font-size: 28px;
+  font-size: 2.8rem;
+  font-weight: 700;
+  height: 72px;
+  padding-bottom: 30px;
+  text-indent: 42px;
+  margin-bottom: 20px;
+  background: url(../images/shadow.png) repeat-x left bottom;
+  position: relative;
+}
+/* line 70, ../scss/index.scss */
+.album h3 .icon-arrow {
+  display: inline-block;
+  width: 32px;
+  height: 26px;
+  position: absolute;
+  left: 90px;
+  bottom: 1px;
+  background: url(../images/bg.png) no-repeat left bottom;
+}
+
+/* line 81, ../scss/index.scss */
+.photo-wrap {
+  padding: 0 20px;
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+/* line 85, ../scss/index.scss */
+.photo-wrap img {
+  margin-right: 20px;
+}
+
+/* line 89, ../scss/index.scss */
+.detail {
+  padding: 36px 42px;
+}
+/* line 91, ../scss/index.scss */
+.detail h4 {
+  font-size: 28px;
+  font-size: 2.8rem;
+  line-height: 1.8;
+}
+/* line 96, ../scss/index.scss */
+.detail p {
+  font-size: 24px;
+  font-size: 2.4rem;
+}
