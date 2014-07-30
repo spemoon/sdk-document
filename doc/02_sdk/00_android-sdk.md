@@ -1,11 +1,11 @@
-# GameService SDK 说明文档_V1.0.1 
+# GameService SDK 说明文档_V1.0.2 
 ------
 
-<a href="../../static/download/GameService_Sdk_Bundle_V1.0.1.zip" target="_blank" class="sdk-download">下载Android SDK</a>
+<a href="../../static/download/GameService_Sdk_Bundle_V1.0.2.zip" target="_blank" class="sdk-download">下载Android SDK</a>
 
 ## 一、SDK包含内容
 
-* GameService SDK 说明文档_V1.0.1.pdf
+* GameService SDK 说明文档_V1.0.2.pdf
 
 * 依赖工程 library
   * PushSDK_Release
@@ -13,7 +13,7 @@
   
 * 示例程序工程 samples
 
-* 示例程序安装包 SDKSample_V1.0.1.apk
+* 示例程序安装包 SDKSample_V1.0.2.apk
 
 * 密钥生成工具 openssl
 
