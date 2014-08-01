@@ -91,7 +91,155 @@
 <div class="main">
     <div class="wrapper">
         <div class="nav-page-content typo typo-selection" role="main">
-            <h1 id="ios-sdk">iOS SDK</h1>
+            <h1 id="gameservice-ios-sdk-v1-0-0">GameService iOS SDK 说明文档 V1.0.0</h1>
+<p><a href="../../static/download/GameService_iOS_SDK V1.0.0.zip" target="_blank" class="sdk-download">下载iOS SDK</a></p>
+<hr>
+<h2 id="1-sdk-">1、SDK构成</h2>
+<ol>
+<li>静态库 libGameService.a</li>
+<li>头文件: NGGameService.h, NGNotifications.h, NGPaymentController.h</li>
+<li>资源文件 GameServiceResource.bundle </li>
+<li>Demo工程</li>
+</ol>
+<p>GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。</p>
+<h2 id="2-">2、项目配置</h2>
+<h3 id="2-1-">2.1 添加链接参数</h3>
+<p>在工程target的&quot;Build Settings&quot;中，找到&quot;Linking&quot;的&quot;Other Linker Flags&quot;，添加参数<code>-ObjC</code>。
+<img src="./01_iOS-SDK-Files/linker.png" alt=""></p>
+<h3 id="2-2-framework">2.2 添加Framework</h3>
+<p>在工程target中添加以下的framework:</p>
+<pre><code>SystemConEiguration.framework
+QuartzCore.framework
+Security.framework
+CoreTelephony.framework
+</code></pre><p><img src="./01_iOS-SDK-Files/add_frameworks.png" alt="image"></p>
+<h3 id="2-3-gameservicesdk">2.3 添加GameServiceSDK</h3>
+<ol>
+<li>将GameServiceSDK文件夹拖入Xcode工程.
+ <img src="./01_iOS-SDK-Files/add_to_xcode.png" alt="image"></li>
+<li>在项目target的&quot;build settings&quot;中，找到&quot;Search Paths&quot;的&quot;Library Search Paths&quot;, 如果GameServiceSDK的路径是绝对路径的，请改为相对路径。
+ <img src="./01_iOS-SDK-Files/library_path.png" alt="image"></li>
+</ol>
+<h2 id="3-gameservice-sdk-">3、GameService平台SDK使用</h2>
+<h3 id="3-1-">3.1 平台初始化</h3>
+<p>AppID和AppKey请到<a href="http://developers.gameservice.com/">GameService 开发网站</a>后台查看获取，需要先创建App。</p>
+<p>初始化需要设置AppID和AppKey：</p>
+<pre><code>[NGGameService setClientID:@&quot;9&quot; clientSecret:@&quot;0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&quot;];
+</code></pre><p>设置App的URL Scheme，用于支付宝支付和微博SSO登陆,为保证URL Scheme的唯一，建议使用URL Scheme使用格式为: <code>NGGameService + (AppID)</code>:</p>
+<pre><code>[NGGameService setAppURLScheme:@&quot;NGGameService11&quot;];
+</code></pre><p>请在程序启动后设置初始化信息：</p>
+<pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    ......
+
+    [NGGameService setClientID:@&quot;9&quot; clientSecret:@&quot;0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&quot;];
+    [NGGameService setAppURLScheme:@&quot;GameService11&quot;];
+
+    ......
+}
+</code></pre><h3 id="3-2-">3.2 账号</h3>
+<h4 id="3-2-1-">3.2.1 登录</h4>
+<p>登录接口:</p>
+<pre><code>[NGGameService login];
+</code></pre><p>允许用户跳过登录界面的接口:</p>
+<pre><code>[NGGameService loginWithAllowSkip];
+</code></pre><p>说明:若当前用户已登录，调用登录接口会直接收到登录完成通知，不会显示登录界面。</p>
+<h4 id="3-2-2-">3.2.2 判断是否登录</h4>
+<pre><code>[NGGameService isLogin] 
+</code></pre><h4 id="3-2-3-">3.2.3 注销</h4>
+<pre><code>[NGGameService logout];
+</code></pre><p>开发者注意调用注销后更新游戏场景。</p>
+<h4 id="3-2-4-">3.2.4 登录结果处理</h4>
+<p>用户进行登录操作并登录成功后，平台会发送登录成功通知<code>kNGLoginDidSuccessNotification</code>，开发者在收到通知后进行登录成功处理。</p>
+<pre><code>[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLogin:) name:kNGLoginDidSuccessNotification object:nil];
+</code></pre><p>处理方法:</p>
+<pre><code>- (void)onUserLogin:(NSNotification*)n {
+    [self refreshLoginButton];
+
+    if ([NGGameService isLogin]) {
+        NSString* userID = [NGGameService userID]; //获取userID
+        NSString* accessToken = [NGGameService accessToken]; //获取access token
+
+        //验证accessToken
+    }
+}
+</code></pre><p>登录成功后，可根据accessToken像服务器验证当前登录的有效性。</p>
+<p>如果登录界面有跳过按钮，用户选择跳过,平台会发送跳过通知<code>kNGDidSkipLoginNotification</code>。</p>
+<h4 id="3-2-5-">3.2.5 获取已登录用户信息</h4>
+<pre><code>[NGGameService userID]; //获取userID
+[NGGameService accessToken]; //获取access token
+[NGGameService nickName]; //获取用户平台昵称
+</code></pre><h3 id="3-3-">3.3 支付</h3>
+<p>支付相关类在<code>NGPaymentController.h</code>文件中。</p>
+<h4 id="3-3-1-">3.3.1 生成支付请求</h4>
+<p>填写订单信息:</p>
+<pre><code>NGPaymentRequest* payment = [[NGPaymentRequest alloc] init];
+
+payment.appName = @&quot;测试游戏&quot;;        //游戏名称
+payment.subject = @&quot;测试商品名称&quot;;    //商品名称
+payment.body = @&quot;测试商品描述&quot;;        //商品描述
+payment.amount = 100;                    //价格（单位为“分”）
+payment.notifyURL = @&quot;&quot;;             //回调地址，
+payment.appID = @&quot;9&quot;;                    //应用ID
+payment.appUserID = @&quot;123&quot;;            //应用当前登录用户ID
+payment.appOrderID = ;                //应用订单ID
+payment.appUserName = @&quot;角色名&quot;;        //应用当前登录用户名
+</code></pre><p>注：以上数据必填。</p>
+<h4 id="3-3-2-">3.3.2 交易签名</h4>
+<p>为防止交易请求被篡改，需要对订单的数据进行签名。
+填充完清单请求后，获取待签名的字符串：</p>
+<pre><code>NSString* stringToSing = [payment stringToSign];
+</code></pre><p>客户端提交该字符串到开发者的服务器端进行签名，填充到<code>NGPaymentRequest</code>的<code>sign</code>字段。</p>
+<pre><code>payment.sign = signiture; //signiture由服务器返回
+</code></pre><p>服务器端的签名配置见<a href="./02_server.md">Game Service服务端接入 说明文档</a>。</p>
+<h4 id="3-3-3-">3.3.3 显示支付界面</h4>
+<pre><code> NGPaymentController* controller = [[NGPaymentController alloc] initWithPayment:payment];
+controller.paymentDelegate = self;
+[self presentViewController:controller animated:YES completion:nil];
+</code></pre><h4 id="3-3-4-">3.3.4 处理支付结果</h4>
+<p>实现NGPaymentControllerDelegate接口。</p>
+<ul>
+<li><p>支付成功处理:</p>
+<pre><code>  - (void)paymentController:(NGPaymentController*)paymentController didSuccessWithResult:(NGPaymentResult*)result {
+      NGPaymentRequest* request = paymentController.payment;
+      NSString* orderID = result.orderID; //平台订单ID
+
+      [self dismissViewControllerAnimated:YES completion:nil];
+  }
+</code></pre></li>
+</ul>
+<p>支付完成后，开发者服务端通过平台订单id来确认订单完成。</p>
+<ul>
+<li>取消支付<pre><code>  - (void)paymentDidCancel:(NGPaymentController*)paymentController {
+      [self dismissViewControllerAnimated:YES completion:nil];
+  }
+</code></pre></li>
+</ul>
+<h4 id="3-3-5-sso-">3.3.5 处理支付宝支付结果和微博SSO登录</h4>
+<p>在AppDelegate的<code>application:handleOpenURL:</code>和<code>application:openURL:sourceApplication:annotation:</code>中添加如下代码：</p>
+<pre><code>- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
+    return [NGGameService handleOpenURL:url];
+}
+
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    BOOL handled = [NGGameService handleOpenURL:url];
+    if (handled) {
+        return YES;
+    }
+
+    //开发者添加自己的OpenURL处理
+
+    return NO;
+}
+</code></pre><h3 id="3-4-">3.4 数据采集</h3>
+<ul>
+<li><p>玩家用户登录行为记录（用于玩家行为统计以及进行玩家间p2p推送）：</p>
+<pre><code>  [NGGameService setLoginPlayerID:@&quot;123456677&quot;];
+</code></pre></li>
+<li><p>玩家用户付款行为统计：</p>
+<pre><code>  [NGGameService logPaymentWithPlayerID:@&quot;123456677&quot; payAmount:100];
+</code></pre></li>
+</ul>
 
         </div>
     </div>
@@ -145,9 +293,8 @@
 //            console.log(scrollTop);
 //            if (scrollTop > 62) {
 //                sidebar.css({'position': 'fixed', 'top': '0'});
-//            }
-//            else {
-//                sidebar.css({'position': 'absolute', 'top': scrollTop});
+//            }else {
+//                sidebar.css({'position': 'absolute', 'top': 62});
 //            }
             if (scrollTop > $(this).height()) {
                 $('#btn_top').show();
