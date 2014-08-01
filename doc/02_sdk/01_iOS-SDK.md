@@ -12,6 +12,8 @@
 
 GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。
 
+* 如果需要支持arm64，请使用静态库libGameServiceSDK-armv64.a
+
 ## 2、项目配置
 ### 2.1 添加链接参数
 在工程target的"Build Settings"中，找到"Linking"的"Other Linker Flags"，添加参数`-ObjC`。
@@ -38,12 +40,15 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 初始化需要设置AppID和AppKey：
 
-	[NGGameService setClientID:@"9" clientSecret:@"0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1"];
+	[NGGameService setAppID:@"9" AppSecret:@"0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1"];
 
 设置App的URL Scheme，用于支付宝支付和微博SSO登陆,为保证URL Scheme的唯一，建议使用URL Scheme使用格式为: `NGGameService + (AppID)`:
 
-	[NGGameService setAppURLScheme:@"NGGameService11"];
+	[NGGameService setAppURLScheme:@"GameServiceDemo"];
 
+设置App屏幕方向(默认为横屏，不能同时横屏和竖屏切换):
+	
+	[NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
 
 请在程序启动后设置初始化信息：
 
@@ -52,7 +57,8 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	    ......
 	    
 	    [NGGameService setClientID:@"9" clientSecret:@"0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1"];
-	    [NGGameService setAppURLScheme:@"GameService11"];
+	    [NGGameService setAppURLScheme:@"GameServiceDemo"];
+	    [NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
 	
 		......
 	}
@@ -131,9 +137,9 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 客户端提交该字符串到开发者的服务器端进行签名，填充到`NGPaymentRequest`的`sign`字段。
 
-	payment.sign = signiture; //signiture由服务器返回
+	payment.sign = signiture; //signiture由开发者服务器返回
 
-服务器端的签名配置见[Game Service服务端接入 说明文档](./02_server.md)。
+服务器端的签名配置见[Game Service服务端接入 说明文档](http://docs.gameservice.com/docs/sdk/server.html)。
     
 #### 3.3.3 显示支付界面
 
@@ -156,6 +162,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 支付完成后，开发者服务端通过平台订单id来确认订单完成。
 	
 * 取消支付
+
 		- (void)paymentDidCancel:(NGPaymentController*)paymentController {
     		[self dismissViewControllerAnimated:YES completion:nil];
 		}
@@ -189,5 +196,27 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 		[NGGameService logPaymentWithPlayerID:@"123456677" payAmount:100];
 	
+### 3.5 推送设置
+#### 3.5.1 配置推送证书
+
+	待完善。
+
+#### 3.5.2 获取并上传device token
+请求device token:
+
+	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+
+在UIApplicationDelegate中获取device token，上传到GameService：
+	
+	- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [NGGameService setPushToken:deviceToken]; //上传device token
+	}
+
+
+如果无法获取到到device token，请在`application:didFailToRegisterForRemoteNotificationsWithError:`中查看错误原因：
+
+	- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+    NSLog(@"%@", error);
+	}
 
 
