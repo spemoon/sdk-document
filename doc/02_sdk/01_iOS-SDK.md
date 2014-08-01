@@ -137,9 +137,9 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 客户端提交该字符串到开发者的服务器端进行签名，填充到`NGPaymentRequest`的`sign`字段。
 
-	payment.sign = signiture; //signiture由服务器返回
+	payment.sign = signiture; //signiture由开发者服务器返回
 
-服务器端的签名配置见[Game Service服务端接入 说明文档](./02_server.md)。
+服务器端的签名配置见[Game Service服务端接入 说明文档](http://docs.gameservice.com/docs/sdk/server.html)。
     
 #### 3.3.3 显示支付界面
 
@@ -162,6 +162,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 支付完成后，开发者服务端通过平台订单id来确认订单完成。
 	
 * 取消支付
+
 		- (void)paymentDidCancel:(NGPaymentController*)paymentController {
     		[self dismissViewControllerAnimated:YES completion:nil];
 		}
@@ -198,7 +199,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 ### 3.5 推送设置
 #### 3.5.1 配置推送证书
 
-	
+	待完善。
 
 #### 3.5.2 获取并上传device token
 请求device token:
