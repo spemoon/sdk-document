@@ -92,6 +92,7 @@
     <div class="wrapper">
         <div class="nav-page-content typo typo-selection" role="main">
             <h1 id="gameservice-ios-sdk-v1-0-0">GameService iOS SDK 说明文档 V1.0.0</h1>
+<p><a href="../../static/download/GameService_iOS_SDK V1.0.0.zip" target="_blank" class="sdk-download">下载iOS SDK</a></p>
 <hr>
 <h2 id="1-sdk-">1、SDK构成</h2>
 <ol>
@@ -101,6 +102,9 @@
 <li>Demo工程</li>
 </ol>
 <p>GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。</p>
+<ul>
+<li>如果需要支持arm64，请使用静态库libGameServiceSDK-armv64.a</li>
+</ul>
 <h2 id="2-">2、项目配置</h2>
 <h3 id="2-1-">2.1 添加链接参数</h3>
 <p>在工程target的&quot;Build Settings&quot;中，找到&quot;Linking&quot;的&quot;Other Linker Flags&quot;，添加参数<code>-ObjC</code>。
@@ -123,16 +127,19 @@ CoreTelephony.framework
 <h3 id="3-1-">3.1 平台初始化</h3>
 <p>AppID和AppKey请到<a href="http://developers.gameservice.com/">GameService 开发网站</a>后台查看获取，需要先创建App。</p>
 <p>初始化需要设置AppID和AppKey：</p>
-<pre><code>[NGGameService setClientID:@&quot;9&quot; clientSecret:@&quot;0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&quot;];
+<pre><code>[NGGameService setAppID:@&quot;9&quot; AppSecret:@&quot;0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&quot;];
 </code></pre><p>设置App的URL Scheme，用于支付宝支付和微博SSO登陆,为保证URL Scheme的唯一，建议使用URL Scheme使用格式为: <code>NGGameService + (AppID)</code>:</p>
-<pre><code>[NGGameService setAppURLScheme:@&quot;NGGameService11&quot;];
+<pre><code>[NGGameService setAppURLScheme:@&quot;GameServiceDemo&quot;];
+</code></pre><p>设置App屏幕方向(默认为横屏，不能同时横屏和竖屏切换):</p>
+<pre><code>[NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
 </code></pre><p>请在程序启动后设置初始化信息：</p>
 <pre><code>- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     ......
 
     [NGGameService setClientID:@&quot;9&quot; clientSecret:@&quot;0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1&quot;];
-    [NGGameService setAppURLScheme:@&quot;GameService11&quot;];
+    [NGGameService setAppURLScheme:@&quot;GameServiceDemo&quot;];
+    [NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
 
     ......
 }
@@ -189,8 +196,8 @@ payment.appUserName = @&quot;角色名&quot;;        //应用当前登录用户�
 填充完清单请求后，获取待签名的字符串：</p>
 <pre><code>NSString* stringToSing = [payment stringToSign];
 </code></pre><p>客户端提交该字符串到开发者的服务器端进行签名，填充到<code>NGPaymentRequest</code>的<code>sign</code>字段。</p>
-<pre><code>payment.sign = signiture; //signiture由服务器返回
-</code></pre><p>服务器端的签名配置见<a href="./02_server.md">Game Service服务端接入 说明文档</a>。</p>
+<pre><code>payment.sign = signiture; //signiture由开发者服务器返回
+</code></pre><p>服务器端的签名配置见<a href="http://docs.gameservice.com/docs/sdk/server.html">Game Service服务端接入 说明文档</a>。</p>
 <h4 id="3-3-3-">3.3.3 显示支付界面</h4>
 <pre><code> NGPaymentController* controller = [[NGPaymentController alloc] initWithPayment:payment];
 controller.paymentDelegate = self;
@@ -209,7 +216,8 @@ controller.paymentDelegate = self;
 </ul>
 <p>支付完成后，开发者服务端通过平台订单id来确认订单完成。</p>
 <ul>
-<li>取消支付<pre><code>  - (void)paymentDidCancel:(NGPaymentController*)paymentController {
+<li><p>取消支付</p>
+<pre><code>  - (void)paymentDidCancel:(NGPaymentController*)paymentController {
       [self dismissViewControllerAnimated:YES completion:nil];
   }
 </code></pre></li>
@@ -239,7 +247,21 @@ controller.paymentDelegate = self;
 <pre><code>  [NGGameService logPaymentWithPlayerID:@&quot;123456677&quot; payAmount:100];
 </code></pre></li>
 </ul>
-
+<h3 id="3-5-">3.5 推送设置</h3>
+<h4 id="3-5-1-">3.5.1 配置推送证书</h4>
+<pre><code>待完善。
+</code></pre><h4 id="3-5-2-device-token">3.5.2 获取并上传device token</h4>
+<p>请求device token:</p>
+<pre><code>[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
+</code></pre><p>在UIApplicationDelegate中获取device token，上传到GameService：</p>
+<pre><code>- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+[NGGameService setPushToken:deviceToken]; //上传device token
+}
+</code></pre><p>如果无法获取到到device token，请在<code>application:didFailToRegisterForRemoteNotificationsWithError:</code>中查看错误原因：</p>
+<pre><code>- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
+NSLog(@&quot;%@&quot;, error);
+}
+</code></pre>
         </div>
     </div>
 </div>
