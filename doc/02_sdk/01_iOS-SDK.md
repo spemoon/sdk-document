@@ -5,9 +5,9 @@
 ------
 
 ## 1、SDK构成
-1. 静态库 libGameService.a
+1. 静态库 libGameServiceSDK.a, libGameService-arm64.a 
 2. 头文件: NGGameService.h, NGNotifications.h, NGPaymentController.h
-2. 资源文件 GameServiceResource.bundle 
+2. 资源文件 GameServiceResource.bundle
 3. Demo工程
 
 GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。
