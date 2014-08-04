@@ -82,6 +82,17 @@
                     </ul>
                 </li>
 
+                <li >
+                    <a href="../../docs/other/Create_APNG_Certificate.html">其它
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="../../docs/other/Create_APNG_Certificate.html">APNS证书创建流程</a></li>
+                    
+                    </ul>
+                </li>
+
 </ul>
 
             </div>
@@ -96,9 +107,9 @@
 <hr>
 <h2 id="1-sdk-">1、SDK构成</h2>
 <ol>
-<li>静态库 libGameService.a</li>
+<li>静态库 libGameServiceSDK.a, libGameService-arm64.a </li>
 <li>头文件: NGGameService.h, NGNotifications.h, NGPaymentController.h</li>
-<li>资源文件 GameServiceResource.bundle </li>
+<li>资源文件 GameServiceResource.bundle</li>
 <li>Demo工程</li>
 </ol>
 <p>GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。</p>
@@ -248,9 +259,10 @@ controller.paymentDelegate = self;
 </code></pre></li>
 </ul>
 <h3 id="3-5-">3.5 推送设置</h3>
-<h4 id="3-5-1-">3.5.1 配置推送证书</h4>
-<pre><code>待完善。
-</code></pre><h4 id="3-5-2-device-token">3.5.2 获取并上传device token</h4>
+<h4 id="3-5-1-p12-">3.5.1 配置推送证书(已经有p12证书的可以跳过这一步)</h4>
+<p>详见<a href="http://docs.gameservice.com/docs/other/Create_APNG_Certificate.html">APNS证书创建流程</a>。</p>
+<h4 id="3-5-2-gameservice">3.5.2 上传推送证书到GameService</h4>
+<h4 id="3-5-3-device-token">3.5.3 获取并上传device token</h4>
 <p>请求device token:</p>
 <pre><code>[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
 </code></pre><p>在UIApplicationDelegate中获取device token，上传到GameService：</p>
