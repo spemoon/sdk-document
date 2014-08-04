@@ -197,11 +197,15 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 		[NGGameService logPaymentWithPlayerID:@"123456677" payAmount:100];
 	
 ### 3.5 推送设置
-#### 3.5.1 配置推送证书
+#### 3.5.1 配置推送证书(已经有p12证书的可以跳过这一步)
 
-	待完善。
+详见[APNS证书创建流程](http://docs.gameservice.com/docs/other/Create_APNG_Certificate.html)。
 
-#### 3.5.2 获取并上传device token
+#### 3.5.2 上传推送证书到GameService
+
+
+
+#### 3.5.3 获取并上传device token
 请求device token:
 
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
