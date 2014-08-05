@@ -1,6 +1,6 @@
-# GameService iOS SDK 说明文档 V1.0.0
+# GameService iOS SDK 说明文档 V1.0.1
 
-<a href="../../static/download/GameService_iOS_SDK V1.0.0.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
+<a href="../../static/download/GameService_iOS_SDK V1.0.1.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
 
 ------
 
@@ -203,7 +203,9 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 #### 3.5.2 上传推送证书到GameService
 
-
+* 登录GameService开发者后台；
+* 在**游戏管理**页面，在对应游戏的那一行上点击**编辑**按钮进入编辑界面；
+* 点击**开发环境APNS证书**打开文件选择框，选择p12证书并上传；
 
 #### 3.5.3 获取并上传device token
 请求device token:
