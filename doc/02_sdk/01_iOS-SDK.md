@@ -100,7 +100,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	    }
 	}
 	
-登录成功后，可根据accessToken像服务器验证当前登录的有效性。
+登录成功后，可根据accessToken向服务器验证当前登录的有效性。
 
 如果登录界面有跳过按钮，用户选择跳过,平台会发送跳过通知`kNGDidSkipLoginNotification`。
 
