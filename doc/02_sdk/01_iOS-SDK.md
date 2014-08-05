@@ -1,6 +1,6 @@
-# GameService iOS SDK 说明文档 V1.0.0
+# GameService iOS SDK 说明文档 V1.0.1
 
-<a href="../../static/download/GameService_iOS_SDK V1.0.0.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
+<a href="../../static/download/GameService_iOS_SDK V1.0.1.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
 
 ------
 
@@ -197,11 +197,17 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 		[NGGameService logPaymentWithPlayerID:@"123456677" payAmount:100];
 	
 ### 3.5 推送设置
-#### 3.5.1 配置推送证书
+#### 3.5.1 配置推送证书(已经有p12证书的可以跳过这一步)
 
-	待完善。
+详见[APNS证书创建流程](http://docs.gameservice.com/docs/other/Create_APNG_Certificate.html)。
 
-#### 3.5.2 获取并上传device token
+#### 3.5.2 上传推送证书到GameService
+
+* 登录GameService开发者后台；
+* 在**游戏管理**页面，在对应游戏的那一行上点击**编辑**按钮进入编辑界面；
+* 点击**开发环境APNS证书**打开文件选择框，选择p12证书并上传；
+
+#### 3.5.3 获取并上传device token
 请求device token:
 
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
