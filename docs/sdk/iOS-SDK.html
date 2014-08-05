@@ -83,7 +83,7 @@
                 </li>
 
                 <li >
-                    <a href="../../docs/other/Create_APNG_Certificate.html">其它
+                    <a href="../../docs/other/Create_APNG_Certificate.html">更多资料
                         <i class="disclosure"></i>
                     </a>
                     <ul>
@@ -102,8 +102,8 @@
 <div class="main">
     <div class="wrapper">
         <div class="nav-page-content typo typo-selection" role="main">
-            <h1 id="gameservice-ios-sdk-v1-0-0">GameService iOS SDK 说明文档 V1.0.0</h1>
-<p><a href="../../static/download/GameService_iOS_SDK V1.0.0.zip" target="_blank" class="sdk-download">下载iOS SDK</a></p>
+            <h1 id="gameservice-ios-sdk-v1-0-1">GameService iOS SDK 说明文档 V1.0.1</h1>
+<p><a href="../../static/download/GameService_iOS_SDK V1.0.1.zip" target="_blank" class="sdk-download">下载iOS SDK</a></p>
 <hr>
 <h2 id="1-sdk-">1、SDK构成</h2>
 <ol>
@@ -262,6 +262,11 @@ controller.paymentDelegate = self;
 <h4 id="3-5-1-p12-">3.5.1 配置推送证书(已经有p12证书的可以跳过这一步)</h4>
 <p>详见<a href="http://docs.gameservice.com/docs/other/Create_APNG_Certificate.html">APNS证书创建流程</a>。</p>
 <h4 id="3-5-2-gameservice">3.5.2 上传推送证书到GameService</h4>
+<ul>
+<li>登录GameService开发者后台；</li>
+<li>在<strong>游戏管理</strong>页面，在对应游戏的那一行上点击<strong>编辑</strong>按钮进入编辑界面；</li>
+<li>点击<strong>开发环境APNS证书</strong>打开文件选择框，选择p12证书并上传；</li>
+</ul>
 <h4 id="3-5-3-device-token">3.5.3 获取并上传device token</h4>
 <p>请求device token:</p>
 <pre><code>[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
