@@ -1,8 +1,15 @@
-# GameService iOS SDK 说明文档 V1.0.1
+# GameService iOS SDK 说明文档 V1.0.2
 
-<a href="../../static/download/GameService_iOS_SDK V1.0.1.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
+<a href="../../static/download/GameService_iOS_SDK V1.0.2.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
 
 ------
+
+## 更新履历
+
+版本号| 时间| 更新内容
+----|-----|--------
+v1.0.2|2014.08.07|修改登陆框消失问题
+
 
 ## 1、SDK构成
 1. 静态库 libGameServiceSDK.a, libGameService-arm64.a 
@@ -44,7 +51,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 设置App的URL Scheme，用于支付宝支付和微博SSO登陆,为保证URL Scheme的唯一，建议使用URL Scheme使用格式为: `NGGameService + (AppID)`:
 
-	[NGGameService setAppURLScheme:@"GameServiceDemo"];
+	[NGGameService setAppURLScheme:@"NGGameService9"];
 
 设置App屏幕方向(默认为横屏，不能同时横屏和竖屏切换):
 	
@@ -57,7 +64,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	    ......
 	    
 	    [NGGameService setClientID:@"9" clientSecret:@"0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1"];
-	    [NGGameService setAppURLScheme:@"GameServiceDemo"];
+	    [NGGameService setAppURLScheme:@"NGGameService9"];
 	    [NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
 	
 		......
