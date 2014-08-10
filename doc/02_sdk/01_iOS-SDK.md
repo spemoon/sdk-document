@@ -8,7 +8,7 @@
 
 版本号| 时间| 更新内容
 ----|-----|--------
-v1.0.2|2014.08.07|修改登陆框消失问题
+v1.0.2|2014.08.07|修改登陆框消失问题，添加本地签名
 
 
 ## 1、SDK构成
@@ -137,8 +137,11 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 注：以上数据必填。
     
 #### 3.3.2 交易签名
-为防止交易请求被篡改，需要对订单的数据进行签名。
-填充完清单请求后，获取待签名的字符串：
+为防止交易请求被篡改，需要对订单的数据进行签名。提供两种签名方式：
+
+##### 3.3.2.1 服务器签名，
+**为保证资金安全，建议所有开发这使用服务器签名！！**
+填充完订单请求后，获取待签名的字符串：
 
 	NSString* stringToSing = [payment stringToSign];
 
@@ -147,8 +150,16 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	payment.sign = signiture; //signiture由开发者服务器返回
 
 服务器端的签名配置见[Game Service服务端接入 说明文档](http://docs.gameservice.com/docs/sdk/server.html)。
+
+##### 3.3.2.1 本地签名
+**注意！！！本地签名存在一定的支付隐患，可能对你的游戏收入造成影响，只建议没有配备自有服务器的单机游戏使用。**
+
+将NGPaymentRequest的usingLocalSigniture设置为YES.
+	
+	payment.usingLocalSigniture = YES;
     
 #### 3.3.3 显示支付界面
+用支付请求初始化支付界面:
 
 	 NGPaymentController* controller = [[NGPaymentController alloc] initWithPayment:payment];
     controller.paymentDelegate = self;
@@ -156,6 +167,8 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
     
 #### 3.3.4 处理支付结果
 实现NGPaymentControllerDelegate接口。
+
+
 
 * 支付成功处理:
 
