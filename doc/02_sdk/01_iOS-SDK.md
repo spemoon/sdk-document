@@ -140,7 +140,8 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 为防止交易请求被篡改，需要对订单的数据进行签名。提供两种签名方式：
 
 ##### 3.3.2.1 服务器签名，
-**为保证资金安全，建议所有开发这使用服务器签名！！**
+**为保证资金安全，建议所有开发者使用服务器签名！！**
+
 填充完订单请求后，获取待签名的字符串：
 
 	NSString* stringToSing = [payment stringToSign];
@@ -159,7 +160,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	payment.usingLocalSigniture = YES;
     
 #### 3.3.3 显示支付界面
-用支付请求初始化支付界面:
+使用支付请求初始化支付界面:
 
 	 NGPaymentController* controller = [[NGPaymentController alloc] initWithPayment:payment];
     controller.paymentDelegate = self;
