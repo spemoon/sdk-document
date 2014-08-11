@@ -32,6 +32,7 @@ GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以�
 	QuartzCore.framework
 	Security.framework
 	CoreTelephony.framework
+	CoreText.framework
 
 ![image](./01_iOS-SDK-Files/add_frameworks.png)
 
