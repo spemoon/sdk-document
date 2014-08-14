@@ -47,7 +47,7 @@ var config = {
     'access': '接入流程',
     'audit': '通用包审核标准',
     'distribution': '渠道包生成和分发',
-    'sdk': 'SDK下载',
+    'sdk': 'SDK接入',
     'Android-SDK': 'Android SDK',
     'iOS-SDK': 'iOS SDK',
     'server': '服务端接入',
