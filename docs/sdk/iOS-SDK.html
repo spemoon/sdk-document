@@ -79,6 +79,8 @@
                     
                             <li ><a  href="../../docs/sdk/server.html">服务端接入</a></li>
                     
+                            <li ><a  href="../../docs/sdk/push_api.html">推送接口</a></li>
+                    
                     </ul>
                 </li>
 
@@ -143,6 +145,7 @@
 QuartzCore.framework
 Security.framework
 CoreTelephony.framework
+CoreText.framework
 </code></pre><p><img src="./01_iOS-SDK-Files/add_frameworks.png" alt="image"></p>
 <h3 id="2-3-gameservicesdk">2.3 添加GameServiceSDK</h3>
 <ol>
@@ -319,7 +322,7 @@ NSLog(@&quot;%@&quot;, error);
         });
         var navHtml = '';
         var text = $('.nav-title-active').text();
-        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1 || text.indexOf('服务端接入') != -1) {
+        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1 || text.indexOf('服务端接入') != -1 || text.indexOf('推送接口') != -1) {
 //            console.log(text);
             //抽取标题索引
             $('h1,h2,h3,h4,h5,h6').each(function (i) {

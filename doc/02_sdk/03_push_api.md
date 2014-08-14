@@ -27,8 +27,8 @@
 - 请求头部: Authorization: Basic xxx  //xxx 为 base64.encode("<client_id>:<client_secret>")生成的字符串
 
 ### apns推送
-- 请求地址：**POST /gc1/ios/sandbox/<int:client_id>**
-- 请求地址：**POST /gc1/ios/<int:client_id>**
+- 请求地址：**POST /gc1/ios/sandbox/&lt;int:client_id&gt;**
+- 请求地址：**POST /gc1/ios/&lt;int:client_id&gt;**
 - 是否认证：是
 - 请求内容：
 
@@ -45,7 +45,7 @@
 
 
 ### 获取应用的tag
-- 请求地址：**POST /gc1/android/<int:client_id>/tags**
+- 请求地址：**POST /gc1/android/&lt;int:client_id&gt;/tags**
 - 是否认证：是
 - 成功响应:
 
@@ -62,7 +62,7 @@
 
 
 ### android推送
-- 请求地址：**POST /gc1/android/<int:client_id>**
+- 请求地址：**POST /gc1/android/&lt;int:client_id&gt;**
 - 是否认证：是
 - 请求内容：
 
@@ -120,7 +120,7 @@
 
 
 ### 在时间区间内，统计某个应用的下发 回执 和离线回执情况
-- 请求地址：**GET /gc1/push/android/receipt/<int:client_id>?begin_date={yyyy-mm-dd}&end_date={yyyy-mm-dd}**
+- 请求地址：**GET /gc1/push/android/receipt/&lt;int:client_id&gt;?begin_date={yyyy-mm-dd}&end_date={yyyy-mm-dd}**
 - 是否认证：是
 - 请求内容：
     
@@ -146,7 +146,7 @@
 
 
 ### 分页查询应用的发送情况，时间为倒叙
-- 请求地址：**GET /gc1/push/android/send_info/<int:client_id>?pushed_status=0&title=&offset=0&limit=20**
+- 请求地址：**GET /gc1/push/android/send_info/&lt;int:client_id&gt;?pushed_status=0&title=&offset=0&limit=20**
 - 是否认证：是
 - 请求内容：
 * pushed_status: 查询任务的状态1:已发送 2：未发送; 0:全部
