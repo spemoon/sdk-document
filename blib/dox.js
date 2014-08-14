@@ -52,7 +52,7 @@ var config = {
     'iOS-SDK': 'iOS SDK',
     'server': '服务端接入',
     'other': '更多资料',
-    'push_api': '推送接口',
+    'push_api': '服务端推送接口',
     'Create_APNG_Certificate': 'APNS证书创建流程'
 };
 
