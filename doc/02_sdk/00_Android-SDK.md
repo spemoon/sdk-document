@@ -1,11 +1,11 @@
-# GameService SDK 说明文档_V1.0.2 
+# GameService SDK 说明文档_V1.0.6 
 ------
 
-<a href="../../static/download/GameService_Sdk_Bundle_V1.0.2.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
+<a href="../../static/download/GameService_Sdk_Bundle_V1.0.6.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
 
 ## 一、SDK包含内容
 
-* GameService SDK 说明文档_V1.0.2.pdf
+* GameService SDK 说明文档_V1.0.6.pdf
 
 * 依赖工程 library
   * PushSDK_Release
@@ -13,7 +13,7 @@
   
 * 示例程序工程 samples
 
-* 示例程序安装包 SDKSample_V1.0.2.apk
+* 示例程序安装包 SDKSample_V1.0.6.apk
 
 * 密钥生成工具 openssl
 
@@ -47,13 +47,26 @@
 
 * sdk_appid 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的appid,
 
-* sdk_appkey 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>真实分配到的appkey。
+* sdk_appkey 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的appkey。
 
 2.4 在主工程AndroidManifest中添加如下声明permission并做出相应替换：
 
 		<uses-permission android:name="android.permission.BATTERY_STATS" />
-		<uses-permission android:name="android.permission.INTERNET" />	    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />	    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />	    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />	    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />	    <uses-permission android:name="android.permission.VIBRATE" />	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />	    <uses-permission android:name="android.permission.GET_PACKAGE_SIZE" />	    <uses-permission android:name="android.permission.BROADCAST_STICKY" />	    <uses-permission android:name="android.permission.READ_PHONE_STATE" />	    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />	    <uses-permission android:name="android.permission.READ_CALL_LOG" />	    <uses-permission android:name="android.permission.GET_TASKS" />	    <uses-permission android:name="android.permission.REORDER_TASKS" />	    <uses-permission android:name="android.permission.WAKE_LOCK" />	    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>	    <uses-permission android:name="android.permission.BLUETOOTH"/>	    <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />		<uses-permission android:name="com.android.launcher.permission.UNINSTALL_SHORTCUT" />
-	    <uses-permission android:name="[your_prefix].android.permissions.SERVICE" />	    <uses-permission android:name="[your_prefix].android.permissions.CLIENT" />	    <uses-permission android:name="[your_prefix].android.permissions.VOTE" />		<permission android:name="[your_prefix].android.permissions.SERVICE" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.CLIENT" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.VOTE" android:protectionLevel="normal" />
+	    <uses-permission android:name="android.permission.INTERNET" />
+	    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+	    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+	    <uses-permission android:name="android.permission.VIBRATE" />
+	    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+	    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+	    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+	    <uses-permission android:name="[your_prefix].android.permissions.SERVICE" />	    <uses-permission android:name="[your_prefix].android.permissions.CLIENT" />	    <uses-permission android:name="[your_prefix].android.permissions.VOTE" />		<permission android:name="[your_prefix].android.permissions.SERVICE" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.CLIENT" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.VOTE" android:protectionLevel="normal" />
 	
 * 将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)，如：ngds，须和pushsdk_thirdparty_string.xml中的设置保持一致。
 
@@ -140,7 +153,8 @@
             android:theme="@android:style/Theme.NoTitleBar" />
             
         <!--push-->
-		<service		    android:name="com.tgx.push.sdk.MasterService"		    android:permission="[your_prefix].android.permissions.SERVICE">		      <intent-filter>		          <action android:name="[your_prefix].intent.protect.service.action.START" />		      </intent-filter>		 </service>		 <service android:name="com.tgx.push.sdk.SdkService" />		 <receiver		    android:name="com.tgx.push.sdk.AutoConsultReceiver"		    android:permission="[your_prefix].android.permissions.VOTE">		      <intent-filter android:priority="1" >		           <action android:name="[your_prefix].intent.opensdk.action.VOTE" />		           <data android:host="[your_host]" android:scheme="[your_prefix]" />		      </intent-filter>		 </receiver>		     		 <receiver android:name="com.gameservice.sdk.util.NgdsStaticReceiver">
+		<service		    android:name="com.tgx.push.sdk.MasterService"
+		    android:process="com.tgx.pushsdk.master.service"		    android:permission="[your_prefix].android.permissions.SERVICE">		      <intent-filter>		          <action android:name="[your_prefix].intent.protect.service.action.START" />		      </intent-filter>		 </service>		 <service android:name="com.tgx.push.sdk.SdkService" />		 <receiver		    android:name="com.tgx.push.sdk.AutoConsultReceiver"		    android:permission="[your_prefix].android.permissions.VOTE">		      <intent-filter android:priority="1" >		           <action android:name="[your_prefix].intent.opensdk.action.VOTE" />		           <data android:host="[your_host]" android:scheme="[your_prefix]" />		      </intent-filter>		 </receiver>		     		 <receiver android:name="com.gameservice.sdk.collection.util.NgdsStaticReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
@@ -200,22 +214,41 @@
 
 ### 3.1 设置屏幕方向
 * 功能描述：
-开发者可以根据需要设置SDK业务界面的屏幕方向。一般只需要在调用SDK业务接口前执行。
+
+	开发者可以根据需要设置SDK业务界面的屏幕方向。一般只需要在调用SDK业务接口前执行。
 
 * 接口：
 
 	    GameService.setScreenOrientation(int orientation)
 
-* 参数说明：     
-使用SDK业务接口前调用该函数。参数orientation取值如下：
+* 参数说明：    
+ 
+	使用SDK业务接口前调用该函数。参数orientation取值如下：
     	
 	    GameService.SCREEN_ORIENTATION_LANDSCAPE             // 横屏
 	    GameService.SCREEN_ORIENTATION_PORTRAIT              // 竖屏
 
-     
-### 3.2 登陆
+### 3.2 获取认证信息     
 * 功能描述：
-SDK提供了3中认证方式：手机认证登陆、QQ第3方登陆、新浪微博第3方登陆。调用成功后会返回用户认证信息。
+
+	获取登录用户的认证信息。
+
+* 接口：
+
+	    GameService.getOAuthInfo(Context context)
+
+* 参数说明：     
+
+	context   上下文句柄
+
+* 返回结果类型OAuthInfo：
+
+	已登录返回OAuthInfo；未登录的情况下返回null。
+	
+### 3.3 登录
+* 功能描述：
+
+	SDK提供了3中认证方式：手机认证登录、QQ第3方登录、新浪微博第3方登录。调用成功后会在回调函数中返回用户认证信息。
 
 * 接口：
 
@@ -227,40 +260,79 @@ SDK提供了3中认证方式：手机认证登陆、QQ第3方登陆、新浪微�
 | -----------------	|--------------------------|
 | context    	    | 上下文句柄		           |
 | enableSkip     	| 是否允许跳过登录：   	  |
-|     	    | true 允许，登录选择页面会出现跳过按钮；           |
-|     	    | false 不允许，登录选择页面不会出现跳过按钮；              |
+|     	    | true 允许登录选择页面会出现跳过按钮；           |
+|     	    | false 不允许登录选择页面不会出现跳过按钮；              |
 | listener         | 登录回调函数     		  |
 	
 * 调用示例：
 
-	    GameService.login(MainActivity.this, false, new OnLoginListener() {
-	       @Override
-	       public void finish(int code, OAuthInfo oAuthInfo) {
-	           String msg = "";
-	           switch (code) {
-	               case StatusCode.FINISH:
-	                   if (oAuthInfo != null) {
-	                       msg = "token: " + oAuthInfo.getAccessToken();
-	                   }
-	                   break;
-	               case StatusCode.CANCEL:
-	                   msg = "跳过登录";
-	                   break;
-	               default:
-	                   break;
-	           }
-	           Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
-	           Log.d("OAuth: ", +code + ": " + msg);
-	       }
-		});
+	    if (GameService.getOAuthInfo(this) == null) {
+            GameService.login(MainActivity.this, false, new OnLoginListener() {
+                @Override
+                public void finish(int code, OAuthInfo oAuthInfo) {
+                    String msg = "";
+                    switch (code) {
+                        case StatusCode.FINISH:
+                            if (oAuthInfo != null) {
+                                msg = "token: " + oAuthInfo.getAccessToken();
+                            }
+                            break;
+                        case StatusCode.CANCEL:
+                            msg = "跳过登录";
+                            break;
+                        default:
+                            break;
+                    }
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+                    Log.d(TAG, +code + ": " + msg);
+                }
+            });
+        } else {
+            String msg = "你已经是登录状态了，不需要再执行登录操作";
+            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+            Log.d(TAG, msg);
+        }
 
-### 3.3 支付
+### 3.4 注销登录
+* 功能描述：
+
+	开发者可以根据需要注销用户的登录状态。
+
+* 接口：
+
+	    GameService.logout(Context context)
+
+* 参数说明：     
+
+	context   上下文句柄
+
+* 返回结果类型boolean：
+  * true 注销登录成功
+  * false 注销登录失败
+
+* 调用示例：
+
+        String msg = "";
+        if (GameService.getOAuthInfo(this) == null) {
+            msg = "你还没有登录，无法执行注销登录操作";
+        } else {
+            boolean result = GameService.logout(this);
+            if (result) {
+                msg = "注销登录成功";
+            } else {
+                msg = "注销登录失败";
+            }
+        }
+        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
+        Log.d(TAG, msg);
+        
+### 3.5 支付
 
 * 功能描述：
 SDK提供了银行卡、充值卡、支付宝登录多种支付方式。调用完成的通知返回有两种：
 
     1. 客户端异步回调，这个只作状态通知，不做入账依据，表明交易是完成还是取消；
-    2. 服务端notify_url回调，平台服务端处理完支付业务后回调生成订单传的notify_url，相关参数会跟在url后面，可以根据status判断是否入账成功，具体可以参考 <a href="http://docs.gameservice.com/docs/sdk/server.html/">GameService 服务端开发说明</a>。
+    2. 服务端通过notify_url回调，平台服务端处理完支付业务后回调生成订单传的notify_url，相关参数会跟在url后面，可以根据status判断是否入账成功，具体可以参考 <a href="http://docs.gameservice.com/docs/sdk/server.html/">GameService 服务端开发说明</a>。
 
 * 接口：
 
@@ -276,31 +348,69 @@ SDK提供了银行卡、充值卡、支付宝登录多种支付方式。调用�
 	
 * 调用示例：
 
-		Order order = testOrder();
-		String orderStr = getOrderString(order);
-		Log.d("orderStr:", orderStr);
-		order.setSign(com.gameservice.sdk.sample.view.main.Rsa
-		    .sign(orderStr, com.gameservice.sdk.sample.view.main.Keys.PRIVATE));
-		Log.d("signStr: ", order.getSign());
-		GameService.pay(this, order, new OnPayListener() {
-		    @Override public void finish(int code, String msg) {
-		        switch (code) {
-		            case StatusCode.FINISH:
-		                msg = "支付完成";
-		                break;
-		            case StatusCode.CANCEL:
-		                msg = "取消支付";
-		                break;
-		            default:
-		                break;
-		        }
-		        Toast.makeText(TestPayActivity.this, msg, Toast.LENGTH_LONG).show();
-		        Log.d("onPay", code + ": " + msg);
-		    }
-		});
+	    /**
+	     * 调用支付功能
+	     */
+	    public void doPay() {
+	        Order order = testOrder();
+	        // 生成待签名字符串
+	        String orderStr = getOrderString(order);
+	        Log.d(TAG, "orderStr:" + orderStr);
+	        // 签名
+	        order.setSign(Rsa.sign(orderStr, Keys.PRIVATE));
+	        Log.d(TAG, "signStr: " + order.getSign());
+	        GameService.pay(this, order, new OnPayListener() {
+	            @Override public void finish(int code, String msg) {
+	                switch (code) {
+	                    case StatusCode.FINISH:
+	                        msg = "支付完成";
+	                        break;
+	                    case StatusCode.CANCEL:
+	                        msg = "取消支付";
+	                        break;
+	                    default:
+	                        break;
+	                }
+	                Toast.makeText(TestPayActivity.this, msg, Toast.LENGTH_LONG).show();
+	                Log.d(TAG, "onPay: " + code + ": " + msg);
+	            }
+	        });
+	    }
+                
 	
+	    /**
+         * 生成测试订单
+         * @return
+         */
+	    public Order testOrder() {
+	        ApplicationInfo appInfo = null;
+	        try {
+	            appInfo = getPackageManager()
+	                .getApplicationInfo(getPackageName(),
+	                    PackageManager.GET_META_DATA);
+	        } catch (PackageManager.NameNotFoundException e) {
+	            e.printStackTrace();
+	        }
+	
+	        Order result = new Order();
+	        result.setAppId(getString(
+	            R.string.sdk_appid));                                                     // 应用ID
+	        result.setChannelId(appInfo.metaData.getInt("NGDS_CHANNEL"));                 // 渠道ID
+	        result.setOrderId(getOutTradeNo());                                           // 订单号
+	        result.setUserId(edtUserId.getText().toString());                             // 用户ID
+	        result.setUserName(edtUserName.getText().toString());                         // 用户名称
+	        result.setSubject(edtProduct.getText().toString() + result.getOrderId());     // 商品名称
+	        result.setBody(edtDesc.getText().toString());                                 // 商品描述
+	        result.setMoney(Integer.valueOf(edtMoney.getText().toString()));              // 商品价格：单位 分
+	        result.setNotifyUrl(edtUrl.getText().toString());                             // 回调地址
+	        result.setImei("imeixxx");                                                    // IMEI
+	        result.setMacAddress("05-16-DC-59-C2-34");                                    // MAC地址
+	        result.setExtInfo("extra string");                                            // 扩展信息
+	
+	        return result;
+    	}
 
-### 3.4 统计采集
+### 3.6 统计采集
  正确集成如下代码，才能够保证获取正确的用户使用基本数据。
 
 * 在每个Activity的onResume方法中调用 GameService.onResume(this) ,onPause方法中调用  GameService.onPause(this)
@@ -330,7 +440,17 @@ SDK提供了银行卡、充值卡、支付宝登录多种支付方式。调用�
 		GameService.onPay(Context context, String playerId, String payAmount)
 
 
-### 3.5 推送服务
+### 3.7 推送服务
+
+欲正确使用推送服务需注意，可参造demo中PushServiceActivity中的如下代码
+
+
+	//要正常的使用推送服务，必须注册一个父类为AbstractMsgReceiver的信息接收者，并在里面处理相关信息，类PushMessageReceiver已展示。
+	        GameService.registerMsgReceiver(PushMessageReceiver.class);
+	        //进行推送服务的前必须为应用打上tag，tag可以任意的.
+	        GameService.setPushTags(getApplicationContext(), new String[]{"demo"}, null);
+	        GameService.startPushService(this);
+
 + push服务初始化及绑定
 	+ 方法： GameService.**startPushService** (Context ctx) 
 	+ 功能： 完成push服务的初始化工作，以及与MasterService的自动绑定工作。当masterService第一次启动完成登录操作。
@@ -353,7 +473,12 @@ SDK提供了银行卡、充值卡、支付宝登录多种支付方式。调用�
 		 + context 内容上下文
 		 + fromPlayerId 发送者的id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）
 		 + toPlayerId 信息接收用户id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）		 
-
++ 获取tuid（用于精确推送）
+	+ 方法： GameService.**getTuid** (Context context)
+	+ 功能： 获取tuid，可用于精确推送
+	+ 参数 
+		 +  context 内容上下文
+		
 #####AbstractMsgReceiver（消息接收父类）
 
 | 分类        		| 功能           	| 方法  	               |
