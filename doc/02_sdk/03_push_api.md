@@ -27,8 +27,8 @@
 - 请求头部: Authorization: Basic xxx  //xxx 为 base64.encode("<client_id>:<client_secret>")生成的字符串
 
 ### apns推送
-- 请求地址：**POST /gc1/ios/sandbox/&lt;int:client_id&gt;**
-- 请求地址：**POST /gc1/ios/&lt;int:client_id&gt;**
+- 请求地址：**POST /gc1/push/ios/sandbox/&lt;int:client_id&gt;**
+- 请求地址：**POST /gc1/push/ios/&lt;int:client_id&gt;**
 - 是否认证：是
 - 请求内容：
 
@@ -45,7 +45,7 @@
 
 
 ### 获取应用的tag
-- 请求地址：**POST /gc1/android/&lt;int:client_id&gt;/tags**
+- 请求地址：**POST /gc1/push/android/&lt;int:client_id&gt;/tags**
 - 是否认证：是
 - 成功响应:
 
@@ -62,7 +62,7 @@
 
 
 ### android推送
-- 请求地址：**POST /gc1/android/&lt;int:client_id&gt;**
+- 请求地址：**POST /gc1/push/android/&lt;int:client_id&gt;**
 - 是否认证：是
 - 请求内容：
 
