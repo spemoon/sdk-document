@@ -133,8 +133,8 @@
 </ul>
 <h3 id="apns-">apns推送</h3>
 <ul>
-<li>请求地址：<strong>POST /gc1/ios/sandbox/&lt;int:client_id&gt;</strong></li>
-<li>请求地址：<strong>POST /gc1/ios/&lt;int:client_id&gt;</strong></li>
+<li>请求地址：<strong>POST /gc1/push/ios/sandbox/&lt;int:client_id&gt;</strong></li>
+<li>请求地址：<strong>POST /gc1/push/ios/&lt;int:client_id&gt;</strong></li>
 <li>是否认证：是</li>
 <li><p>请求内容：</p>
 <pre><code>  {
@@ -151,7 +151,7 @@
 </ul>
 <h3 id="-tag">获取应用的tag</h3>
 <ul>
-<li>请求地址：<strong>POST /gc1/android/&lt;int:client_id&gt;/tags</strong></li>
+<li>请求地址：<strong>POST /gc1/push/android/&lt;int:client_id&gt;/tags</strong></li>
 <li>是否认证：是</li>
 <li><p>成功响应:</p>
 <pre><code>  [
@@ -168,7 +168,7 @@
 </ul>
 <h3 id="android-">android推送</h3>
 <ul>
-<li>请求地址：<strong>POST /gc1/android/&lt;int:client_id&gt;</strong></li>
+<li>请求地址：<strong>POST /gc1/push/android/&lt;int:client_id&gt;</strong></li>
 <li>是否认证：是</li>
 <li>请求内容：</li>
 </ul>
@@ -302,7 +302,7 @@
         });
         var navHtml = '';
         var text = $('.nav-title-active').text();
-        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1 || text.indexOf('服务端接入') != -1 || text.indexOf('推送接口') != -1) {
+        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1 || text.indexOf('服务端接入') != -1 || text.indexOf('服务端推送接口') != -1) {
 //            console.log(text);
             //抽取标题索引
             $('h1,h2,h3,h4,h5,h6').each(function (i) {
