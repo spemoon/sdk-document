@@ -6,7 +6,9 @@
 @import './core/_media-queries.scss';
 @import './globals/_base.scss';
 @import './globals/_header.scss';
+@import './components/_header.scss';
 @import '_develop-ct.scss';
+
 body {
 //      font-family: 'proxima-nova', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-family: "Open Sans", Arial, "Hiragino Sans GB", "Microsoft YaHei", "STHeiti", "WenQuanYi Micro Hei", SimSun, sans-serif;
