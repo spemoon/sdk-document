@@ -137,10 +137,21 @@
             border-left: 0;
             border-right: 0;
             background-color: #fff;
+            &.active {
+                a {
+                    background-color: #585f6f;
+                    color: #fff;
+                    &:hover {
+                        background-color: #585f6f;
+                        color: #fff;
+                    }
+                }
+            }
+
             ul {
                 display: none;
             }
-            &.active {
+            &.factive {
                 ul {
                     display: block;
                 }
@@ -173,7 +184,8 @@
                     }
                 }
             }
-            &.active {
+
+            &.factive {
                 //                &>a{
                 //                    color:#fff;
                 //                    background-color: #428bca;

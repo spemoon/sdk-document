@@ -1,0 +1,19 @@
+.btn-top {
+    position: fixed;
+    right: 10px;
+    bottom: 10px;
+    display: block;
+    width: 45px;
+    height: 45px;
+    border-radius: 5px;
+    font-size: 12px;
+    padding-top: 22px;
+    color: #adadad;
+    background: url('./images/global/icon/go_top.png') #112B36  no-repeat 10px 3px;
+    text-align: center; 
+}
+.btn-top:hover {
+    color:#fff;
+    text-decoration:none;
+    background-position:10px -56px;
+}

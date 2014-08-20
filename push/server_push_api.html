@@ -1,0 +1,324 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <title>文档中心</title>
+    <meta name="keywords" content="documentation,dox"/>
+    <meta name="description" content="项目开发相关文档"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.gameservice.com/templates/developer/assets/base.css"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.gameservice.com/static/themes/default/css/developer.css"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.gameservice.com/static/themes/default/css/typo.css"/>
+    <script src="http://docs.gameservice.com/templates/default/assets/prettify.js"></script>
+    <script src="http://docs.gameservice.com/templates/default/assets/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <div class="inner-wrapper">
+        <!--<div class="opt rt">-->
+            <!--<a href="http://developers.gameservice.com/register">注册</a>-->
+        <!--</div>-->
+        <div class="logo"><a href="http://www.gameservice.com/">NGDS</a></div>
+        <!--<div class="nav">-->
+            <!--<ul>-->
+                <!--<li class="item"><a class="link" href="http://developers.gameservice.com/push">智能推送</a></li>-->
+                <!--<li class="item"><a class="link" href="http://developers.gameservice.com/data">数据分析</a></li>-->
+                <!--<li class="item"><a class="link" href="http://docs.gameservice.com/docs/sdk/Android-SDK.html" target="_blank">SDK下载</a></li>-->
+                <!--<li class="item"><a class="link" target="_blank" href="http://docs.gameservice.com/">帮助文档</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="outer-wrapper">
+
+<div class="sidebar">
+    <div class="wrapper">
+        <nav class="sidebar-nav">
+            <div class="sidebar-content">
+                <h1 class="nav-title">推送文档</h1>
+                <ul>
+
+            <li  ><a href="http://docs.gameservice.com/push/push_flow.html">推送接入流程</a><i class="disclosure"></i></li>
+
+            <li  class="active"  ><a href="http://docs.gameservice.com/push/server_push_api.html">服务端推送接口</a><i class="disclosure"></i></li>
+
+            <li  ><a href="http://docs.gameservice.com/push/Android-SDK.html">Android SDK接入指南</a><i class="disclosure"></i></li>
+
+                <li >
+
+                    <a href="http://docs.gameservice.com/push/iOS/iOS-SDK.html">iOS SDK接入
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="http://docs.gameservice.com/push/iOS/iOS-SDK.html">iOS SDK接入指南</a></li>
+                    
+                            <li ><a  href="http://docs.gameservice.com/push/iOS/Create_APNG_Certificate.html">APNS证书创建流程</a></li>
+                    
+                    </ul>
+                </li>
+
+</ul>
+
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="main">
+    <div class="wrapper">
+        <div class="nav-page-content typo typo-selection" role="main">
+            <h1 id="-_v1-0-0">服务端接送接入 说明文档_V1.0.0</h1>
+<h3 id="http-">HTTP返回码</h3>
+<ul>
+<li>200 成功</li>
+<li>其他 失败</li>
+</ul>
+<h3 id="http-">HTTP 接口返回值结构</h3>
+<pre><code>{
+    &quot;meta&quot;: 
+    {
+        &quot;code&quot;: &quot;业务码&quot;,
+        &quot;message&quot;: &quot;状态信息&quot;
+    },
+    &quot;pagination&quot;: 
+    {
+        &quot;rows_found&quot;: &quot;找到的总记录数&quot;,
+        &quot;offset&quot;: &quot;起始游标&quot;,
+        &quot;since&quot;: &quot;往此游标向后追溯&quot;,
+        &quot;until&quot;: &quot;往此游标向前追溯&quot;,
+        &quot;limit&quot;: &quot;条数&quot;
+    },
+    &quot;data&quot;: ...
+}
+</code></pre><h3 id="-">第三方服务端授权</h3>
+<ul>
+<li>请求地址: 所有可供第三方服务端访问的接口</li>
+<li>请求头部: Authorization: Basic xxx  //xxx 为 base64.encode(&quot;<client_id>:<client_secret>&quot;)生成的字符串</li>
+</ul>
+<h3 id="apns-">apns推送</h3>
+<ul>
+<li>请求地址：<strong>POST /gc1/push/ios/sandbox/&lt;int:client_id&gt;</strong></li>
+<li>请求地址：<strong>POST /gc1/push/ios/&lt;int:client_id&gt;</strong></li>
+<li>是否认证：是</li>
+<li><p>请求内容：</p>
+<pre><code>  {
+      &quot;alert&quot;:&quot;消息内容&quot;,
+      &quot;badge&quot;:&quot;角标数字 可选&quot;,
+      &quot;sound&quot;:&quot;声音文件 可选(默认default)&quot;
+  }
+</code></pre></li>
+<li><p>成功响应 200</p>
+</li>
+<li><p>操作失败:
+状态码:400</p>
+</li>
+</ul>
+<h3 id="-tag">获取应用的tag</h3>
+<ul>
+<li>请求地址：<strong>POST /gc1/push/android/&lt;int:client_id&gt;/tags</strong></li>
+<li>是否认证：是</li>
+<li><p>成功响应:</p>
+<pre><code>  [
+      {
+          &quot;id&quot;:&quot;tag的ID&quot;,
+          &quot;tag&quot;:&quot;tag名称&quot;,
+          &quot;create_time&quot;:&quot;创建时间戳&quot;,
+      }
+  ]
+</code></pre></li>
+<li><p>操作失败:
+状态码:400</p>
+</li>
+</ul>
+<h3 id="android-">android推送</h3>
+<ul>
+<li>请求地址：<strong>POST /gc1/push/android/&lt;int:client_id&gt;</strong></li>
+<li>是否认证：是</li>
+<li>请求内容：</li>
+</ul>
+<pre><code>    {
+        &quot;push_type&quot;:&quot;通知类型&quot;,
+        &quot;order_time&quot;:&quot;定时推送时间(可空) 格式为yyyy-MM-dd HH:mm:ss&quot;
+        &quot;log_encode&quot;:&quot;&quot;,
+        &quot;title&quot;:&quot;通知栏标题&quot;,
+        &quot;content&quot;:&quot;通知栏内容&quot;,
+        &quot;stat_image&quot;:&quot;通知栏小图标，当不设置时为系统应用图标（小机器人），可设置为sdk预置的小图标&quot;,
+        &quot;logo_path&quot;:&quot;通知栏图标（使用应用内的图标）&quot;,
+        &quot;logo_url&quot;:&quot;通知栏图标（使用网络图片）&quot;,
+        &quot;is_clearable&quot;:&quot;是否可清除&quot;,
+        &quot;is_vibrate&quot;:&quot;是否震动&quot;,
+        &quot;is_ring&quot;:&quot;是否有响铃&quot;,
+        &quot;tag_ids&quot;:[&quot;1&quot;, &quot;2&quot;,...],
+
+
+        //通知栏－启动应用 push_type == 1
+        &quot;app_params&quot;:
+            {
+                &quot;key&quot;:&quot;value&quot;,
+                ...
+            }
+
+        //通知栏-弹出框-下载 push_type == 2
+        &quot;popup_title&quot;:&quot;弹出框的标题&quot;,
+        &quot;popup_content&quot;:&quot;弹出框的内容&quot;,
+        &quot;popup_image_path&quot;:&quot;弹出框图片&quot;,
+        &quot;popup_icon_path&quot;:&quot;弹出框中的Icon图片&quot;,
+        &quot;btn1_name&quot;:&quot;默认左边按钮的名称&quot;,
+        &quot;btn2_name&quot;:&quot;默认右边按钮的名称&quot;,
+        &quot;down_url&quot;:&quot;下载的文件地址&quot;,
+        &quot;md5&quot;:&quot;用于鉴定的文件的MD5值（可不填写）&quot;,
+        &quot;file_name&quot;:&quot;文件的名称，带后缀&quot;,
+
+        //通知栏—打开网页 push_type == 3
+        &quot;web_url&quot;:&quot;打开网址的地址&quot;,
+
+        //通知栏-启动应用的特定页面 push_type == 4
+        &quot;app_params&quot;:
+            {
+                &quot;key&quot;:&quot;value&quot;,
+                ...
+            }
+        &quot;active_page&quot;:&quot;要转的页面&quot;,
+    }
+</code></pre><ul>
+<li><p>成功响应 200</p>
+</li>
+<li><p>操作失败:
+状态码:400</p>
+</li>
+</ul>
+<h3 id="-">在时间区间内，统计某个应用的下发 回执 和离线回执情况</h3>
+<ul>
+<li>请求地址：<strong>GET /gc1/push/android/receipt/&lt;int:client_id&gt;?begin_date={yyyy-mm-dd}&amp;end_date={yyyy-mm-dd}</strong></li>
+<li>是否认证：是</li>
+<li><p>请求内容：</p>
+</li>
+<li><p>begin_date  开始日期，yyyy-mm-dd格式，默认为今天</p>
+</li>
+<li>end_date 结束日期，yyyy-mm-dd格式，默认为今天</li>
+</ul>
+<ul>
+<li><p>成功响应: 200</p>
+<pre><code>  [
+      {
+          &quot;reciver&quot;: &quot;一天的发送总量, int&quot;,
+          &quot;offline&quot;: &quot;一天离线接收的总量, int&quot;,
+          &quot;send&quot;: &quot;一天的发送总量, int&quot;,
+          &quot;time&quot;:  &quot;日期，yyyy-mm-dd格式&quot;
+      },
+      ...
+  ]
+</code></pre></li>
+</ul>
+<ul>
+<li>操作失败:
+状态码:400</li>
+</ul>
+<h3 id="-">分页查询应用的发送情况，时间为倒叙</h3>
+<ul>
+<li>请求地址：<strong>GET /gc1/push/android/send_info/&lt;int:client_id&gt;?pushed_status=0&amp;title=&amp;offset=0&amp;limit=20</strong></li>
+<li>是否认证：是</li>
+<li>请求内容：</li>
+<li>pushed_status: 查询任务的状态1:已发送 2：未发送; 0:全部</li>
+<li>title 推送的标题作为查询条件, 需要URLencode</li>
+<li>offset 起始游标, 默认 0</li>
+<li><p>limit 条数， 默认 20</p>
+</li>
+<li><p>成功响应 200</p>
+<pre><code>  {
+      &quot;pagination&quot;: {
+          &quot;rows_found&quot;: &quot;总记录数&quot;
+          &quot;limit&quot;: &quot;条数&quot;
+          &quot;offset&quot;: &quot;起始游标&quot;
+      },
+      &quot;data&quot;: [
+          {
+              &quot;push_channel&quot;: &quot;该任务的被创建的来源渠道：0:普通（内部接口创建） 1：pushrule自动推送；2：接口（第三方推送&quot;,
+              &quot;task_id&quot;: &quot;任务ID，long&quot;,
+              &quot;send&quot;: &quot;该任务的发送量, int&quot;,
+              &quot;content&quot;: &quot;任务的标题, String&quot;,
+              &quot;reciver&quot;: &quot;该任务在线接收量, int&quot;,
+              &quot;is_sended&quot;: &quot;该任务的是否已经下发了, bool&quot;,
+              &quot;send_time&quot;: &quot;任务下发的时间, long&quot;,
+              &quot;offline&quot;: &quot;该任务离线接收量, int&quot;
+          }
+      ]
+  }
+</code></pre></li>
+<li><p>操作失败:
+状态码:400</p>
+</li>
+</ul>
+
+        </div>
+    </div>
+</div>
+</div>
+<a href="#" class="btn-top" id="btn_top"><span class="vertical">回顶部</span></a>
+<script>
+    $(function () {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function (e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        var text = $('.nav-title-active').text();
+        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1 || text.indexOf('服务端接入') != -1 || text.indexOf('服务端推送接口') != -1) {
+//            console.log(text);
+            //抽取标题索引
+            $('h1,h2,h3,h4,h5,h6').each(function (i) {
+                $(this).attr('id', 'anchor-' + i);
+            })
+        } else {
+//            navHtml += '<header><h1>' + text + '</h1></header>';
+        }
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function (item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        var sidebar = $('.sidebar');
+        $(window).on('scroll', function () {
+            var scrollTop = $(this).scrollTop();
+//            console.log(scrollTop);
+//            if (scrollTop > 62) {
+//                sidebar.css({'position': 'fixed', 'top': '0'});
+//            }else {
+//                sidebar.css({'position': 'absolute', 'top': 62});
+//            }
+            if (scrollTop > $(this).height()) {
+                $('#btn_top').show();
+            } else {
+                $('#btn_top').hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>

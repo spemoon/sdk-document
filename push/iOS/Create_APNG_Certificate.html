@@ -1,0 +1,182 @@
+<!doctype html>
+<!--[if lt IE 7]>
+<html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>
+<html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>
+<html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8"/>
+    <title>文档中心</title>
+    <meta name="keywords" content="documentation,dox"/>
+    <meta name="description" content="项目开发相关文档"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.gameservice.com/templates/developer/assets/base.css"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.gameservice.com/static/themes/default/css/developer.css"/>
+    <link rel="stylesheet" type="text/css" href="http://docs.gameservice.com/static/themes/default/css/typo.css"/>
+    <script src="http://docs.gameservice.com/templates/default/assets/prettify.js"></script>
+    <script src="http://docs.gameservice.com/templates/default/assets/jquery-1.8.2.min.js"></script>
+</head>
+<body>
+<div class="header">
+    <div class="inner-wrapper">
+        <!--<div class="opt rt">-->
+            <!--<a href="http://developers.gameservice.com/register">注册</a>-->
+        <!--</div>-->
+        <div class="logo"><a href="http://www.gameservice.com/">NGDS</a></div>
+        <!--<div class="nav">-->
+            <!--<ul>-->
+                <!--<li class="item"><a class="link" href="http://developers.gameservice.com/push">智能推送</a></li>-->
+                <!--<li class="item"><a class="link" href="http://developers.gameservice.com/data">数据分析</a></li>-->
+                <!--<li class="item"><a class="link" href="http://docs.gameservice.com/docs/sdk/Android-SDK.html" target="_blank">SDK下载</a></li>-->
+                <!--<li class="item"><a class="link" target="_blank" href="http://docs.gameservice.com/">帮助文档</a>-->
+                <!--</li>-->
+            <!--</ul>-->
+        <!--</div>-->
+    </div>
+</div>
+<div class="outer-wrapper">
+
+<div class="sidebar">
+    <div class="wrapper">
+        <nav class="sidebar-nav">
+            <div class="sidebar-content">
+                <h1 class="nav-title">推送文档</h1>
+                <ul>
+
+            <li  ><a href="http://docs.gameservice.com/push/push_flow.html">推送接入流程</a><i class="disclosure"></i></li>
+
+            <li  ><a href="http://docs.gameservice.com/push/server_push_api.html">服务端推送接口</a><i class="disclosure"></i></li>
+
+            <li  ><a href="http://docs.gameservice.com/push/Android-SDK.html">Android SDK接入指南</a><i class="disclosure"></i></li>
+
+                <li class="factive">
+
+                    <a href="http://docs.gameservice.com/push/iOS/iOS-SDK.html">iOS SDK接入
+                        <i class="disclosure"></i>
+                    </a>
+                    <ul>
+                    
+                            <li ><a  href="http://docs.gameservice.com/push/iOS/iOS-SDK.html">iOS SDK接入指南</a></li>
+                    
+                            <li class="active"><a class="nav-title-active" href="http://docs.gameservice.com/push/iOS/Create_APNG_Certificate.html">APNS证书创建流程</a></li>
+                    
+                    </ul>
+                </li>
+
+</ul>
+
+            </div>
+        </nav>
+    </div>
+</div>
+<div class="main">
+    <div class="wrapper">
+        <div class="nav-page-content typo typo-selection" role="main">
+            <h1 id="apns-">APNS证书创建流程</h1>
+<!-- create time: 2014-08-01 13:33:00  -->
+
+<h2 id="1-ios-app-id-2">1 创建iOS App ID, 如果已经存在跳到步骤2</h2>
+<p>1 登录Apple Developer Center，选择Identifiers下的App IDs，点击添加:</p>
+<p><img src="./01_Create_APNG_Certificate/1.png" alt="image"></p>
+<p>2 填写App ID Description:</p>
+<p><img src="./01_Create_APNG_Certificate/2.png" alt="image"></p>
+<p>3 填写bundle ID:</p>
+<p><img src="./01_Create_APNG_Certificate/3.png" alt="image"></p>
+<p>4 选中<strong>Push Notification</strong>, 点击继续:</p>
+<p><img src="./01_Create_APNG_Certificate/4.png" alt="image"></p>
+<p>5 提交:</p>
+<p><img src="./01_Create_APNG_Certificate/5.png" alt="image"></p>
+<h2 id="2-">2 创建推送证书</h2>
+<p>这里以开发证书为例，发布证书步骤相同</p>
+<p>6 打开Keychain， 点击菜单<strong>&quot;证书助理&quot;</strong> -&gt; <strong>&quot;从证书颁发机构请求证书&quot;...</strong>:</p>
+<p><img src="./01_Create_APNG_Certificate/6.png" alt="image">
+<img src="./01_Create_APNG_Certificate/7.png" alt="image"></p>
+<p>7 填写邮箱，常用名称，选择保存到磁盘，继续:</p>
+<p><img src="./01_Create_APNG_Certificate/8.png" alt="image"></p>
+<p>8 回到Apple Developer Center，在App ID列表上点击展开需要创建证书的App ID，点击<strong>edit</strong></p>
+<p><img src="./01_Create_APNG_Certificate/9.png" alt="image"></p>
+<p>9 点击创建证书:</p>
+<p><img src="./01_Create_APNG_Certificate/10.png" alt="image"></p>
+<p>10 点continue继续:</p>
+<p><img src="./01_Create_APNG_Certificate/11.png" alt="image"></p>
+<p>11 选择刚刚创建的certSigningRequest文件:</p>
+<p><img src="./01_Create_APNG_Certificate/12.png" alt="image"></p>
+<p>12 点击&quot;Generate&quot;生成:</p>
+<p><img src="./01_Create_APNG_Certificate/13.png" alt="image"></p>
+<p>13 下载生成的证书，并双击安装:</p>
+<p><img src="./01_Create_APNG_Certificate/14.png" alt="image"></p>
+<p>14 打开keychain，就可以看到生成的证书:</p>
+<p><img src="./01_Create_APNG_Certificate/15.png" alt="image"></p>
+<h2 id="3-">3 导出证书</h2>
+<p>15 在keychain中，点击安装好的证书，右键弹出菜单：</p>
+<p><img src="./01_Create_APNG_Certificate/16.png" alt="image"></p>
+<p>16 点击导出p12文件：</p>
+<p><img src="./01_Create_APNG_Certificate/17.png" alt="image"></p>
+
+        </div>
+    </div>
+</div>
+</div>
+<a href="#" class="btn-top" id="btn_top"><span class="vertical">回顶部</span></a>
+<script>
+    $(function () {
+        $('pre').addClass('prettyprint');
+        $('td pre').removeClass('prettyprint');
+        prettyPrint();
+        $('.response-btn').on('click', function (e) {
+            var sectionNode = $(this).closest('.api-section');
+            sectionNode.find('.api-response').slideToggle();
+        });
+        var navHtml = '';
+        var text = $('.nav-title-active').text();
+        if (text.indexOf('Android SDK') != -1 || text.indexOf('iOS SDK') != -1 || text.indexOf('服务端接入') != -1 || text.indexOf('服务端推送接口') != -1) {
+//            console.log(text);
+            //抽取标题索引
+            $('h1,h2,h3,h4,h5,h6').each(function (i) {
+                $(this).attr('id', 'anchor-' + i);
+            })
+        } else {
+//            navHtml += '<header><h1>' + text + '</h1></header>';
+        }
+        if ($('.api-section').length > 0) {
+            navHtml += '<div class="index-nav index-endpoints">';
+            navHtml += '    <ul>';
+            $('.api-section').each(function (item) {
+                var id = $(this).attr('id');
+                var method = $(this).find('.api-method').eq(0).text().toUpperCase();
+                var api = $(this).find('.api-rule').eq(0)[0].innerHTML;
+                var desc = $(this).find('.api-description').eq(0).find('p').eq(0).text();
+                navHtml += '        <li>';
+                navHtml += '            <a href="#' + id + '">';
+                navHtml += '                <span class="type">' + method + '</span>';
+                navHtml += '                <b>' + api + '</b>';
+                navHtml += '                <span class="description">' + desc + '</span>';
+                navHtml += '                <i></i>';
+                navHtml += '            </a>';
+                navHtml += '        </li>';
+            });
+            navHtml += '    </ul>';
+            navHtml += '</div>';
+        }
+        $('.nav-page-content').prepend(navHtml);
+        var sidebar = $('.sidebar');
+        $(window).on('scroll', function () {
+            var scrollTop = $(this).scrollTop();
+//            console.log(scrollTop);
+//            if (scrollTop > 62) {
+//                sidebar.css({'position': 'fixed', 'top': '0'});
+//            }else {
+//                sidebar.css({'position': 'absolute', 'top': 62});
+//            }
+            if (scrollTop > $(this).height()) {
+                $('#btn_top').show();
+            } else {
+                $('#btn_top').hide();
+            }
+        });
+    });
+</script>
+</body>
+</html>

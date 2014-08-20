@@ -37,24 +37,6 @@ var getTemplates = function (skin, input) {
     return templates;
 };
 
-var config = {
-    'platform': '平台基本概述',
-    'overview': '平台概述',
-    'agreement': '开发者协议',
-    'publish': '应用上线流程',
-    'abort': '应用下线流程',
-    'apps': '应用接入',
-    'access': '接入流程',
-    'audit': '通用包审核标准',
-    'distribution': '渠道包生成和分发',
-    'sdk': 'SDK接入',
-    'Android-SDK': 'Android SDK',
-    'iOS-SDK': 'iOS SDK',
-    'server': '服务端接入',
-    'other': '更多资料',
-    'push_api': '服务端推送接口',
-    'Create_APNG_Certificate': 'APNS证书创建流程'
-};
 
 var readFolder = (function () {
     function iterator(item, tree) {
@@ -123,8 +105,17 @@ var readFolder = (function () {
  * @param {String} input 输入目录路径
  * @param {String} output 输出目录路径
  */
-exports.process = function (input, output, skin, dir) {
+exports.process = function (input, output, skin, dir, enviro) {
     var obj = require(path.resolve(input, 'package.json'));
+    var config = require(path.resolve());
+    var host = '';
+    if (enviro === 'product') {
+        host = obj.link.host + '/' + output.split('/').pop()
+    } else {
+        obj.link.host = obj.link.dev_host;
+        host = obj.link.dev_host + '/' + output.split('/').pop()
+    }
+
 
     var themeDir;
 
@@ -142,7 +133,6 @@ exports.process = function (input, output, skin, dir) {
     }
     var libDir = path.join(input, dir || 'doc');
     var folders = readFolder(libDir);
-
     //渲染首页
     var doc = getTemplates(skin).doc;
     obj.indexs = folders;
@@ -152,13 +142,13 @@ exports.process = function (input, output, skin, dir) {
             if (item.children.length > 0) {
                 item.children.forEach(function (sitem) {
                     if (sitem.children.length === 0) {
-                        sitem['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, obj.docsurl);
+                        sitem['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, host);
                     } else {
                         fillUrls(sitem.children);
                     }
                 });
             } else {
-                item['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, obj.docsurl);
+                item['url'] = (item.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, host);
             }
         });
     })(obj.indexs);
@@ -166,13 +156,11 @@ exports.process = function (input, output, skin, dir) {
     var iterator = (function (list) {
         list.forEach(function (item) {
             if (item.children.length > 0) {
-
                 var folderUrl = (item.path.replace(/\.(\w+)$/, '')).replace(libDir, output);
                 if (folderUrl.substr(0, 1) == '_') {
                     //以下划线开始的不解析
                 } else {
                     folderUrl = folderUrl.replace(/[0-9]{2}_/g, '');
-//                console.log(folderUrl);
                     if (!fs.existsSync(folderUrl)) {
                         fs.mkdirSync(folderUrl);
                     }
@@ -181,12 +169,14 @@ exports.process = function (input, output, skin, dir) {
                             var htmlUrl = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, output);
                             item['active'] = true;
                             sitem['active'] = true;
-                            sitem['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, obj.docsurl);
+                            sitem['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, host);
                             sitem['url'] = sitem['url'].replace(/[0-9]{2}_/g, '');//去掉00_
+//                            console.log(sitem);
                             var text = decoder.write(fs.readFileSync(sitem.path));
                             obj.content = markdown(text);
                             htmlUrl = htmlUrl.replace(/[0-9]{2}_/g, '');//去掉00_
-                            obj.config = config;
+//                            obj.config = config;
+                            obj.config = obj.options.i18n;
                             fs.writeFileSync(htmlUrl, ejs.render(doc, obj), 'utf8');
                             item['active'] = false;
                             sitem['active'] = false;
@@ -198,12 +188,15 @@ exports.process = function (input, output, skin, dir) {
             } else {
                 var htmlUrl = (item.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, output);
                 item['active'] = true;
-                item['url'] = (sitem.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, obj.docsurl);
+                item['url'] = (item.path.replace(/\.(\w+)$/, '') + '.html').replace(libDir, host);
+                item['url'] = item['url'].replace(/[0-9]{2}_/g, '');//去掉00_
+//                console.log(item['url']);
                 var text = decoder.write(fs.readFileSync(item.path));
                 obj.content = markdown(text);
-
+                obj.config = obj.options.i18n;
+                htmlUrl = htmlUrl.replace(/[0-9]{2}_/g, '');//去掉00_
                 fs.writeFileSync(htmlUrl, ejs.render(doc, obj), 'utf8');
-                sitem['active'] = false;
+                item['active'] = false;
             }
         });
     })(obj.indexs);

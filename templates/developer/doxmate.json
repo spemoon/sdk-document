@@ -1,4 +1,22 @@
 {
-  "name": "default",
-  "version": "0.0.1"
+    "name": "default",
+    "version": "0.0.1",
+    "i18n": {
+        "platform": "平台基本概述",
+        "overview": "平台概述",
+        "agreement": "开发者协议",
+        "publish": "应用上线流程",
+        "abort": "应用下线流程",
+        "apps": "应用接入",
+        "access": "接入流程",
+        "audit": "通用包审核标准",
+        "distribution": "渠道包生成和分发",
+        "sdk": "SDK接入",
+        "Android-SDK": "Android SDK",
+        "iOS-SDK": "iOS SDK",
+        "server": "服务端接入",
+        "other": "更多资料",
+        "push_api": "服务端推送接口",
+        "Create_APNG_Certificate": "APNS证书创建流程"
+    }
 }

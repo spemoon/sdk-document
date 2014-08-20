@@ -1,0 +1,13 @@
+{
+    "name": "default",
+    "version": "0.0.1",
+    "i18n": {
+        "push_flow": "推送接入流程",
+        "server": "服务端接入指南",
+        "server_push_api": "服务端推送接口",
+        "Android-SDK": "Android SDK接入指南",
+        "iOS": "iOS SDK接入",
+        "iOS-SDK": "iOS SDK接入指南",
+        "Create_APNG_Certificate": "APNS证书创建流程"
+    }
+}
