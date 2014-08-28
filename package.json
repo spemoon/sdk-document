@@ -10,7 +10,7 @@
     "link": {
         "default": "../..",
         "host": "http://docs.gameservice.com",
-        "dev_host": "http://docs.gameservice.com"
+        "dev_host": "http://localhost:15105"
     },
     "bin": {
         "doxmate": "bin/doxmate",
