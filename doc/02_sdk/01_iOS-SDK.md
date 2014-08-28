@@ -1,6 +1,6 @@
-# GameService iOS SDK 说明文档 V1.0.2
+# GameService iOS SDK 说明文档 V1.0.3
 
-<a href="../../static/download/GameService_iOS_SDK V1.0.2.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
+<a href="../../static/download/GameService_iOS_SDK V1.0.3.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
 
 ------
 
@@ -8,12 +8,12 @@
 
 版本号| 时间| 更新内容
 ----|-----|--------
-v1.0.2|2014.08.07|修改登陆框消失问题，添加本地签名
+v1.0.3|2014.08.27|修改支付接口调用方式，修订cocos2d-x调用SDK的bug。
 
 
 ## 1、SDK构成
 1. 静态库 libGameServiceSDK.a, libGameService-arm64.a 
-2. 头文件: NGGameService.h, NGNotifications.h, NGPaymentController.h
+2. 头文件: NGGameService.h, NGGameServiceDefines.h
 2. 资源文件 GameServiceResource.bundle
 3. Demo工程
 
@@ -88,7 +88,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 
 #### 3.2.3 注销
 	[NGGameService logout];
-开发者注意调用注销后更新游戏场景。
+注销后，平台会发送`kNGUserDidLogoutNotification`消息，开发者注意调用注销后更新游戏场景。
 
 #### 3.2.4 登录结果处理
 用户进行登录操作并登录成功后，平台会发送登录成功通知`kNGLoginDidSuccessNotification`，开发者在收到通知后进行登录成功处理。
@@ -113,26 +113,26 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 如果登录界面有跳过按钮，用户选择跳过,平台会发送跳过通知`kNGDidSkipLoginNotification`。
 
 #### 3.2.5 获取已登录用户信息
-	[NGGameService userID]; //获取userID
-	[NGGameService accessToken]; //获取access token
-	[NGGameService nickName]; //获取用户平台昵称
+	[NGGameService userID]; 		//获取userID
+	[NGGameService accessToken]; 	//获取access token
+	[NGGameService nickName];		//获取用户平台昵称
 
 ### 3.3 支付
-支付相关类在`NGPaymentController.h`文件中。
+
 #### 3.3.1 生成支付请求
 
 填写订单信息:
 
     NGPaymentRequest* payment = [[NGPaymentRequest alloc] init];
     
-    payment.appName = @"测试游戏";		//游戏名称
-    payment.subject = @"测试商品名称";	//商品名称
-    payment.body = @"测试商品描述";		//商品描述
+    payment.appName = @"测试游戏";			//游戏名称
+    payment.subject = @"测试商品名称";		//商品名称
+    payment.body = @"测试商品描述";			//商品描述
     payment.amount = 100;					//价格（单位为“分”）
-    payment.notifyURL = @""; 			//回调地址，
+    payment.notifyURL = @"yourNotifyURL"; 	//回调地址，
     payment.appID = @"9";					//应用ID
-    payment.appUserID = @"123";			//应用当前登录用户ID
-    payment.appOrderID = ;				//应用订单ID
+    payment.appUserID = @"123";				//应用当前登录用户ID
+    payment.appOrderID = ;					//应用订单ID
     payment.appUserName = @"角色名";		//应用当前登录用户名
     
 注：以上数据必填。
@@ -159,44 +159,41 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 将NGPaymentRequest的usingLocalSigniture设置为YES.
 	
 	payment.usingLocalSigniture = YES;
+	
+* 使用本地签名不需要填充`NGPaymentRequest`的`sign`字段。
     
 #### 3.3.3 显示支付界面
-使用支付请求初始化支付界面:
 
-	 NGPaymentController* controller = [[NGPaymentController alloc] initWithPayment:payment];
-    controller.paymentDelegate = self;
-    [self presentViewController:controller animated:YES completion:nil];
+	 [NGGameService pay:payment];
     
 #### 3.3.4 处理支付结果
-实现NGPaymentControllerDelegate接口。
+支付成功后，平台会通过支付成功消息`kNGPaymentDidSuccessNotification`发送`NGPaymentResult`,开发者收到该消息后处理客户端的后续支付逻辑。
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actionPaySuccess:) name:kNGPaymentDidSuccessNotification object:nil];
+    
+支付过程未能完成，平台会发送`kNGPaymentCanceledNotification`。
+	
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actionPayCanceled:) name:kNGPaymentCanceledNotification object:nil];
 
+* 支付成功:
 
-
-* 支付成功处理:
-
-		- (void)paymentController:(NGPaymentController*)paymentController didSuccessWithResult:(NGPaymentResult*)result {
-	    	NGPaymentRequest* request = paymentController.payment;
-	    	NSString* orderID = result.orderID; //平台订单ID
-	    	
-	    	[self dismissViewControllerAnimated:YES completion:nil];
+		- (void)actionPaySuccess:(NSNotification *)notification {
+    		NGPaymentResult *result = notification.object;
+    		NSLog(@"支付结果：\n支付id%@\n 支付金额%d分\n  商品名称%@", result.orderID,result.amount, result.subject);
 		}
 	
 支付完成后，开发者服务端通过平台订单id来确认订单完成。
 	
 * 取消支付
 
-		- (void)paymentDidCancel:(NGPaymentController*)paymentController {
-    		[self dismissViewControllerAnimated:YES completion:nil];
+		- (void)actionPayCanceled:(NSNotification *)notification {
+    		NSLog(@"支付取消");
 		}
 
 
 #### 3.3.5 处理支付宝支付结果和微博SSO登录
-在AppDelegate的`application:handleOpenURL:`和`application:openURL:sourceApplication:annotation:`中添加如下代码：
+在AppDelegate的`application:openURL:sourceApplication:annotation:`中添加如下代码：
 
-	- (BOOL)application:(UIApplication *)application handleOpenURL:(NSURL *)url {
-    	return [NGGameService handleOpenURL:url];
-	}
-	
 	- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
 	    BOOL handled = [NGGameService handleOpenURL:url];
 	    if (handled) {
@@ -246,5 +243,3 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"%@", error);
 	}
-
-
