@@ -1,6 +1,5 @@
 # SmartPush SDK 说明文档
-
-版本：V1.2.6
+版本：V1.0.8
 
 ## 目录
 1. [产品说明](#1)
@@ -38,56 +37,49 @@
 <h2 id="1">1、产品说明</h2>
 
 <h3 id="1.1">1.1 功能</h3>
-
 * 开发者能够主动、及时地向玩家发送通知或消息。
-
 * 可接收通知与自定义消息，向 App 传递相关信息。  
 
 <h3 id="1.2">1.2 特点</h3>
-
 * 数据挖掘，实时或离线的场景分析，在适当的时候以适当的方式推送到玩家。
-
 * 通过离线保障，不单纯依赖TCP长连接，将送达率提高到99.9%以上，降低客户端25%电力消耗。
 
 <h3 id="1.3">1.3 SDK 包内容</h3>
-
 * 示例程序工程：**SmartPushExample**
 
 	* SmartPushExample/src下: 示例代码
 
-* 工程依赖包：**smart-push-v1.x.x.jar**
-	
+* 工程依赖包：**smart-push-v1.x.x.jar**	
 * 示例程序安装包：**SmartPushExample.apk**
-
 * 说明文档：**SmartPush SDK说明文档.pdf**
 
 <h3 id="1.4">1.4 Android SDK版本</h3>
-
 * 目前SDK只支持Android 2.2或以上版本的手机系统。
 
 
 <h2 id="2">2、开始集成SDK</h2>
 
 <h3 id="2.1">2.1 导入包</h3>
-
 * 拷贝 smart-push-v1.x.x.jar 包到主工程的libs下；
-* Eclipse 下导入依赖包
+	
+	* Eclipse 下导入依赖包
 
-注意：使用 Eclipse ADT 17 以上版本的开发者，其可自动引用jar包。使用 Eclipse ADT 17 以下版本开发者使用老方式添加工程引用：右键工程根目录 > Properties > Java Build Path > Libraries，然后点击Add External JARs... 选择指向jar包的路径(主项目的libs目录下)，点击OK，流程如下：
+		注意：使用 Eclipse ADT 17 以上版本的开发者，其可自动引用jar包。 使用 Eclipse ADT 17 以下版本开发者使用老方式添加工程引用：右键工程根目录 > Properties > Java Build Path > Libraries，然后点击Add External JARs... 选择指向jar包的路径(主项目的libs目录下)，点击OK，流程如下：
 		
-![](./Android-SDK-Pic/SetEclipse_1.jpg)
+		![](./pic/SetEclipse_1.jpg)
 
-![](./Android-SDK-Pic/SetEclipse_2.jpg)
+		![](./pic/SetEclipse_2.jpg)
 
-![](./Android-SDK-Pic/SetEclipse_3.jpg)
+		![](./pic/SetEclipse_3.jpg)
 
-* IntelliJ IDEA 下导入包
 
-工程libs目录 > 右键  smart-push-v1.x.x.jar > Add as Library > 选择Project Library > 加为项目依赖：
+	* IntelliJ IDEA 下导入包
 
-![](./Android-SDK-Pic/SetIdea_1.jpg)
+		工程libs目录 > 右键  smart-push-v1.x.x.jar > Add as Library > 选择Project Library > 加为项目依赖：
 
-![](./Android-SDK-Pic/SetIdea_2.jpg)
+		![](./pic/SetIdea_1.jpg)
+
+		![](./pic/SetIdea_2.jpg)
 
 
 <h3 id="2.2">2.2 资源配置</h3>
@@ -164,7 +156,6 @@
 <h3 id="2.3">2.3 添加代码</h3>
 
 <h4 id="2.3.1">2.3.1 添加推送服务代码</h4>
-
 * 在Activity或者Application子类中添加代码：
 
 		SmartPush.registerReceiver(new MessageReceiver());
@@ -191,28 +182,25 @@
 	            SmartPush.bindDevice(PushActivity.this, "0917");
 	        }
     	}	
-    	
 
 <h4 id="2.3.2">2.3.2 添加信息采集服务代码</h4>
-
 * 在Activity的onResume和onPause方法中作如下调用： 
 
 		@Override
 	    protected void onPause() {
-	        SmartPush.onActivityPause(this);
+	        SmartPush.onActivityPause(this, "serverId");
 	        super.onPause();
 	    }
 	
 	    @Override
 	    protected void onResume() {
-	        SmartPush.onActivityResume(this);
+	        SmartPush.onActivityPause(this, "serverId");
 	        super.onResume();
 	    } 	
 
 * 说明：添加以上代码才能正确获取玩家行为数据。	    
 				
 <h4 id="2.3.3">2.3.3 添加错误上报功能</h4>
-
 * Application的子类中进行如下调用：
 
 		public class BaseApp extends Application {
@@ -240,7 +228,6 @@
 * 说明：帮助我们收集错误信息以反馈更好的体验，如若不添加以上代码，出现问题我们将收不到相应信息。
 
 <h4 id="2.3.4">2.3.4 设置Debug模式</h4>
-
 * Application的子类onCreate()方法中进行如下调用，以此来设置Debug模式。
 
 	    @Override
@@ -252,11 +239,8 @@
 * 说明：若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为debug模式)。	    
 
 <h3 id="2.4">2.4 测试确认</h3>
-
 * 请确认 AndroidManifest.xml 中的 **NGDS_APPKEY**、**NGDS_APPID**、**NGDS_CHANNEL**的value值是否正常填写。
-
 * 请确认主项目包名是否与<a href="http://developers.gameservice.com/">GameService 开发网站</a>里相应的App一致。
-
 * smart-push-v1.x.x.jar 包是否添加为依赖。
 
 <h4 id="2.4.1">2.4.1 测试推送通知和消息</h4>
@@ -264,10 +248,9 @@
 
 
 <h2 id="3">3、推送 API 介绍</h2>
-
-
+ 		
 + 注册启动push服务
-    + 方法： SmartPush.**registerService** (Context context) 
+	+ 方法： SmartPush.**registerService** (Context context) 
 	+ 功能： 注册启动push服务
 	+ 参数： context 当前上下文
 
@@ -294,14 +277,18 @@
 	+ 参数： isDebugable 是否设为Debug状态布尔值（true为Debug状态）
      	
 + 记录玩家离开当前页面行为
-	+ 方法： SmartPush.**onActivityPause**(Context context)
+	+ 方法： SmartPush.**onActivityPause**(Context context, String serverId)
 	+ 功能： 玩家离开当前页面行为记录
-	+ 参数： context 当前上下文
+	+ 参数： 
+		+ context  上下文
+     	+ serverId 服务器id	
 
 + 记录玩家返回当前页面行为
-	+ 方法： SmartPush.**onActivityResume**(Context context)
+	+ 方法： SmartPush.**onActivityResume**(Context context, String serverId)
 	+ 功能： 玩家返回当前页面行为记录
-	+ 参数： context 当前上下文	
+	+ 参数： 
+		+ context  上下文
+     	+ serverId 服务器id	
 
 + 玩家登录记录
 	+ 方法： SmartPush.**recordLogin**(Context context, String playerId)
@@ -429,7 +416,6 @@
 <h2 id="5">5、常见问题</h2> 
 
 <h3 id="5.1">5.1 关于推送服务</h3>
-
 + 推送服务包括：
 	+ 推送通知：通知以状态栏Notification的形式展现，无需开发者处理。
 	+ 推送消息：处理消息需开发者在 IMsgReceiver 实现类的**onMessage**(String message)方法内自定义(参考demo)。
