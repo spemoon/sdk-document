@@ -1,62 +1,104 @@
-# GameService SDK 说明文档_V1.0.6 
-------
+# SmartPush SDK 说明文档
 
-<a href="../../static/download/GameService_Sdk_Bundle_V1.0.6.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
+版本：V1.2.6
 
-## 一、SDK包含内容
+## 目录
+1. [产品说明](#1)
 
-* GameService SDK 说明文档_V1.0.6.pdf
+	1.1 [功能](#1.1)
 
-* 依赖工程 library
-  * PushSDK_Release
-  * alipay_lib
-  
-* 示例程序工程 samples
+	1.2 [特点](#1.2)
 
-* 示例程序安装包 SDKSample_V1.0.6.apk
+	1.3 [SDK 包内容](#1.3)
 
-* 密钥生成工具 openssl
+	1.4 [Android SDK版本](#1.4)
 
-## 二、项目配置
+2. [开始集成SDK](#2)
 
-2.1 增加工程依赖项目PushSDK_Release，alipay_lib；
+	2.1 [导入包](#2.1)
 
-2.2 拷贝 SDKSample libs 下的文件到主工程的libs下；
+	2.2 [资源配置](#2.2)
 
-2.3 在PushSDK_Release的res/values/pushsdk_thirdparty_string.xml 中：
+	2.3 [添加代码](#2.3)
+
+	2.4 [测试确认](#2.4)
+
+3. [推送API介绍](#3)
+
+
+4. [相关类介绍](#4)
+
+	4.1 [IMsgReceiver](#4.1)
+
+5. [常见问题](#5)
+
+	5.1 [关于推送服务](#5.1)
+
+
+<h2 id="1">1、产品说明</h2>
+
+<h3 id="1.1">1.1 功能</h3>
+
+* 开发者能够主动、及时地向玩家发送通知或消息。
+
+* 可接收通知与自定义消息，向 App 传递相关信息。  
+
+<h3 id="1.2">1.2 特点</h3>
+
+* 数据挖掘，实时或离线的场景分析，在适当的时候以适当的方式推送到玩家。
+
+* 通过离线保障，不单纯依赖TCP长连接，将送达率提高到99.9%以上，降低客户端25%电力消耗。
+
+<h3 id="1.3">1.3 SDK 包内容</h3>
+
+* 示例程序工程：**SmartPushExample**
+
+	* SmartPushExample/src下: 示例代码
+
+* 工程依赖包：**smart-push-v1.x.x.jar**
 	
-		<?xml version="1.0" encoding="utf-8" standalone="no"?>
-		<resources>
-		<string name="permission_service">[your_prefix].android.permissions.SERVICE</string>
-		<string name="permission_provider">[your_prefix].android.permissions.PROVIDER</string>
-		<string name="permission_vote">[your_prefix].android.permissions.VOTE</string>
-		<string name="permission_client">[your_prefix].android.permissions.CLIENT</string>
-		<string name="action_protect_service_start">[your_prefix].intent.protect.service.action.START</string>
-		<string name="action_protect_broadcast_service">[your_prefix].intent.protect.service.action.BROADCAST</string>
-		<string name="action_protect_broadcast_clinet">[your_prefix].intent.protect.client.action.BROADCAST</string>
-		<string name="action_opensdk_vote">[your_prefix].intent.opensdk.action.VOTE</string>
-		<string name="action_opensdk_consult">[your_prefix].intent.opensdk.action.CONSULT</string>
-		<string name="action_api_service_start">[your_prefix].intent.api.service.action.START</string>
-		<string name="sdk_appid">8</string>
-		<string name="sdk_appkey">sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44</string>
-		<string name="sdk_domain">TGXD_201405141634230591ktsNZU1FF</string>
-		<string name="sdk_scheme">[your_prefix]</string>
-		</resources>
+* 示例程序安装包：**SmartPushExample.apk**
 
-* 将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)。如：ngds。
+* 说明文档：**SmartPush SDK说明文档.pdf**
 
-* sdk_appid 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的appid,
+<h3 id="1.4">1.4 Android SDK版本</h3>
 
-* sdk_appkey 的值为你在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的appkey。
+* 目前SDK只支持Android 2.2或以上版本的手机系统。
 
-2.4 在主工程AndroidManifest中添加如下声明permission并做出相应替换：
 
-		<uses-permission android:name="android.permission.BATTERY_STATS" />
+<h2 id="2">2、开始集成SDK</h2>
+
+<h3 id="2.1">2.1 导入包</h3>
+
+* 拷贝 smart-push-v1.x.x.jar 包到主工程的libs下；
+* Eclipse 下导入依赖包
+
+注意：使用 Eclipse ADT 17 以上版本的开发者，其可自动引用jar包。使用 Eclipse ADT 17 以下版本开发者使用老方式添加工程引用：右键工程根目录 > Properties > Java Build Path > Libraries，然后点击Add External JARs... 选择指向jar包的路径(主项目的libs目录下)，点击OK，流程如下：
+		
+![](./Android-SDK-Pic/SetEclipse_1.jpg)
+
+![](./Android-SDK-Pic/SetEclipse_2.jpg)
+
+![](./Android-SDK-Pic/SetEclipse_3.jpg)
+
+* IntelliJ IDEA 下导入包
+
+工程libs目录 > 右键  smart-push-v1.x.x.jar > Add as Library > 选择Project Library > 加为项目依赖：
+
+![](./Android-SDK-Pic/SetIdea_1.jpg)
+
+![](./Android-SDK-Pic/SetIdea_2.jpg)
+
+
+<h3 id="2.2">2.2 资源配置</h3>
+
+* 在主工程 AndroidManifest.xml 的 manifest 标签下添加：
+
+	    <!-- 必需： 权限配置 -->
 	    <uses-permission android:name="android.permission.INTERNET" />
+	    <uses-permission android:name="android.permission.BATTERY_STATS" />
 	    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-	    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 	    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 	    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 	    <uses-permission android:name="android.permission.VIBRATE" />
@@ -64,97 +106,40 @@
 	    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 	    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 	    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+	    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 	    <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-	    <uses-permission android:name="[your_prefix].android.permissions.SERVICE" />	    <uses-permission android:name="[your_prefix].android.permissions.CLIENT" />	    <uses-permission android:name="[your_prefix].android.permissions.VOTE" />		<permission android:name="[your_prefix].android.permissions.SERVICE" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.CLIENT" android:protectionLevel="normal" />	    <permission android:name="[your_prefix].android.permissions.VOTE" android:protectionLevel="normal" />
-	
-* 将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)，如：ngds，须和pushsdk_thirdparty_string.xml中的设置保持一致。
 
-				
-2.5 在主工程AndroidManifest中增加如下activity, meta-data, service, receiver：
+* 在主工程 AndroidManifest.xml 的 application 标签下添加：
 
-		<!-- 渠道号 -->
+		<!-- 必需： 应用ID -->
+        <meta-data
+            android:name="NGDS_APPID"
+            android:value="8" />
+        <!--必需： 应用KEY-->
+        <meta-data
+            android:name="NGDS_APPKEY"
+            android:value="sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44" />
+        <!--必需： 渠道号，默认14 -->
         <meta-data
             android:name="NGDS_CHANNEL"
             android:value="14" />
-            
-        <!-- 登陆 -->
-        <activity
-            android:name="com.gameservice.sdk.activity.LoginSelectActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
-        <activity
-            android:name="com.gameservice.sdk.activity.LoginMobileActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.LoginVerifyCodeActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
 
-        <!--支付-->
-        <activity
-            android:name="com.gameservice.sdk.activity.PayTypeSelectActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.BankCardActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
+        <!-- 必需： 推送页面配置 -->
+        <activity android:name="com.gameservice.sdk.push.ui.SmartPushActivity" />
 
-        <activity
-            android:name="com.gameservice.sdk.activity.PayCodeActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
+        <!-- 必需： push 服务配置 -->
+        <service
+            android:name="com.gameservice.sdk.push.api.SmartPushService"
+            android:process=":remote" />
 
-        <activity
-            android:name="com.gameservice.sdk.activity.CoinActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.CoinRechargeActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.PhoneCardActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.PhoneCardLoginActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.PhoneCardResultActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-
-        <!--用户中心-->
-        <activity
-            android:name="com.gameservice.sdk.activity.UserCenterActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.UserBalanceActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.UserPwdActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-        <activity
-            android:name="com.gameservice.sdk.activity.UserPwdForgetCodeActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-
-        <!--Web页面-->
-        <activity
-            android:name="com.gameservice.sdk.activity.WebActivity"
-            android:configChanges="keyboardHidden|orientation"
-            android:theme="@android:style/Theme.NoTitleBar" />
-            
-        <!--push-->
-		<service		    android:name="com.tgx.push.sdk.MasterService"
-		    android:process="com.tgx.pushsdk.master.service"		    android:permission="[your_prefix].android.permissions.SERVICE">		      <intent-filter>		          <action android:name="[your_prefix].intent.protect.service.action.START" />		      </intent-filter>		 </service>		 <service android:name="com.tgx.push.sdk.SdkService" />		 <receiver		    android:name="com.tgx.push.sdk.AutoConsultReceiver"		    android:permission="[your_prefix].android.permissions.VOTE">		      <intent-filter android:priority="1" >		           <action android:name="[your_prefix].intent.opensdk.action.VOTE" />		           <data android:host="[your_host]" android:scheme="[your_prefix]" />		      </intent-filter>		 </receiver>		     		 <receiver android:name="com.gameservice.sdk.collection.util.NgdsStaticReceiver">
+        <!-- 必需： push 消息接收配置 -->
+        <receiver
+            android:name="com.gameservice.sdk.push.api.SmartPushReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:priority="90000"
+            android:process=":remote">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
@@ -163,558 +148,289 @@
                 <action android:name="android.intent.action.PACKAGE_REMOVED" />
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <action android:name="android.intent.action.PACKAGE_RESTARTED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="cn.ngds.android.intent.alarm" />
             </intent-filter>
         </receiver>
-		<service
-            android:name="com.gameservice.sdk.collection.service.CollectService"
-            android:process=":remote">
-            <intent-filter>
-                <action android:name="com.gameservice.sdk.collection.service.ICollectService" />
-                <action android:name="com.gameservice.sdk.collection.service.ISecondary" />
-                <action android:name="com.gameservice.sdk.collection.service.REMOTE_SERVICE" />
-            </intent-filter>
-        </service>
-
-        <receiver
-            android:name="com.gameservice.sdk.collection.util.AlarmReceiver"
-            android:process=":remote" />
-            
-		<activity
-		android:name="com.tgx.push.sdk.app.parser.view.PushSdkInfoActivity"/>
-		<activity
-		android:name="com.tgx.push.sdk.app.parser.view.PushSdkDialogActivity"/>
 		
 		
-* 将[your_prefix]修改成开发者需要指定的简称(一般以公司缩写为准)，如：ngds，须和pushsdk_thirdparty_string.xml中的设置保持一致。
+*  meta-data 标签配置说明：
+	* NGDS_APPID（应用ID）的value值配置成<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的AppId。
+	* NGDS_APPKEY（应用KEY）的value值配置成<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的AppKey。
+	* NGDS_CHANNEL（渠道号）的value值默认配置成14，有发渠道包的请填具体的渠道号。
 
-* 将[your_host]修改成pushsdk_thirdparty_string.xml的sdk_domain。
+<h3 id="2.3">2.3 添加代码</h3>
 
-* 渠道号，默认配置成14，有发渠道包的请填具体的渠道号。
+<h4 id="2.3.1">2.3.1 添加推送服务代码</h4>
 
-2.6 在应用开始的时候调用 GameService.startPushService（Context context）开启服务。一般放置在Application的子类中进行调用，如
-	
-	
-	public class BaseApp extends Application {
-	    @Override
-	    public void onCreate() {
-	        super.onCreate();
-	        GameService.startPushService(this);
-	    }
-	}
-然后在AndroidManifest.xml中声明applcaition中的name为BaseApp即可
+* 在Activity或者Application子类中添加代码：
 
-	...
-	 <application
-	        android:name=".base.BaseApp"
-	        ....
-        
+		SmartPush.registerReceiver(new MessageReceiver());
+		SmartPush.registerService(this);
 
-## 三、API使用说明
-
-### 3.1 设置屏幕方向
-* 功能描述：
-
-	开发者可以根据需要设置SDK业务界面的屏幕方向。一般只需要在调用SDK业务接口前执行。
-
-* 接口：
-
-	    GameService.setScreenOrientation(int orientation)
-
-* 参数说明：    
- 
-	使用SDK业务接口前调用该函数。参数orientation取值如下：
-    	
-	    GameService.SCREEN_ORIENTATION_LANDSCAPE             // 横屏
-	    GameService.SCREEN_ORIENTATION_PORTRAIT              // 竖屏
-
-### 3.2 获取认证信息     
-* 功能描述：
-
-	获取登录用户的认证信息。
-
-* 接口：
-
-	    GameService.getOAuthInfo(Context context)
-
-* 参数说明：     
-
-	context   上下文句柄
-
-* 返回结果类型OAuthInfo：
-
-	已登录返回OAuthInfo；未登录的情况下返回null。
-	
-### 3.3 登录
-* 功能描述：
-
-	SDK提供了3中认证方式：手机认证登录、QQ第3方登录、新浪微博第3方登录。调用成功后会在回调函数中返回用户认证信息。
-
-* 接口：
-
-	    GameService.login(Context context, boolean enableSkip, OnLoginListener listener)
-
-* 参数说明：
-
-| 参数名称           | 说明          	  	    |
-| -----------------	|--------------------------|
-| context    	    | 上下文句柄		           |
-| enableSkip     	| 是否允许跳过登录：   	  |
-|     	    | true 允许登录选择页面会出现跳过按钮；           |
-|     	    | false 不允许登录选择页面不会出现跳过按钮；              |
-| listener         | 登录回调函数     		  |
-	
-* 调用示例：
-
-	    if (GameService.getOAuthInfo(this) == null) {
-            GameService.login(MainActivity.this, false, new OnLoginListener() {
-                @Override
-                public void finish(int code, OAuthInfo oAuthInfo) {
-                    String msg = "";
-                    switch (code) {
-                        case StatusCode.FINISH:
-                            if (oAuthInfo != null) {
-                                msg = "token: " + oAuthInfo.getAccessToken();
-                            }
-                            break;
-                        case StatusCode.CANCEL:
-                            msg = "跳过登录";
-                            break;
-                        default:
-                            break;
-                    }
-                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
-                    Log.d(TAG, +code + ": " + msg);
-                }
-            });
-        } else {
-            String msg = "你已经是登录状态了，不需要再执行登录操作";
-            Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
-            Log.d(TAG, msg);
-        }
-
-### 3.4 注销登录
-* 功能描述：
-
-	开发者可以根据需要注销用户的登录状态。
-
-* 接口：
-
-	    GameService.logout(Context context)
-
-* 参数说明：     
-
-	context   上下文句柄
-
-* 返回结果类型boolean：
-  * true 注销登录成功
-  * false 注销登录失败
-
-* 调用示例：
-
-        String msg = "";
-        if (GameService.getOAuthInfo(this) == null) {
-            msg = "你还没有登录，无法执行注销登录操作";
-        } else {
-            boolean result = GameService.logout(this);
-            if (result) {
-                msg = "注销登录成功";
-            } else {
-                msg = "注销登录失败";
-            }
-        }
-        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_LONG).show();
-        Log.d(TAG, msg);
-        
-### 3.5 支付
-
-* 功能描述：
-SDK提供了银行卡、充值卡、支付宝登录多种支付方式。调用完成的通知返回有两种：
-
-    1. 客户端异步回调，这个只作状态通知，不做入账依据，表明交易是完成还是取消；
-    2. 服务端通过notify_url回调，平台服务端处理完支付业务后回调生成订单传的notify_url，相关参数会跟在url后面，可以根据status判断是否入账成功，具体可以参考 <a href="http://docs.gameservice.com/docs/sdk/server.html/">GameService 服务端开发说明</a>。
-
-* 接口：
-
-	    GameService.pay(Context context, Order order, OnPayListener listener)
-     
-* 参数说明：
-    
-| 参数名称           | 说明          	  	    |
-| -----------------	|--------------------------|
-| context    	    | 上下文句柄		           |
-| order     	    | 业务订单信息   	  |
-| listener    	    | 支付回调函数           |
-	
-* 调用示例：
-
-	    /**
-	     * 调用支付功能
-	     */
-	    public void doPay() {
-	        Order order = testOrder();
-	        // 生成待签名字符串
-	        String orderStr = getOrderString(order);
-	        Log.d(TAG, "orderStr:" + orderStr);
-	        // 签名
-	        order.setSign(Rsa.sign(orderStr, Keys.PRIVATE));
-	        Log.d(TAG, "signStr: " + order.getSign());
-	        GameService.pay(this, order, new OnPayListener() {
-	            @Override public void finish(int code, String msg) {
-	                switch (code) {
-	                    case StatusCode.FINISH:
-	                        msg = "支付完成";
-	                        break;
-	                    case StatusCode.CANCEL:
-	                        msg = "取消支付";
-	                        break;
-	                    default:
-	                        break;
-	                }
-	                Toast.makeText(TestPayActivity.this, msg, Toast.LENGTH_LONG).show();
-	                Log.d(TAG, "onPay: " + code + ": " + msg);
-	            }
-	        });
-	    }
-                
-	
-	    /**
-         * 生成测试订单
-         * @return
-         */
-	    public Order testOrder() {
-	        ApplicationInfo appInfo = null;
-	        try {
-	            appInfo = getPackageManager()
-	                .getApplicationInfo(getPackageName(),
-	                    PackageManager.GET_META_DATA);
-	        } catch (PackageManager.NameNotFoundException e) {
-	            e.printStackTrace();
+* 说明：MessageReceiver类为IMsgReceiver的实现类，要开启服务必先实现一个此接口并注册，并重写**onMessage**方法处理接收到的消息(可参考demo)。
+		
+		private class MessageReceiver implements IMsgReceiver {
+	        @Override
+	        public void onMessage(String message) {
+	        	// 处理透传消息 message是Json字符串，如"{"ID":"id1", "NAME":"http:\/\/www.baidu.com"}"
+	            android.util.Log.i("TGX", "message:" + message);
 	        }
-	
-	        Order result = new Order();
-	        result.setAppId(getString(
-	            R.string.sdk_appid));                                                     // 应用ID
-	        result.setChannelId(appInfo.metaData.getInt("NGDS_CHANNEL"));                 // 渠道ID
-	        result.setOrderId(getOutTradeNo());                                           // 订单号
-	        result.setUserId(edtUserId.getText().toString());                             // 用户ID
-	        result.setUserName(edtUserName.getText().toString());                         // 用户名称
-	        result.setSubject(edtProduct.getText().toString() + result.getOrderId());     // 商品名称
-	        result.setBody(edtDesc.getText().toString());                                 // 商品描述
-	        result.setMoney(Integer.valueOf(edtMoney.getText().toString()));              // 商品价格：单位 分
-	        result.setNotifyUrl(edtUrl.getText().toString());                             // 回调地址
-	        result.setImei("imeixxx");                                                    // IMEI
-	        result.setMacAddress("05-16-DC-59-C2-34");                                    // MAC地址
-	        result.setExtInfo("extra string");                                            // 扩展信息
-	
-	        return result;
-    	}
 
-### 3.6 统计采集
- 正确集成如下代码，才能够保证获取正确的用户使用基本数据。
+	        @Override
+	        public void onDebug(String debugInfo) {
+	        	// SDK发出的debug信息，可不处理
+	        	android.util.Log.i("TGX", "message:" + debugInfo);
+	        }
 
-* 在每个Activity的onResume方法中调用 GameService.onResume(this) ,onPause方法中调用  GameService.onPause(this)
+	        @Override
+	        public void onDeviceToken() {
+	        	// 玩家id与设备绑定,“0917”为玩家id
+	            SmartPush.bindDevice(PushActivity.this, "0917");
+	        }
+    	}	
+    	
+
+<h4 id="2.3.2">2.3.2 添加信息采集服务代码</h4>
+
+* 在Activity的onResume和onPause方法中作如下调用： 
 
 		@Override
 	    protected void onPause() {
-	        GameService.onPause(this);
+	        SmartPush.onActivityPause(this);
 	        super.onPause();
 	    }
 	
 	    @Override
 	    protected void onResume() {
-	        GameService.onResume(this);
+	        SmartPush.onActivityResume(this);
 	        super.onResume();
-	    } 
-    
-* 确保在所有的Activity中都调用 MobclickAgent.onResume() 和MobclickAgent.onPause()方法，这两个调用将不会阻塞应用程序的主线程，也不会影响应用程序的性能。
-* 玩家用户登录行为记录（用于玩家行为统计以及进行玩家间p2p推送）：	
+	    } 	
+
+* 说明：添加以上代码才能正确获取玩家行为数据。	    
+				
+<h4 id="2.3.3">2.3.3 添加错误上报功能</h4>
+
+* Application的子类中进行如下调用：
+
+		public class BaseApp extends Application {
+		    private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
+
+		    @Override
+		    public void onCreate() {
+		        super.onCreate();
+		        initErrorHandler();
+		    }
+
+		    private void initErrorHandler() {
+		        mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+		        Thread.setDefaultUncaughtExceptionHandler(
+		            new NGDSCrashHandler(this, mDefaultUncaughtExceptionHandler));
+		    }
+		}
+
+* AndroidManifest.xml 的 application 标签添加	
+
+	    <application
+       		android:name=".BaseApp"
+        			......
+
+* 说明：帮助我们收集错误信息以反馈更好的体验，如若不添加以上代码，出现问题我们将收不到相应信息。
+
+<h4 id="2.3.4">2.3.4 设置Debug模式</h4>
+
+* Application的子类onCreate()方法中进行如下调用，以此来设置Debug模式。
+
+	    @Override
+	    public void onCreate() {
+	        super.onCreate();
+	        SmartPush.setDebugMode(true);
+	    }
+
+* 说明：若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为debug模式)。	    
+
+<h3 id="2.4">2.4 测试确认</h3>
+
+* 请确认 AndroidManifest.xml 中的 **NGDS_APPKEY**、**NGDS_APPID**、**NGDS_CHANNEL**的value值是否正常填写。
+
+* 请确认主项目包名是否与<a href="http://developers.gameservice.com/">GameService 开发网站</a>里相应的App一致。
+
+* smart-push-v1.x.x.jar 包是否添加为依赖。
+
+<h4 id="2.4.1">2.4.1 测试推送通知和消息</h4>
+* 请参照“新游智能推送平台操作指南”
+
+
+<h2 id="3">3、推送 API 介绍</h2>
+
+
++ 注册启动push服务
+    + 方法： SmartPush.**registerService** (Context context) 
+	+ 功能： 注册启动push服务
+	+ 参数： context 当前上下文
+
++ 注销消息接收者
+	+ 方法： SmartPush.**unRegisterReceiver**()
+	+ 功能： 为App注销消息接收回调接口
+	+ 参数： 无
+
++ 注册消息接收者
+	+ 方法： SmartPush.**registerReceiver**(IMsgReceiver receiver)
+	+ 功能： 为App注册消息接收回调接口
+	+ 参数： receiver消息处理接口类
 	
-		GameService.onPlayerLogin(context, PLAYER_ID); 
-其中PLAYER_ID为玩家id。
-* 玩家用户登出记录（用于玩家行为统计以及不再接收玩家间p2p推送）：
++ 玩家绑定设备接口
+	+ 方法： SmartPush.**bindDevice**(Context context, String playerId)
+	+ 功能： 为App注册消息接收回调接口
+	+ 参数： 
+		+ context  上下文环境
+     	+ playerId 玩家id
 
-		GameService.onPlayerLogout(Context context); 
-* 玩家用户付款行为统计：
++ 设置Debug模式
+	+ 方法： SmartPush.**setDebugMode**(boolean isDebugable)
+	+ 功能： 用于设置是否处于DebugMode
+	+ 参数： isDebugable 是否设为Debug状态布尔值（true为Debug状态）
+     	
++ 记录玩家离开当前页面行为
+	+ 方法： SmartPush.**onActivityPause**(Context context)
+	+ 功能： 玩家离开当前页面行为记录
+	+ 参数： context 当前上下文
 
-		GameService.onPay(Context context, String playerId, String payAmount)
++ 记录玩家返回当前页面行为
+	+ 方法： SmartPush.**onActivityResume**(Context context)
+	+ 功能： 玩家返回当前页面行为记录
+	+ 参数： context 当前上下文	
 
++ 玩家登录记录
+	+ 方法： SmartPush.**recordLogin**(Context context, String playerId)
+	+ 功能： 玩家登录记录
+	+ 参数：      
+		+ context  当前上下文
+     	+ playerId 玩家id
 
-### 3.7 推送服务
++ 玩家登出记录
+	+ 方法： SmartPush.**recordLogout**(Context context)
+	+ 功能： 玩家登出记录
+	+ 参数： context 当前上下文
 
-欲正确使用推送服务需注意，可参造demo中PushServiceActivity中的如下代码
++ 玩家支付记录
+	+ 方法： SmartPush.**recordPay**(Context context,  String serverId, String playerId,
+		float amount, String paymentChanel,
+		String currency, int coinAmount, 
+		String orderId, int level)
+	+ 功能： 玩家支付行为记录
+	+ 参数：     
+		+ context       当前上下文
+     	+ serverId      服务器id 	
+     	+ playerId      玩家id
+     	+ amount        充值金额
+     	+ paymentChanel 支付渠道
+     	+ currency      金额币种
+     	+ coinAmount    充值游戏币个数
+     	+ orderId       订单号
+     	+ level         玩家等级	
 
++ 注册玩家统计
+	+ 方法： SmartPush.**recordRegister**(Context context, String serverId , String playerId)
+	+ 功能： 注册玩家统计
+	+ 参数： 
+		+ context       当前上下文
+    	+ serverId      服务器id
+     	+ playerId      玩家id
 
-	//要正常的使用推送服务，必须注册一个父类为AbstractMsgReceiver的信息接收者，并在里面处理相关信息，类PushMessageReceiver已展示。
-	        GameService.registerMsgReceiver(PushMessageReceiver.class);
-	        //进行推送服务的前必须为应用打上tag，tag可以任意的.
-	        GameService.setPushTags(getApplicationContext(), new String[]{"demo"}, null);
-	        GameService.startPushService(this);
++ 记录玩家开始游戏的时间
+	+ 方法： SmartPush.**recordStartTime**(Context context, String serverId, String playerId, int playerLevel)
+	+ 功能： 玩家开始游戏时间的记录
+	+ 参数： 
+    	+ context       当前上下文
+    	+ serverId      服务器id
+     	+ playerId      玩家id
+    	+ playerLevel   玩家等级
 
-+ push服务初始化及绑定
-	+ 方法： GameService.**startPushService** (Context ctx) 
-	+ 功能： 完成push服务的初始化工作，以及与MasterService的自动绑定工作。当masterService第一次启动完成登录操作。
-	+ 参数： ctx 当前执行的上下文。
++ 记录玩家离开游戏的时间
+	+ 方法： SmartPush.**recordEndTime**(Context context, String serverId, String playerId, int playerLevel)
+	+ 功能： 玩家离开游戏时间的记录
+	+ 参数： 
+    	+ context       当前上下文
+    	+ serverId      服务器id
+     	+ playerId      玩家id
+    	+ playerLevel   玩家等级
 
-+ push 服务的停止
-	+ 方法： GameService.**stopPushService**(Context ctx)	+ 功能： 停止当前应用的push服务，以及与MasterService 的解绑操作。
-	+ 参数： ctx 当前上下文
++ 记录玩家进入关卡的时间
+	+ 方法： SmartPush.**recordStartTime_Mission**(Context context, String serverId, 
+	String playerId, int missionId)
+	+ 功能： 玩家进入关卡时间的记录
+	+ 参数： 
+    	+ context       当前上下文
+    	+ serverId      服务器id
+     	+ playerId      玩家id
+    	+ missionId     关卡id
 
-+ 设置Tags
-	+ 方法： GameService.**setPushTags** (Context context,String[] tags,String charset)
-	+ 功能： 为App进行属性标注，最大标签数100，使用时必须使用一致的charset，cid不能作为tag使用
-	+ 参数 
-		 + tags 你当前需要的标签集合
-		 + charset 当前tags 的编码格式，不设置默认为‘UTF-8‘
-+ p2p消息发送（用于游戏内一个玩家给另外一个玩家发送消息）
-	+ 方法： GameService.**sendMsg** (Context context, String fromPlayerId, String toPlayerId, String msg)
-	+ 功能： 用于游戏内一个玩家给另外一个玩家发送消息
-	+ 参数 
-		 + context 内容上下文
-		 + fromPlayerId 发送者的id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）
-		 + toPlayerId 信息接收用户id（注：此id必须之前调用过GameService.onPlayerLogin(context, PLAYER_ID)保证在服务端已成功注册）		 
-+ 获取tuid（用于精确推送）
-	+ 方法： GameService.**getTuid** (Context context)
-	+ 功能： 获取tuid，可用于精确推送
-	+ 参数 
-		 +  context 内容上下文
-		
-#####AbstractMsgReceiver（消息接收父类）
++ 记录玩家离开关卡的时间
+	+ 方法： SmartPush.**recordEndTime_Mission**(Context context, String serverId, 
+	String playerId, int missionId)
+	+ 功能： 玩家离开关卡时间的记录
+	+ 参数： 
+    	+ context       当前上下文
+    	+ serverId      服务器id
+     	+ playerId      玩家id
+    	+ missionId     关卡id
 
-| 分类        		| 功能           	| 方法  	               |
-| -----------------	|-------------	| --------------------|
-| push消息接口    	| 回调 push 消息		| onMessage          |
++ 玩家虚拟消费记录
+	+ 方法： SmartPush.**recordConsumption**(Context context, String serverId, String playerId,
+        int itemId,
+        int itemAmount,
+        int coinAmount)
+	+ 功能： 玩家消费行为记录
+	+ 参数： 
+	    + context       当前上下文
+    	+ serverId      服务器id
+    	+ playerId      玩家id
+     	+ itemId        消费商品id
+     	+ itemAmount    消费商品数量
+     	+ coinAmount    消费虚拟币数量  
+
++ 玩家剩余金币记录
+	+ 方法： SmartPush.**recordCoinAmount**(Context context, String serverId, String playerId, int coinAmount)
+	+ 功能： 玩家剩余金币记录
+	+ 参数： 
+	    + context       当前上下文
+    	+ serverId      服务器id
+    	+ playerId      玩家id
+     	+ coinAmount    消费虚拟币数量  
+
+<h2 id="4">4、相关类介绍</h2>
+ 	
+<h3 id="4.1">4.1 IMsgReceiver（消息接收接口）</h3>
+
+| 分类        		| 功能           	| 方法  	            |
+| -----------------	|-------------	    | --------------------  |
+| 透传消息接口    	    | 回调透传消息		| onMessage    |
 | 调试消息接口     	| 回调 debug 消息     	|   onDebug    |
-| p2p消息接口        | 回调 p2p 消息     		|    onImReceive  |
+| deviceToken信息接口   | 回调 deviceToken     	|   onDeviceToken   |
 
 + 接收到的push消息
-	+ 方法： public abstract void **onMessage**(String message)
-	+ 功能： 接收到的push消息回调
-	+ 参数： push 内容
-
+	+ 方法： public void **onMessage**(String message)
+	+ 功能： 接受到的透传消息处理
+	+ 参数： message 为Json字符串，如"{"ID":"id1", "NAME":"http:\/\/www.baidu.com"}"
+	
 + 接收到的debug消息
-	+ 方法： public void **onDebug**(String message)
-	+ 功能： 获取设备ID
-	+ 参数： debug 内容
+	+ 方法： public void **onDebug**(String debugInfo)
+	+ 功能： 接收到的debug信息回调，用于debug使用
+	+ 参数： debugInfo 为debug内容信息
 
-+ 接收到的p2p消息
-	+ 方法： public void **onImReceive**(String fromTuid,String toTuid,String message)
-	+ 功能： 获取设备ID
-	+ 参数
-		+ fromTuid 发送消息的来源 Tuid
-		+ toTuid   消息的目标	 Tuid
-		+ message  p2p 消息内容
-+ 注册消息接收者
-	+ 方法： GameService.**registerReceiver**(Class<? extends AbstractMsgReceiver> clzz)
-	+ 功能： 为App注册消息接收接口。
-	+ 参数： 消息处理类
++ 接收分配到的deviceToken信息
+	+ 方法： public void **onDeviceToken**()
+	+ 功能： 回调时玩家id绑定设备
+	+ 参数： 无
+
+<h2 id="5">5、常见问题</h2> 
+
+<h3 id="5.1">5.1 关于推送服务</h3>
+
++ 推送服务包括：
+	+ 推送通知：通知以状态栏Notification的形式展现，无需开发者处理。
+	+ 推送消息：处理消息需开发者在 IMsgReceiver 实现类的**onMessage**(String message)方法内自定义(参考demo)。
 	
-+ 反注册消息接收者
-	+ 方法： GameService.**unRegisterReceiver**()
-	+ 功能： 为App反注册消息接收者。
-	
-
-**如果要保证能正常接收消息一定要在代码中实现继承AbstractMsgReceiver并做以下调用正常开启推送服务，内容在PushServiceActivity中：**
-
-
-
-	GameService.registerMsgReceiver(PushMessageReceiver.class);
-	        GameService.setPushTags(getApplicationContext(), new String[]{"your tag"}, null);//设置标签为可选项
-	        GameService.startPushService(this);
-
-
-## 四、相关类介绍
-
-### 4.1 回调函数类
-
-        // 支付回调
-        public static interface OnPayListener {
-            void finish(int code, String msg);
-        }
-
-        // 登陆回调
-        public static interface OnLoginListener {
-            void finish(int code, OAuthInfo authInfo);
-        }
-
-
-### 4.2 状态码类
-
-	public class StatusCode {
-	
-	    // 处理中
-	    public static final int PROCESS = 1000;
-	    // 完成
-	    public static final int FINISH = 2000;
-	    // 取消
-	    public static final int CANCEL = 3000;
-	    // 失败
-	    public static final int ERROR = 5000;
-	    // 未知错误
-	    public static final int ERROR_UNKNOW = 5001;
-	    // 网络错误
-	    public static final int ERROR_NETWORK_FAIL = 5002;
-	    // 参数错误
-	    public static final int ERROR_PARAM = 5003;
-	    // 请求超时
-	    public static final int ERROR_TIME_OUT = 5004;
-	}
-
-### 4.3 认证信息类
-
-	public class OAuthInfo implements BaseType {
-	
-	    public static final String GRANT_TYPE_MOBILE = "sms_code";
-	
-	    public static final String GRANT_TYPE_CLIENT_CREDENTIALS = "client_credentials";
-	
-	    public static final String GRANT_TYPE_SNS_TOKEN = "sns_token";
-	
-	    // 认证类型
-	    public String getGrantType() 
-	 
-	    // 认证Token
-	    public String getAccessToken() 
-	
-	    // 用户ID
-	    public String getUserId() 
-	
-	    // 用户名称
-	    public String getUserName() 
-	
-	    // 用户昵称
-	    public String getNickName() 
-	
-	    // 用户头像url
-	    public String getAvatarUrl() 
-	
-	}
-
-### 4.4 订单类
-
-    public class Order implements BaseType {
-	    // 商品名
-	    public String getSubject() 
-	    public void setSubject(String subject)
-	
-	    // 商品描述
-	    public String getBody() 
-	    public void setBody(String body) 
-	
-	    // 价格 单位分
-	    public int getMoney() 
-	    public void setMoney(int money) 
-	
-	    // 回调地址
-	    public String getNotifyUrl() 
-	    public void setNotifyUrl(String notifyUrl) 
-	
-	    // 用户名称
-	    public String getUserName() 
-	    public void setUserName(String userName) 
-	
-	    // 用户ID
-	    public String getUserId() 
-	    public void setUserId(String userId) 
-	
-	    // 订单号
-	    public String getOrderId() 
-	    public void setOrderId(String orderId) 
-	
-	    // 应用ID
-	    public String getAppId() 
-	    public void setAppId(String appId) 
-	
-	    // 渠道ID
-	    public int getChannelId() 
-	    public void setChannelId(int channelId) 
-	
-	    // IMEI
-	    public String getImei() 
-	    public void setImei(String imei)
-	
-	    // MAC地址 
-	    public String getMacAddress() 
-	    public void setMacAddress(String macAddress) 
-	
-	    // 扩展信息，开发者选填，回调开发者服务器使用
-	    public String getExtInfo() 
-	    public void setExtInfo(String extInfo) 
-	
-	    // 签名信息
-	    public String getSign() 
-	    public void setSign(String sign) 
-    }
-
-## 五、交易签名
-### 密钥生成命令
-	// 生成RSA私钥
-	openssl>genrsa -out rsa_private_key.pem 1024
-	
-	// 生成RSA公钥
-	openssl>rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem
-	
-	// 将RSA私钥转换成PKCS8格式
-	openssl>pkcs8 -topk8 -inform PEM -in rsa_private_key.pem -outform PEM -nocrypt
-	
-* 注意：“>”符号后面的才是需要输入的命令。
-
-### 需要参与签名的参数
-
-* 在请求参数列表中，除去sign、payment参数外，其他需要使用到的参数皆是要签名的参数。
-* 在服务器异步通知参数列表中，除去sign参数外，凡是通知返回回来的参数皆是要验签的参数。
-
-
-### 生成待签名字符串
-
-对于如下的参数：
-
-    {
-        "body": "【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15",
-        "subject": "珍珠项链 【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15",
-        "amount": 2,
-        "app_user_name": "角色名",
-        "app_id": "1",
-        "app_order_id": "201404250461774836",
-        "imei": "447769804451095",
-        "ext": "",
-        "notify_url": "http://127.0.0.1/pay/test",
-        "app_user_id": "123",
-        "mac_address": "05-16-DC-59-C2-34",
-        "bind_id": "6306",
-        "channel_id": "test",
-        "sign": ""
-    }
-去掉sign参数，将其他参数按照字母顺序升序排列，再把所有数组值以“&”字符连接起来：
-
-amount=2&app_id=1&app_order_id=201404250461774836&app_user_id=123&app_user_name=角色名&bind_id=6306&body=【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15&channel_id=test&imei=447769804451095&mac_address=05-16-DC-59-C2-34&notify_url=http://127.0.0.1/pay/test&subject=珍珠项链 【2元包邮】韩版 韩国 流行饰品太阳花小巧雏菊 珍珠项链2M15
-即为待签名字符串。 
-
-注意：没有值的参数无需传递，也无需包含到待签名数据中；
-
-### RSA签名
-
-在RSA的签名时，需要私钥和公钥一起参与签名。私钥与公钥皆是客户通过OPENSSL来生成得出的。客户把生成出的公钥与新游平台技术人员配置好的新游公钥做交换。因此，在签名时，客户要用到的是客户的私钥及新游的公钥。 
-
-* 请求时签名 当拿到请求时的待签名字符串后，把待签名字符串与客户的私钥一同放入RSA的签名函数中进行签名运算，从而得到签名结果字符串。
-
-* 通知返回时验证签名 当获得到通知返回时的待签名字符串后，把待签名字符串、新游提供的公钥、新游通知返回参数中的参数sign的值三者一同放入RSA的签名函数中进行非对称的签名运算，来判断签名是否验证通过。
-
-* 签名函数 RSA sign + base64 encode
-
-## 六、代码混淆
-
-GameService的SDK 包是以 jar 包及资源文件提供给用户的,您在混淆自己 APK 包的时候请不要将 GameService 的 jar 包一起混淆, 若被混淆后会因为无法找到相关类而抛异常。
-您可以在用 ant 构建混淆包的 build.xml 里面对应位置或者在工程的混淆配置文件里加入:
-        
--libraryjars libs/\*.jar   
--keep class com.gameservice.sdk.\*\*  
--keep class com.tgx.push.\*\*  
--keep class com.alipay.\*\*
-        
-以避免GameService的相关的 jar 包被混淆。
-
-
-
-
-	         
