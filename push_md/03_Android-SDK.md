@@ -29,6 +29,8 @@
 
 	4.1 [IMsgReceiver](#4.1)
 
+	4.2 [SmartPushOpenUtils](#4.2)
+
 5. [常见问题](#5)
 
 	5.1 [关于推送服务](#5.1)
@@ -104,15 +106,15 @@
 
 * 在主工程 AndroidManifest.xml 的 application 标签下添加：
 
-		<!-- 必需： 应用ID -->
+        <!-- 必需： 应用ID -->
         <meta-data
             android:name="NGDS_APPID"
             android:value="8" />
-        <!--必需： 应用KEY-->
+        <!-- 必需： 应用KEY -->
         <meta-data
             android:name="NGDS_APPKEY"
             android:value="sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44" />
-        <!--必需： 渠道号，默认14 -->
+        <!-- 必需： 渠道号，默认14 -->
         <meta-data
             android:name="NGDS_CHANNEL"
             android:value="14" />
@@ -123,7 +125,7 @@
         <!-- 必需： push 服务配置 -->
         <service
             android:name="com.gameservice.sdk.push.api.SmartPushService"
-            android:process=":remote" />
+            android:process=":ngds" />
 
         <!-- 必需： push 消息接收配置 -->
         <receiver
@@ -131,7 +133,7 @@
             android:enabled="true"
             android:exported="false"
             android:priority="90000"
-            android:process=":remote">
+            android:process=":ngds">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_ADDED" />
                 <action android:name="android.intent.action.PACKAGE_CHANGED" />
@@ -166,7 +168,7 @@
 		private class MessageReceiver implements IMsgReceiver {
 	        @Override
 	        public void onMessage(String message) {
-	        	// 处理透传消息 message是Json字符串，如"{"ID":"id1", "NAME":"http:\/\/www.baidu.com"}"
+	        	// 处理透传消息 message是Json字符串
 	            android.util.Log.i("TGX", "message:" + message);
 	        }
 
@@ -178,10 +180,14 @@
 
 	        @Override
 	        public void onDeviceToken() {
-	        	// 玩家id与设备绑定,“0917”为玩家id
-	            SmartPush.bindDevice(PushActivity.this, "0917");
+	            //SmartPushOpenUtils本地化deviceToken的帮助类，开发者可以自己实现本地化存储deviceToken
+	            SmartPushOpenUtils.saveDeviceToken(PushActivity.this, deviceToken);
+	            // 玩家id与设备绑定,“0917”为玩家id
+	            SmartPush.bindDevice(PushActivity.this, deviceToken, "0917");
 	        }
-    	}	
+    	}
+
+说明：SmartPushOpenUtils类为为开发者提供的工具类，用于本地化deviceToken，开发者也可以自己实现本地化存储deviceToken。
 
 <h4 id="2.3.2">2.3.2 添加信息采集服务代码</h4>
 * 在Activity的onResume和onPause方法中作如下调用： 
@@ -198,7 +204,7 @@
 	        super.onResume();
 	    } 	
 
-* 说明：添加以上代码才能正确获取玩家行为数据。	    
+* 说明：添加以上代码才能正确获取玩家行为数据，"serverId"为服务器id。	    
 				
 <h4 id="2.3.3">2.3.3 添加错误上报功能</h4>
 * Application的子类中进行如下调用：
@@ -213,7 +219,8 @@
 		    }
 
 		    private void initErrorHandler() {
-		        mDefaultUncaughtExceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+		        mDefaultUncaughtExceptionHandler 
+		        = Thread.getDefaultUncaughtExceptionHandler();
 		        Thread.setDefaultUncaughtExceptionHandler(
 		            new NGDSCrashHandler(this, mDefaultUncaughtExceptionHandler));
 		    }
@@ -265,11 +272,12 @@
 	+ 参数： receiver消息处理接口类
 	
 + 玩家绑定设备接口
-	+ 方法： SmartPush.**bindDevice**(Context context, String playerId)
+	+ 方法： SmartPush.**bindDevice**(Context context, String deviceToken, String playerId)
 	+ 功能： 为App注册消息接收回调接口
 	+ 参数： 
-		+ context  上下文环境
-     	+ playerId 玩家id
+		+ context       当前上下文
+		+ deviceToken   设备token
+     	+ playerId      玩家id
 
 + 设置Debug模式
 	+ 方法： SmartPush.**setDebugMode**(boolean isDebugable)
@@ -280,27 +288,27 @@
 	+ 方法： SmartPush.**onActivityPause**(Context context, String serverId)
 	+ 功能： 玩家离开当前页面行为记录
 	+ 参数： 
-		+ context  上下文
-     	+ serverId 服务器id	
+		+ context       当前上下文
+     	+ serverId      服务器id	
 
 + 记录玩家返回当前页面行为
 	+ 方法： SmartPush.**onActivityResume**(Context context, String serverId)
 	+ 功能： 玩家返回当前页面行为记录
 	+ 参数： 
-		+ context  上下文
-     	+ serverId 服务器id	
+		+ context       当前上下文
+     	+ serverId      服务器id	
 
 + 玩家登录记录
 	+ 方法： SmartPush.**recordLogin**(Context context, String playerId)
 	+ 功能： 玩家登录记录
 	+ 参数：      
-		+ context  当前上下文
-     	+ playerId 玩家id
+		+ context       当前上下文
+     	+ playerId      玩家id
 
 + 玩家登出记录
 	+ 方法： SmartPush.**recordLogout**(Context context)
 	+ 功能： 玩家登出记录
-	+ 参数： context 当前上下文
+	+ 参数： context    当前上下文
 
 + 玩家支付记录
 	+ 方法： SmartPush.**recordPay**(Context context,  String serverId, String playerId,
@@ -401,7 +409,7 @@
 + 接收到的push消息
 	+ 方法： public void **onMessage**(String message)
 	+ 功能： 接受到的透传消息处理
-	+ 参数： message 为Json字符串，如"{"ID":"id1", "NAME":"http:\/\/www.baidu.com"}"
+	+ 参数： message 为Json字符串
 	
 + 接收到的debug消息
 	+ 方法： public void **onDebug**(String debugInfo)
@@ -413,6 +421,20 @@
 	+ 功能： 回调时玩家id绑定设备
 	+ 参数： 无
 
+<h3 id="4.2">4.2 SmartPushOpenUtils 工具类</h3>
+
++ 本地化DeviceToken
+	+ 方法： public static void **saveDeviceToken**(Context context, String deviceToken)
+	+ 功能： 保存DeviceToken
+	+ 参数： 
+		+ context      当前上下文 
+        + deviceToken  设备token
+	
++ 取得已经保存的deviceToken
+	+ 方法： public static String **loadDeviceToken**(Context context)
+	+ 功能： 取得保存的deviceToken
+	+ 参数： context      当前上下文 
+	
 <h2 id="5">5、常见问题</h2> 
 
 <h3 id="5.1">5.1 关于推送服务</h3>
