@@ -77,20 +77,20 @@
 
 		注意：使用 Eclipse ADT 17 以上版本的开发者，其可自动引用jar包。 使用 Eclipse ADT 17 以下版本开发者使用老方式添加工程引用：右键工程根目录 > Properties > Java Build Path > Libraries，然后点击Add External JARs... 选择指向jar包的路径(主项目的libs目录下)，点击OK，流程如下：
 		
-		![](./pic/SetEclipse_1.jpg)
+		![](./Android-SDK-Pic/SetEclipse_1.jpg)
 
-		![](./pic/SetEclipse_2.jpg)
+		![](./Android-SDK-Pic/SetEclipse_2.jpg)
 
-		![](./pic/SetEclipse_3.jpg)
+		![](./Android-SDK-Pic/SetEclipse_3.jpg)
 
 
 	* IntelliJ IDEA 下导入包
 
 		工程libs目录 > 右键  smart-push-v1.x.x.jar > Add as Library > 选择Project Library > 加为项目依赖：
 
-		![](./pic/SetIdea_1.jpg)
+		![](./Android-SDK-Pic/SetIdea_1.jpg)
 
-		![](./pic/SetIdea_2.jpg)
+		![](./Android-SDK-Pic/SetIdea_2.jpg)
 
 
 <h3 id="2.2">2.2 资源配置</h3>
