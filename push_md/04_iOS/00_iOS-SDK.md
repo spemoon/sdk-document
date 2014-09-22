@@ -1,5 +1,5 @@
 # NGPushService iOS SDK 说明文档 V1.0.0
-<a href="../../static/download/NGPushService_iOS_SDK V1.0.0zip" target="_blank" class="sdk-download">下载iOS SDK</a>
+<a href="../../static/download/NGPushService_iOS_SDK V1.0.0.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
 
 ##更新履历
 版本号| 时间| 更新内容
