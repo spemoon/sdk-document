@@ -336,7 +336,7 @@
      	+ playerId      玩家id
 
 + 记录玩家开始游戏的时间
-	+ 方法： SmartPush.**recordStartTime**(Context context, String serverId, String playerId, int playerLevel)
+	+ 方法： SmartPush.**recordPlayerStartTime**(Context context, String serverId, String playerId, int playerLevel)
 	+ 功能： 玩家开始游戏时间的记录
 	+ 参数： 
     	+ context       当前上下文
@@ -345,7 +345,7 @@
     	+ playerLevel   玩家等级
 
 + 记录玩家离开游戏的时间
-	+ 方法： SmartPush.**recordEndTime**(Context context, String serverId, String playerId, int playerLevel)
+	+ 方法： SmartPush.**recordPlayerEndTime**(Context context, String serverId, String playerId, int playerLevel)
 	+ 功能： 玩家离开游戏时间的记录
 	+ 参数： 
     	+ context       当前上下文
@@ -354,7 +354,7 @@
     	+ playerLevel   玩家等级
 
 + 记录玩家进入关卡的时间
-	+ 方法： SmartPush.**recordStartTime_Mission**(Context context, String serverId, 
+	+ 方法： SmartPush.**recordMissionStartTime**(Context context, String serverId, 
 	String playerId, int missionId)
 	+ 功能： 玩家进入关卡时间的记录
 	+ 参数： 
@@ -364,7 +364,7 @@
     	+ missionId     关卡id
 
 + 记录玩家离开关卡的时间
-	+ 方法： SmartPush.**recordEndTime_Mission**(Context context, String serverId, 
+	+ 方法： SmartPush.**recordMissionEndTime**(Context context, String serverId, 
 	String playerId, int missionId)
 	+ 功能： 玩家离开关卡时间的记录
 	+ 参数： 
