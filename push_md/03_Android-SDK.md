@@ -1,6 +1,8 @@
 # SmartPush SDK 说明文档
 版本：V1.0.8
 
+<a href="../../static/download/SmartPush_SDK_V1.0.8.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
+
 ## 目录
 1. [产品说明](#1)
 
