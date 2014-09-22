@@ -1,232 +1,60 @@
-# GameService iOS SDK 说明文档 V1.0.3
+# NGPushService iOS SDK 说明文档 V1.0.0
+<a href="../../static/download/NGPushService_iOS_SDK V1.0.0zip" target="_blank" class="sdk-download">下载iOS SDK</a>
 
-<a href="../../static/download/GameService_iOS_SDK V1.0.3.zip" target="_blank" class="sdk-download">下载iOS SDK</a>
-
-------
-
-## 更新履历
-
+##更新履历
 版本号| 时间| 更新内容
 ----|-----|--------
-v1.0.3|2014.08.27|修改支付接口调用方式，修订cocos2d-x调用SDK的bug。
-
+v1.0.0|2014.09.19|SDK正式版发布
 
 ## 1、SDK构成
-1. 静态库 libGameServiceSDK.a, libGameService-arm64.a 
-2. 头文件: NGGameService.h, NGGameServiceDefines.h
-2. 资源文件 GameServiceResource.bundle
+1. 静态库 libNGPushServiceSDK.a, libNGPushServiceSDK-arm64.a
+2. 头文件: NGPushService.h, NGPushServiceDefines.h
 3. Demo工程
 
-GameService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。
+NGPushService SDK支持armv7、armv7s和arm64架构的iOS设备，iOS要求5.0以上，Xcode要求4.2以上，操作系统要求Mac OS X 10.7以上。
 
-* 如果需要支持arm64，请使用静态库libGameServiceSDK-armv64.a
+* 如果需要支持arm64，请使用静态库libNGPushServiceSDK-arm64.a
 
 ## 2、项目配置
+
 ### 2.1 添加链接参数
 在工程target的"Build Settings"中，找到"Linking"的"Other Linker Flags"，添加参数`-ObjC`。
-![](./01_iOS-SDK-Files/linker.png)
+![](./sdk-files/linker.png)
 ### 2.2 添加Framework
 在工程target中添加以下的framework:
 
-	SystemConEiguration.framework
-	QuartzCore.framework
-	Security.framework
+	SystemConfiguration.framework
 	CoreTelephony.framework
-	CoreText.framework
+	UIKit.framework
 
-![image](./01_iOS-SDK-Files/add_frameworks.png)
+![image](./sdk-files/add_frameworks.png)
 
-### 2.3 添加GameServiceSDK
-1. 将GameServiceSDK文件夹拖入Xcode工程.
-	![image](./01_iOS-SDK-Files/add_to_xcode.png)
-2. 在项目target的"build settings"中，找到"Search Paths"的"Library Search Paths", 如果GameServiceSDK的路径是绝对路径的，请改为相对路径。
-	![image](./01_iOS-SDK-Files/library_path.png)
+### 2.3 添加NGPushService
+1. 将NGPushServiceSDK文件夹拖入Xcode工程.
 
-## 3、GameService平台SDK使用
-### 3.1 平台初始化
-AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com/)后台查看获取，需要先创建App。
-
-初始化需要设置AppID和AppKey：
-
-	[NGGameService setAppID:@"9" AppSecret:@"0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1"];
-
-设置App的URL Scheme，用于支付宝支付和微博SSO登陆,为保证URL Scheme的唯一，建议使用URL Scheme使用格式为: `NGGameService + (AppID)`:
-
-	[NGGameService setAppURLScheme:@"NGGameService9"];
-
-设置App屏幕方向(默认为横屏，不能同时横屏和竖屏切换):
+2. 在项目target的"build settings"中，找到"Search Paths"的"Library Search Paths", 如果NGPushServiceSDK的路径是绝对路径的，请改为相对路径。
+	![image](./sdk-files/library_path.png)
 	
-	[NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
+## 3、SDK使用
 
-请在程序启动后设置初始化信息：
-
-	- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-	{
-	    ......
-	    
-	    [NGGameService setClientID:@"9" clientSecret:@"0WiCxAU1jh76SbgaaFC7qIaBPm2zkyM1"];
-	    [NGGameService setAppURLScheme:@"NGGameService9"];
-	    [NGGameService setOrientation:UIInterfaceOrientationMaskLandscape];
-	
-		......
-	}
-
-### 3.2 账号
-#### 3.2.1 登录
-登录接口:
-
-	[NGGameService login];
-	
-允许用户跳过登录界面的接口:
-
-	[NGGameService loginWithAllowSkip];
-	
-说明:若当前用户已登录，调用登录接口会直接收到登录完成通知，不会显示登录界面。
-
-#### 3.2.2 判断是否登录
-	[NGGameService isLogin] 
-
-#### 3.2.3 注销
-	[NGGameService logout];
-注销后，平台会发送`kNGUserDidLogoutNotification`消息，开发者注意调用注销后更新游戏场景。
-
-#### 3.2.4 登录结果处理
-用户进行登录操作并登录成功后，平台会发送登录成功通知`kNGLoginDidSuccessNotification`，开发者在收到通知后进行登录成功处理。
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onUserLogin:) name:kNGLoginDidSuccessNotification object:nil];
-	
-处理方法:
-
-	- (void)onUserLogin:(NSNotification*)n {
-	    [self refreshLoginButton];
-	    
-	    if ([NGGameService isLogin]) {
-	        NSString* userID = [NGGameService userID]; //获取userID
-	        NSString* accessToken = [NGGameService accessToken]; //获取access token
-	        
-	        //验证accessToken
-	    }
-	}
-	
-登录成功后，可根据accessToken向服务器验证当前登录的有效性。
-
-如果登录界面有跳过按钮，用户选择跳过,平台会发送跳过通知`kNGDidSkipLoginNotification`。
-
-#### 3.2.5 获取已登录用户信息
-	[NGGameService userID]; 		//获取userID
-	[NGGameService accessToken]; 	//获取access token
-	[NGGameService nickName];		//获取用户平台昵称
-
-### 3.3 支付
-
-#### 3.3.1 生成支付请求
-
-填写订单信息:
-
-    NGPaymentRequest* payment = [[NGPaymentRequest alloc] init];
-    
-    payment.appName = @"测试游戏";			//游戏名称
-    payment.subject = @"测试商品名称";		//商品名称
-    payment.body = @"测试商品描述";			//商品描述
-    payment.amount = 100;					//价格（单位为“分”）
-    payment.notifyURL = @"yourNotifyURL"; 	//回调地址，
-    payment.appID = @"9";					//应用ID
-    payment.appUserID = @"123";				//应用当前登录用户ID
-    payment.appOrderID = ;					//应用订单ID
-    payment.appUserName = @"角色名";		//应用当前登录用户名
-    
-注：以上数据必填。
-    
-#### 3.3.2 交易签名
-为防止交易请求被篡改，需要对订单的数据进行签名。提供两种签名方式：
-
-##### 3.3.2.1 服务器签名，
-**为保证资金安全，建议所有开发者使用服务器签名！！**
-
-填充完订单请求后，获取待签名的字符串：
-
-	NSString* stringToSing = [payment stringToSign];
-
-客户端提交该字符串到开发者的服务器端进行签名，填充到`NGPaymentRequest`的`sign`字段。
-
-	payment.sign = signiture; //signiture由开发者服务器返回
-
-服务器端的签名配置见[Game Service服务端接入 说明文档](http://docs.gameservice.com/docs/sdk/server.html)。
-
-##### 3.3.2.1 本地签名
-**注意！！！本地签名存在一定的支付隐患，可能对你的游戏收入造成影响，只建议没有配备自有服务器的单机游戏使用。**
-
-将NGPaymentRequest的usingLocalSigniture设置为YES.
-	
-	payment.usingLocalSigniture = YES;
-	
-* 使用本地签名不需要填充`NGPaymentRequest`的`sign`字段。
-    
-#### 3.3.3 显示支付界面
-
-	 [NGGameService pay:payment];
-    
-#### 3.3.4 处理支付结果
-支付成功后，平台会通过支付成功消息`kNGPaymentDidSuccessNotification`发送`NGPaymentResult`,开发者收到该消息后处理客户端的后续支付逻辑。
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actionPaySuccess:) name:kNGPaymentDidSuccessNotification object:nil];
-    
-支付过程未能完成，平台会发送`kNGPaymentCanceledNotification`。
-	
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(actionPayCanceled:) name:kNGPaymentCanceledNotification object:nil];
-
-* 支付成功:
-
-		- (void)actionPaySuccess:(NSNotification *)notification {
-    		NGPaymentResult *result = notification.object;
-    		NSLog(@"支付结果：\n支付id%@\n 支付金额%d分\n  商品名称%@", result.orderID,result.amount, result.subject);
-		}
-	
-支付完成后，开发者服务端通过平台订单id来确认订单完成。
-	
-* 取消支付
-
-		- (void)actionPayCanceled:(NSNotification *)notification {
-    		NSLog(@"支付取消");
-		}
-
-
-#### 3.3.5 处理支付宝支付结果和微博SSO登录
-在AppDelegate的`application:openURL:sourceApplication:annotation:`中添加如下代码：
-
-	- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-	    BOOL handled = [NGGameService handleOpenURL:url];
-	    if (handled) {
-	        return YES;
-	    }
-	    
-	    //开发者添加自己的OpenURL处理
-	    
-	    return NO;
-	}
-
-### 3.4 数据采集
-
-* 玩家用户登录行为记录（用于玩家行为统计以及进行玩家间p2p推送）：
-
-		[NGGameService setLoginPlayerID:@"123456677"];
-
-* 玩家用户付款行为统计：
-
-		[NGGameService logPaymentWithPlayerID:@"123456677" payAmount:100];
-	
-### 3.5 推送设置
-#### 3.5.1 配置推送证书(已经有p12证书的可以跳过这一步)
+### 3.1 配置推送证书(已经有p12证书的可以跳过这一步)
 
 详见[APNS证书创建流程](http://docs.gameservice.com/docs/other/Create_APNG_Certificate.html)。
 
-#### 3.5.2 上传推送证书到GameService
+### 3.2 上传推送证书到GameService
 
 * 登录GameService开发者后台；
 * 在**游戏管理**页面，在对应游戏的那一行上点击**编辑**按钮进入编辑界面；
 * 点击**开发环境APNS证书**打开文件选择框，选择p12证书并上传；
 
-#### 3.5.3 获取并上传device token
+### 3.3 初始化SDK
+AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com/)后台查看获取，需要先创建App。
+
+初始化需要设置AppID和AppKey：
+
+	[NGPushService setAppID:@"10057" AppSecret:@"n6tE8Nr0TRrxkxovOd4btirTyR8J3Ku6"];
+	
+### 3.4 获取并上传device token
 请求device token:
 
 	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
@@ -234,7 +62,7 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 在UIApplicationDelegate中获取device token，上传到GameService：
 	
 	- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    [NGGameService setPushToken:deviceToken]; //上传device token
+    [NGPushService setPushToken:deviceToken]; //上传device token
 	}
 
 
@@ -243,3 +71,84 @@ AppID和AppKey请到[GameService 开发网站](http://developers.gameservice.com
 	- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
     NSLog(@"%@", error);
 	}
+### 3.5 使用SDK
+
+设置登录玩家ID，必填，在pushToken设置之后，玩家登录完成时调用此接口。如果游戏不存在玩家ID，则设置为"0"：
+
+	[NGPushService setLoginPlayerID:@"123"];
+
+设置渠道ID (可选)：
+
+	[NGPushService setChannelID:@"14"];
+	
+统计支付：
+
+	NGPaymentRecord *paymentRecord = [[NGPaymentRecord alloc] init];
+	paymentRecord.player_id = @"123";
+	paymentRecord.channel_id = @"14"; //渠道ID，可不填
+	paymentRecord.amount = 100;
+	paymentRecord.payment_channel = @"test";
+	paymentRecord.currency = @"人民币";
+	paymentRecord.coin_amount = 1000;
+	paymentRecord.order_id = @"201409190001";
+	paymentRecord.level = 50;
+	paymentRecord.server_id = @"2";
+	[NGPushService pay:paymentRecord];
+
+统计玩家进入某个等级，在玩家升级之后或者登录游戏(在`UIApplicationDidBecomeActiveNotification`消息处理函数中判断玩家是否登录，登录则调用)之后调用：
+
+	NGLevelRecord *levelRecord = [NGLevelRecord new];
+	levelRecord.player_id = @"123";
+	levelRecord.channel_id = @"14"; //渠道ID，可不填
+	levelRecord.server_id = @"2";
+	levelRecord.player_level = 50;
+	[NGPushService reachLevel:levelRecord];
+	
+统计玩家离开某个等级，在玩家升级之前和退出游戏之前调用(在`UIApplicationWillResignActiveNotification`消息处理函数中判断玩家是否有等级，有等级则调用)：
+
+	NGLevelRecord *levelRecord = [NGLevelRecord new];
+	levelRecord.player_id = @"123";
+	levelRecord.channel_id = @"14"; //渠道ID，可不填
+	levelRecord.server_id = @"2";
+	levelRecord.player_level = 50;
+	[NGPushService leaveLevel:levelRecord];
+
+* reachLevel:和leaveLevel:配合使用，统计玩家在某个等级的在线时间。
+	
+统计玩家进入关卡：
+
+	NGMissionRecord *missionRecord = [NGMissionRecord new];
+	missionRecord.player_id = @"123";
+	missionRecord.channel_id = @"14"; //渠道ID，可不填
+	missionRecord.server_id = @"2";
+	missionRecord.mission_id = 11;
+	[NGPushService enterMission:missionRecord];
+	
+统计玩家离开关卡，在玩家离开关卡或者退出游戏时调用：
+	
+	NGMissionRecord *missionRecord = [NGMissionRecord new];
+	missionRecord.player_id = @"123";
+	missionRecord.channel_id = @"14"; //渠道ID，可不填
+	missionRecord.server_id = @"2";
+	missionRecord.mission_id = 11;
+	[NGPushService leaveMission:missionRecord];
+	
+统计玩家消费行为：
+
+	NGConsumptionRecord *consumptionRecord = [NGConsumptionRecord new];
+	consumptionRecord.player_id = @"123";
+	consumptionRecord.channel_id = @"14"; //渠道ID，可不填
+	consumptionRecord.server_id = @"2";
+	consumptionRecord.item_id = 1000;
+	consumptionRecord.item_amount = 1;
+	consumptionRecord.coin_amount = 100;
+	[NGPushService consumption:consumptionRecord];
+	
+统计玩家剩余虚拟币：
+
+	NGCoinRecord *coinRecord = [NGCoinRecord new];
+	coinRecord.player_id = @"123";
+	coinRecord.channel_id = @"14"; //渠道ID，可不填
+	coinRecord.server_id = @"2";
+	coinRecord.coin_amount = 90000;
+	[NGPushService coin:coinRecord];
