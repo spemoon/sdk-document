@@ -142,7 +142,7 @@
 
 <ul>
 <li><p>拷贝 smart-push-v1.x.x.jar 包到主工程的libs下；</p>
-<ul>
+</li>
 <li><p>Eclipse 下导入依赖包</p>
 <p>  注意：使用 Eclipse ADT 17 以上版本的开发者，其可自动引用jar包。 使用 Eclipse ADT 17 以下版本开发者使用老方式添加工程引用：右键工程根目录 &gt; Properties &gt; Java Build Path &gt; Libraries，然后点击Add External JARs... 选择指向jar包的路径(主项目的libs目录下)，点击OK，流程如下：</p>
 <p>  <img src="./Android-SDK-Pic/SetEclipse_1.jpg" alt=""></p>
@@ -150,16 +150,14 @@
 <p>  <img src="./Android-SDK-Pic/SetEclipse_3.jpg" alt=""></p>
 </li>
 </ul>
+<ul>
+<li><p>IntelliJ IDEA 下导入包</p>
+<p>  工程libs目录 &gt; 右键  smart-push-v1.x.x.jar &gt; Add as Library &gt; 选择Project Library &gt; 加为项目依赖：</p>
+<p>  <img src="./Android-SDK-Pic/SetIdea_1.jpg" alt=""></p>
+<p>   <img src="./Android-SDK-Pic/SetIdea_2.jpg" alt=""></p>
 </li>
 </ul>
-<pre><code>* IntelliJ IDEA 下导入包
-
-    工程libs目录 &gt; 右键  smart-push-v1.x.x.jar &gt; Add as Library &gt; 选择Project Library &gt; 加为项目依赖：
-
-    ![](./Android-SDK-Pic/SetIdea_1.jpg)
-
-    ![](./Android-SDK-Pic/SetIdea_2.jpg)
-</code></pre><h3 id="2.2">2.2 资源配置</h3>
+<h3 id="2.2">2.2 资源配置</h3>
 
 <ul>
 <li><p>在主工程 AndroidManifest.xml 的 manifest 标签下添加：</p>
