@@ -121,9 +121,9 @@ UIKit.framework
  <img src="./sdk-files/library_path.png" alt="image"></p>
 </li>
 </ol>
-<h2 id="3-sdk-">3、SDK使用</h2>
+<h2 id="3-sdk-">3、推送SDK使用</h2>
 <h3 id="3-1-p12-">3.1 配置推送证书(已经有p12证书的可以跳过这一步)</h3>
-<p>详见<a href="http://docs.gameservice.com/docs/other/Create_APNG_Certificate.html">APNS证书创建流程</a>。</p>
+<p>详见<a href="http://docs.gameservice.com/push/iOS/Create_APNG_Certificate.html">APNS证书创建流程</a>。</p>
 <h3 id="3-2-gameservice">3.2 上传推送证书到GameService</h3>
 <ul>
 <li>登录GameService开发者后台；</li>
@@ -139,75 +139,106 @@ UIKit.framework
 <pre><code>[[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert | UIRemoteNotificationTypeSound];
 </code></pre><p>在UIApplicationDelegate中获取device token，上传到GameService：</p>
 <pre><code>- (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-[NGPushService setPushToken:deviceToken]; //上传device token
+    [NGPushService setPushToken:deviceToken]; //上传device token
 }
 </code></pre><p>如果无法获取到到device token，请在<code>application:didFailToRegisterForRemoteNotificationsWithError:</code>中查看错误原因：</p>
 <pre><code>- (void)application:(UIApplication *)application didFailToRegisterForRemoteNotificationsWithError:(NSError *)error {
-NSLog(@&quot;%@&quot;, error);
+    NSLog(@&quot;%@&quot;, error);
 }
-</code></pre><h3 id="3-5-sdk">3.5 使用SDK</h3>
-<p>设置登录玩家ID，必填，在pushToken设置之后，玩家登录完成时调用此接口。如果游戏不存在玩家ID，则设置为&quot;0&quot;：</p>
+</code></pre><h2 id="4-sdk-">4、统计SDK使用</h2>
+<h3 id="4-1-id-pushtoken-id-0-">4.1 设置登录玩家ID，在pushToken设置之后，玩家登录完成时调用此接口。如果开发的游戏不存在玩家ID，则设置为&quot;0&quot;</h3>
 <pre><code>[NGPushService setLoginPlayerID:@&quot;123&quot;];
-</code></pre><p>设置渠道ID (可选)：</p>
-<pre><code>[NGPushService setChannelID:@&quot;14&quot;];
-</code></pre><p>统计支付：</p>
+</code></pre><ul>
+<li>注意，未正确设置pushToken则<code>setLoginPlayerID:</code>不可用。</li>
+</ul>
+<h3 id="4-2-id-">4.2 设置渠道ID (可选)</h3>
+<pre><code>[NGPushService setChannelID:@&quot;91_store&quot; channelName:@&quot;91手机助手&quot;];
+</code></pre><ul>
+<li>渠道ID命名可采用英文字母、数字和下划线的组合，例如&quot;360&quot;, &quot;91_store&quot;, &quot;AppStore&quot;等,在GameService网站中可以给渠道ID添加别名以方便查看</li>
+</ul>
+<h3 id="4-3-">4.3 统计支付</h3>
 <pre><code>NGPaymentRecord *paymentRecord = [[NGPaymentRecord alloc] init];
 paymentRecord.player_id = @&quot;123&quot;;
-paymentRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-paymentRecord.amount = 100;
-paymentRecord.payment_channel = @&quot;test&quot;;
-paymentRecord.currency = @&quot;人民币&quot;;
-paymentRecord.coin_amount = 1000;
-paymentRecord.order_id = @&quot;201409190001&quot;;
-paymentRecord.level = 50;
-paymentRecord.server_id = @&quot;2&quot;;
+paymentRecord.channel_id = @&quot;91_store&quot;;            //渠道ID
+paymentRecord.channel_name = @&quot;91手机助手&quot;;          //渠道名
+paymentRecord.amount = 100;                           //充值金额，浮点型，精确到小数点后两位
+paymentRecord.payment_channel = @&quot;alipay&quot;;       //支付渠道，自定义字符串
+paymentRecord.currency = @&quot;人民币&quot;;               //金额币种，自定义字符串
+paymentRecord.coin_amount = 1000;                //充值的游戏币
+paymentRecord.order_id = @&quot;201409190001&quot;;        //订单号，字符串，由游戏客户端定义。
+paymentRecord.level = 50;                          //玩家等级
+paymentRecord.server_id = @&quot;AppStore_1&quot;;         //服务器ID
+paymentRecord.server_name = @&quot;AppStore服务器1&quot;;   //服务器名
 [NGPushService pay:paymentRecord];
-</code></pre><p>统计玩家进入某个等级，在玩家升级之后或者登录游戏(在<code>UIApplicationDidBecomeActiveNotification</code>消息处理函数中判断玩家是否登录，登录则调用)之后调用：</p>
+[NGPushService pay:paymentRecord];
+</code></pre><ul>
+<li>玩家等级为0-100的数字。</li>
+<li>服务器ID命令采用英文字母、数字和下划线的组合，例如可以用&quot;91Store_1&quot;表示&quot;91助手1号联运服务器&quot;&quot;，&quot;AppStore100&quot;表示AppStore的100号服务器，服务器ID在GameService网站中可以添加别名，方便项目人员查看。</li>
+</ul>
+<h3 id="4-4-uiapplicationdidbecomeactivenotification-">4.4 统计玩家进入某个等级，在玩家升级之后或者登录游戏(在<code>UIApplicationDidBecomeActiveNotification</code>消息处理函数中判断玩家是否登录，登录则调用)之后调用</h3>
 <pre><code>NGLevelRecord *levelRecord = [NGLevelRecord new];
 levelRecord.player_id = @&quot;123&quot;;
-levelRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-levelRecord.server_id = @&quot;2&quot;;
-levelRecord.player_level = 50;
+levelRecord.channel_id = @&quot;91_store&quot;;            //渠道ID
+levelRecord.channel_name = @&quot;91手机助手&quot;;         //渠道名
+levelRecord.server_id = @&quot;AppStore_1&quot;;           //服务器ID
+levelRecord.server_name = @&quot;AppStore服务器1&quot;;     //服务器名
+levelRecord.player_level = 50;                   //玩家等级，0-100的数字
 [NGPushService reachLevel:levelRecord];
-</code></pre><p>统计玩家离开某个等级，在玩家升级之前和退出游戏之前调用(在<code>UIApplicationWillResignActiveNotification</code>消息处理函数中判断玩家是否有等级，有等级则调用)：</p>
+</code></pre><h3 id="4-5-uiapplicationwillresignactivenotification-">4.5 统计玩家离开某个等级，在玩家升级之前和退出游戏之前调用(在<code>UIApplicationWillResignActiveNotification</code>消息处理函数中判断玩家是否有等级，有等级则调用)</h3>
 <pre><code>NGLevelRecord *levelRecord = [NGLevelRecord new];
 levelRecord.player_id = @&quot;123&quot;;
-levelRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-levelRecord.server_id = @&quot;2&quot;;
+levelRecord.channel_id = @&quot;91_store&quot;;               //渠道ID
+levelRecord.channel_name = @&quot;91手机助手&quot;;            //渠道名
+levelRecord.server_id = @&quot;AppStore_1&quot;;
+levelRecord.server_name = @&quot;AppStore服务器1&quot;;        //服务器名
 levelRecord.player_level = 50;
 [NGPushService leaveLevel:levelRecord];
 </code></pre><ul>
 <li>reachLevel:和leaveLevel:配合使用，统计玩家在某个等级的在线时间。</li>
 </ul>
-<p>统计玩家进入关卡：</p>
+<h3 id="4-6-">4.6 统计玩家进入关卡</h3>
 <pre><code>NGMissionRecord *missionRecord = [NGMissionRecord new];
 missionRecord.player_id = @&quot;123&quot;;
-missionRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-missionRecord.server_id = @&quot;2&quot;;
-missionRecord.mission_id = 11;
+missionRecord.channel_id = @&quot;91_store&quot;;             //渠道ID
+missionRecord.channel_name = @&quot;91手机助手&quot;;          //渠道名
+missionRecord.server_id = @&quot;AppStore_1&quot;;
+missionRecord.server_name = @&quot;AppStore服务器1&quot;;      //服务器名
+missionRecord.mission_id = @&quot;100001&quot;;               //关卡id
+missionRecord.mission_name = @&quot;第一关：新手村&quot;;        //关卡名
 [NGPushService enterMission:missionRecord];
-</code></pre><p>统计玩家离开关卡，在玩家离开关卡或者退出游戏时调用：</p>
+</code></pre><ul>
+<li>关卡ID用&quot;100001&quot;到&quot;199999&quot;之间的字符串表示，&quot;100001&quot;表示第1关，依次增加。在GameService网站中可以给关卡添加别名，比如&quot;100001&quot;别名为&quot;第一关&quot;，&quot;100001&quot;别名为“第二关”。</li>
+</ul>
+<h3 id="4-7-">4.7 统计玩家离开关卡，在玩家离开关卡或者退出游戏时调用</h3>
 <pre><code>NGMissionRecord *missionRecord = [NGMissionRecord new];
 missionRecord.player_id = @&quot;123&quot;;
-missionRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-missionRecord.server_id = @&quot;2&quot;;
-missionRecord.mission_id = 11;
+missionRecord.channel_id = @&quot;91_store&quot;;             //渠道ID
+missionRecord.channel_name = @&quot;91手机助手&quot;;          //渠道名
+missionRecord.server_id = @&quot;AppStore_1&quot;;
+missionRecord.server_name = @&quot;AppStore服务器1&quot;;      //服务器名
+missionRecord.mission_id = @&quot;100001&quot;;
+missionRecord.mission_name = @&quot;第一关：新手村&quot;;        //关卡名
 [NGPushService leaveMission:missionRecord];
-</code></pre><p>统计玩家消费行为：</p>
+</code></pre><h3 id="4-8-">4.8 统计玩家消费行为</h3>
 <pre><code>NGConsumptionRecord *consumptionRecord = [NGConsumptionRecord new];
 consumptionRecord.player_id = @&quot;123&quot;;
-consumptionRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-consumptionRecord.server_id = @&quot;2&quot;;
-consumptionRecord.item_id = 1000;
-consumptionRecord.item_amount = 1;
-consumptionRecord.coin_amount = 100;
+consumptionRecord.channel_id = @&quot;91_store&quot;;             //渠道ID
+consumptionRecord.channel_name = @&quot;91手机助手&quot;;          //渠道名
+consumptionRecord.server_id = @&quot;AppStore_1&quot;;
+consumptionRecord.server_name = @&quot;AppStore服务器1&quot;;      //服务器名
+consumptionRecord.item_id = @&quot;11&quot;;                      //消费的商品ID
+consumptionRecord.item_name = @&quot;钻石60个&quot;;               //消费的商品名称
+consumptionRecord.item_amount = 1;                      //消费商品数量
+consumptionRecord.coin_amount = 100;                    //话费虚拟币
 [NGPushService consumption:consumptionRecord];
-</code></pre><p>统计玩家剩余虚拟币：</p>
+</code></pre><h3 id="4-9-">4.9 统计玩家剩余虚拟币</h3>
 <pre><code>NGCoinRecord *coinRecord = [NGCoinRecord new];
 coinRecord.player_id = @&quot;123&quot;;
-coinRecord.channel_id = @&quot;14&quot;; //渠道ID，可不填
-coinRecord.server_id = @&quot;2&quot;;
-coinRecord.coin_amount = 90000;
+coinRecord.channel_id = @&quot;91_store&quot;;                    //渠道ID
+coinRecord.channel_name = @&quot;91手机助手&quot;;                 //渠道名
+coinRecord.server_id = @&quot;AppStore_1&quot;;
+coinRecord.server_name = @&quot;AppStore服务器1&quot;;             //服务器名
+coinRecord.coin_amount = 90000;                         //剩余虚拟币
 [NGPushService coin:coinRecord];
 </code></pre>
         </div>
