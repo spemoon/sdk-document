@@ -120,18 +120,15 @@
 
 *  application 标签下添加：
 
-  		<!-- 必需： 应用ID -->
+		<!-- 必需： 应用ID -->
         <meta-data
             android:name="NGDS_APPID"
-            android:value="xxxx" />
+            android:value="8" />
+        
         <!-- 必需： 应用KEY -->
         <meta-data
             android:name="NGDS_APPKEY"
-            android:value="xxxxxxxxxxxxxxx" />
-        <!-- 可选： 渠道号，默认14 -->
-        <meta-data
-            android:name="NGDS_CHANNEL"
-            android:value="14" />
+            android:value="sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44" />
 
         <!-- 必需： 推送页面配置 -->
         <activity android:name="com.gameservice.sdk.push.ui.SmartPushActivity" />
@@ -167,7 +164,6 @@
 *  meta-data 标签配置说明：
 	* NGDS_APPID（应用ID）的value值配置成您在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里所添加游戏对应的AppId。
 	* NGDS_APPKEY（应用KEY）的value值配置成您在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里所添加游戏对应的AppKey。
-	* NGDS_CHANNEL（渠道号）的value值默认配置成14，有发渠道包的请填具体的渠道号。
 
 <h3 id="2.3">2.3 添加推送代码</h3>
 
@@ -235,7 +231,7 @@
 
 <h4 id="2.3.3">2.3.3 设置Debug模式</h4>
 
-* Application的子类中进行如下调用，以此来设置Debug模式。若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为debug模式)。
+* Application的子类中进行如下调用，以此来设置Debug模式。若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为非debug模式)。
 
 	    @Override
 	    public void onCreate() {
@@ -246,7 +242,7 @@
 
 <h3 id="2.4">2.4 测试确认</h3>
 
-* 请确认 AndroidManifest.xml 中的**NGDS_APPKEY**、**NGDS_APPID**、**NGDS_CHANNEL**的value值是否正常填写。
+* 请确认 AndroidManifest.xml 中的**NGDS_APPKEY**和**NGDS_APPID**的value值是否正常填写。
 * 请确认主项目包名是否与<a href="http://developers.gameservice.com/">GameService 开发网站</a>里相应的App一致。
 * smart-push-v1.x.x.jar 包是否添加为依赖。
 
@@ -269,7 +265,7 @@
 
 <h2 id="3">3 采集的配置与使用</h2> 
 
-* SDK提供采集功能，开发者调用采集API可记录用户行为，并在<a href="http://developers.gameservice.com/">GameService 开发网站</a>会呈现“日活跃用户数量”等统计信息；商家可依据这些采集到的行为进行分析作出争对性推送，增加高活跃用户，提高盈利。**若不使用采集API，无法使用此功能**。
+* SDK提供采集功能，开发者调用采集API可记录用户行为，并在<a href="http://developers.gameservice.com/">GameService 开发网站</a>会呈现“日活跃用户数量”等统计信息；商家可依据这些采集到的行为进行分析作出针对性推送，增加高活跃用户，提高盈利。**若不使用采集API，无法使用此功能**。
 
 <h3 id="3.1">3.1 添加采集代码</h3> 
 
@@ -322,23 +318,23 @@
 	* 使用场景： 开发者需要开启push服务时调用
 	* 参数说明： context 当前上下文
 
-* 注销消息接收者
-	* 调用方法： SmartPush.**unRegisterReceiver**()
-	* 使用场景： 开发者需要关闭push服务时调用
-	* 参数说明： 无
-
 * 注册消息接收者
 	* 调用方法： SmartPush.**registerReceiver**(IMsgReceiver receiver)
 	* 使用场景： 开发者需要开启push服务前，注册IMsgReceiver
 	* 参数说明： receiver消息处理接口类
+
+* 注销消息接收者
+	* 调用方法： SmartPush.**unRegisterReceiver**()
+	* 使用场景： 可在页面消亡时解除绑定
+	* 参数说明： 无
 	
 * 玩家绑定设备接口
 	* 调用方法： SmartPush.**bindDevice**(Context context, String deviceToken, String playerId)
-	* 使用场景： 当成功取得deviceToken时，需调用此方法使玩家id(为字符串，若没有玩家id，请设置为"0")和设备绑定
+	* 使用场景： 当成功取得deviceToken时，需调用此方法使玩家id和设备绑定
 	* 参数说明： 
 		* context       当前上下文
 		* deviceToken   设备token
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+		* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
 
 * 设置Debug模式
 	* 调用方法： SmartPush.**setDebugMode**(boolean isDebugable)
@@ -356,17 +352,16 @@
 * 记录玩家返回当前页面行为
 	* 调用方法： SmartPush.**onActivityResume**(Context context)
 	* 使用场景： 当Activity进入onResume状态时调用
-	* 参数说明： 
-		* context       当前上下文
+	* 参数说明： context       当前上下文
 
-* 玩家登录记录
+* 记录玩家登入
 	* 调用方法： SmartPush.**recordLogin**(Context context, String playerId)
 	* 使用场景： 当玩家登入时调用
 	* 参数说明：      
 		* context       当前上下文
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+		* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
 
-* 玩家登出记录
+* 记录玩家登出
 	* 调用方法： SmartPush.**recordLogout**(Context context)
 	* 使用场景： 当玩家登出时调用
 	* 参数说明： context    当前上下文
@@ -375,17 +370,17 @@
 	* 调用方法： SmartPush.**recordServer**(String serverId, String serverName)
 	* 使用场景： 当玩家连接上服务器时调用
 	* 参数说明： 
-		* serverId   服务器id,开发者服务器自定义id(采用英文字母、数字、下划线的组合，如"91Store_1")
-     	* serverName 服务器id对应名称
+		* serverId   服务器id,开发者服务器自定义id
+		* serverName 服务器id对应名称
 
 * 记录当前渠道id和渠道id对应名称
 	* 调用方法： SmartPush.**recordChannel**(String channelId, String channelName)
 	* 使用场景： 可在应用开始时调用
 	* 参数说明： 
-    	* channelId   渠道id,开发者自定义渠道id(采用英文字母、数字、下划线的组合,例如"91_store")
-     	* channelName 渠道id对应名称   	
+    	* channelId   渠道id,开发者自定义渠道id
+    	* channelName 渠道id对应名称   	
 
-* 玩家充值记录
+* 记录玩家充值
 	* 调用方法： SmartPush.**recordPay**(Context context, String playerId,
 		float amount, String paymentChanel,
 		String currency, int coinAmount, 
@@ -393,20 +388,20 @@
 	* 使用场景： 当玩家完成充值后调用
 	* 参数说明：     
 		* context       当前上下文
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
-     	* amount        充值金额
-     	* paymentChanel 支付渠道
-     	* currency      金额币种
-     	* coinAmount    充值游戏币个数
-     	* orderId       订单号
-     	* level         玩家等级(0-100的数字)	
+		* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+		* amount        充值金额
+		* paymentChanel 支付渠道
+		* currency      金额币种
+		* coinAmount    充值游戏币个数
+		* orderId       订单号
+		* level         玩家等级(0-100的数字)	
 
 * 记录玩家开始游戏的时间
 	* 调用方法： SmartPush.**recordPlayerStartTime**(Context context,  String playerId, int playerLevel)
 	* 使用场景： 当玩家进入游戏时调用
 	* 参数说明： 
     	* context       当前上下文
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+    	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
     	* playerLevel   玩家等级(0-100的数字)
 
 * 记录玩家离开游戏的时间
@@ -414,7 +409,7 @@
 	* 使用场景： 当玩家退出游戏时调用
 	* 参数说明： 
     	* context       当前上下文
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+    	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
     	* playerLevel   玩家等级(0-100的数字)
 
 * 记录玩家进入关卡的时间
@@ -422,7 +417,7 @@
 	* 使用场景： 当玩家进入特定关卡时调用
 	* 参数说明： 
     	* context       当前上下文
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+    	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
     	* missionId     关卡id(使用100001~199999之间字符串表示)
     	* missionName   关卡id对应名称
 
@@ -431,11 +426,11 @@
 	* 使用场景： 当玩家离开特定关卡时调用
 	* 参数说明： 
     	* context       当前上下文
-     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
+    	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
     	* missionId     关卡id(使用100001~199999之间字符串表示)
     	* missionName   关卡id对应名称
 
-* 玩家虚拟消费记录
+* 记录玩家虚拟消费
 	* 调用方法： SmartPush.**recordConsumption**(Context context, String playerId, String itemId,
 		String itemName,
         int itemAmount,
@@ -444,18 +439,18 @@
 	* 参数说明： 
 	    * context       当前上下文
     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
-     	* itemId        消费商品id
-     	* itemName      消费商品id对应名称
-     	* itemAmount    消费商品数量
-     	* coinAmount    消费虚拟币数量  
+    	* itemId        消费商品id
+    	* itemName      消费商品id对应名称
+    	* itemAmount    消费商品数量
+    	* coinAmount    消费虚拟币数量  
 
-* 玩家剩余金币记录
+* 记录玩家剩余金币
 	* 调用方法： SmartPush.**recordCoinAmount**(Context context, String playerId, int coinAmount)
 	* 使用场景： 当玩家在App中虚拟消费后调用
 	* 参数说明： 
 	    * context       当前上下文
     	* playerId      玩家id(为字符串，若没有玩家id，请设置为"0")
-     	* coinAmount    消费虚拟币数量  
+    	* coinAmount    消费虚拟币数量  
 
 <h2 id="5">5、相关类介绍</h2>
  	
@@ -467,19 +462,19 @@
 | 调试消息接口     	|  debug 消息     	|   onDebug    |
 | deviceToken信息接口   | deviceToken     	|   onDeviceToken   |
 
-* 接收到的push消息
+* 接收透传消息
 	* 方法： public void **onMessage**(String message)
-	* 功能： 提供开发者message消息用于处理透传消息
+	* 功能： 开发者可以接收到透传消息，用于消息处理
 	* 参数： message 为Json字符串
 	
-* 接收到的debug消息
+* 接收debug信息
 	* 方法： public void **onDebug**(String debugInfo)
-	* 功能： 提供开发者debug信息用于调试
+	* 功能： 开发者可以接收到debug信息，用于调试
 	* 参数： debugInfo 为debug内容信息
 
-* 接收分配到的deviceToken信息
+* 接收deviceToken信息
 	* 方法： public void **onDeviceToken**(String deviceToken) 
-	* 功能： 提供开发者deviceToken用于deviceToken的本地化和玩家id的绑定
+	* 功能： 开发者可以接收到deviceToken信息，用于deviceToken的本地化和玩家id的绑定
 	* 参数： deviceToken 设备token
 
 <h3 id="5.2">5.2 SmartPushOpenUtils 工具类</h3>
