@@ -413,10 +413,8 @@
 <li>使用场景： 当成功取得deviceToken时，需调用此方法使玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)和设备绑定</li>
 <li>参数说明： <ul>
 <li>context       当前上下文</li>
-<li>deviceToken   设备token<ul>
+<li>deviceToken   设备token</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -457,10 +455,8 @@
 <li>调用方法： SmartPush.<strong>recordLogin</strong>(Context context, String playerId)</li>
 <li>使用场景： 当玩家登入时调用</li>
 <li>参数说明：      <ul>
-<li>context       当前上下文<ul>
+<li>context       当前上下文</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -477,10 +473,8 @@
 <li>调用方法： SmartPush.<strong>recordServer</strong>(String serverId, String serverName)</li>
 <li>使用场景： 当玩家连接上服务器时调用</li>
 <li>参数说明： <ul>
-<li>serverId   服务器id,开发者服务器自定义id(采用英文字母、数字、下划线的组合，如&quot;91Store_1&quot;)<ul>
+<li>serverId   服务器id,开发者服务器自定义id(采用英文字母、数字、下划线的组合，如&quot;91Store_1&quot;)</li>
 <li>serverName 服务器id对应名称</li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -490,10 +484,8 @@
 <li>调用方法： SmartPush.<strong>recordChannel</strong>(String channelId, String channelName)</li>
 <li>使用场景： 可在应用开始时调用</li>
 <li>参数说明： <ul>
-<li>channelId   渠道id,开发者自定义渠道id(采用英文字母、数字、下划线的组合,例如&quot;91_store&quot;)<ul>
+<li>channelId   渠道id,开发者自定义渠道id(采用英文字母、数字、下划线的组合,例如&quot;91_store&quot;)</li>
 <li>channelName 渠道id对应名称       </li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -506,7 +498,7 @@
   String orderId, int level)</li>
 <li>使用场景： 当玩家完成充值后调用</li>
 <li>参数说明：     <ul>
-<li>context       当前上下文<ul>
+<li>context       当前上下文</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 <li>amount        充值金额</li>
 <li>paymentChanel 支付渠道</li>
@@ -518,17 +510,13 @@
 </li>
 </ul>
 </li>
-</ul>
-</li>
 <li><p>记录玩家开始游戏的时间</p>
 <ul>
 <li>调用方法： SmartPush.<strong>recordPlayerStartTime</strong>(Context context,  String playerId, int playerLevel)</li>
 <li>使用场景： 当玩家进入游戏时调用</li>
 <li>参数说明： <ul>
-<li>context       当前上下文<ul>
+<li>context       当前上下文</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
-</ul>
-</li>
 <li>playerLevel   玩家等级(0-100的数字)</li>
 </ul>
 </li>
@@ -539,10 +527,8 @@
 <li>调用方法： SmartPush.<strong>recordPlayerEndTime</strong>(Context context, String playerId, int playerLevel)</li>
 <li>使用场景： 当玩家退出游戏时调用</li>
 <li>参数说明： <ul>
-<li>context       当前上下文<ul>
+<li>context       当前上下文</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
-</ul>
-</li>
 <li>playerLevel   玩家等级(0-100的数字)</li>
 </ul>
 </li>
@@ -553,10 +539,8 @@
 <li>调用方法： SmartPush.<strong>recordMissionStartTime</strong>(Context context, String playerId, String missionId, String missionName)</li>
 <li>使用场景： 当玩家进入特定关卡时调用</li>
 <li>参数说明： <ul>
-<li>context       当前上下文<ul>
+<li>context       当前上下文</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
-</ul>
-</li>
 <li>missionId     关卡id(使用100001~199999之间字符串表示)</li>
 <li>missionName   关卡id对应名称</li>
 </ul>
@@ -568,10 +552,8 @@
 <li>调用方法： SmartPush.<strong>recordMissionEndTime</strong>(Context context, String playerId, String missionId, String missionName)</li>
 <li>使用场景： 当玩家离开特定关卡时调用</li>
 <li>参数说明： <ul>
-<li>context       当前上下文<ul>
+<li>context       当前上下文</li>
 <li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
-</ul>
-</li>
 <li>missionId     关卡id(使用100001~199999之间字符串表示)</li>
 <li>missionName   关卡id对应名称</li>
 </ul>
@@ -587,13 +569,11 @@
 <li>使用场景： 当玩家在App中有虚拟消费行为时调用</li>
 <li>参数说明： <ul>
 <li>context       当前上下文</li>
-<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 <li>itemId        消费商品id</li>
 <li>itemName      消费商品id对应名称</li>
 <li>itemAmount    消费商品数量</li>
 <li>coinAmount    消费虚拟币数量  </li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
@@ -604,10 +584,8 @@
 <li>使用场景： 当玩家在App中虚拟消费后调用</li>
 <li>参数说明： <ul>
 <li>context       当前上下文</li>
-<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 <li>coinAmount    消费虚拟币数量  </li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
