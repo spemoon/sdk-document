@@ -85,23 +85,22 @@
 <p> 1.3 <a href="#1.3">SDK 包内容</a></p>
 <p> 1.4 <a href="#1.4">Android SDK版本</a></p>
 </li>
-<li><p><a href="#2">开始集成SDK</a></p>
-<p> 2.1 <a href="#2.1">导入包</a></p>
-<p> 2.2 <a href="#2.2">资源配置</a></p>
-<p> 2.3 <a href="#2.3">推送配置</a></p>
-<p> 2.4 <a href="#2.4">采集配置</a></p>
-<p> 2.5 <a href="#2.5">测试确认</a></p>
+<li><p><a href="#2">快速集成SDK</a></p>
+<p> 2.1 <a href="#2.1">依赖建立</a></p>
+<p> 2.2 <a href="#2.2">AndroidManifest.xml配置</a></p>
+<p> 2.3 <a href="#2.3">添加推送代码</a></p>
+<p> 2.4 <a href="#2.4">测试确认</a></p>
 </li>
-<li><p><a href="#3">API介绍</a></p>
+<li><p><a href="#3">采集配置与使用</a></p>
+<p> 3.1 <a href="#3.1">添加采集代码</a></p>
+<p> 3.2 <a href="#3.2">查看采集统计信息</a></p>
+<p> 3.3 <a href="#3.3">自定义规则推送</a></p>
 </li>
-</ol>
-<ol>
-<li><p><a href="#4">相关类介绍</a></p>
-<p> 4.1 <a href="#4.1">IMsgReceiver</a></p>
-<p> 4.2 <a href="#4.2">SmartPushOpenUtils</a></p>
+<li><p><a href="#4">API介绍</a></p>
 </li>
-<li><p><a href="#5">常见问题</a></p>
-<p> 5.1 <a href="#5.1">关于推送服务</a></p>
+<li><p><a href="#5">相关类介绍</a></p>
+<p> 5.1 <a href="#5.1">IMsgReceiver</a></p>
+<p> 5.2 <a href="#5.2">SmartPushOpenUtils</a></p>
 </li>
 </ol>
 <h2 id="1">1、产品说明</h2>
@@ -110,13 +109,16 @@
 
 <ul>
 <li>开发者能够主动、及时地向玩家发送通知或消息。</li>
-<li>可接收通知与自定义消息，向 App 传递相关信息。  </li>
+<li>接收通知与自定义消息，向 App 传递相关信息。 </li>
 </ul>
 <h3 id="1.2">1.2 特点</h3>
 
 <ul>
-<li>数据挖掘，实时或离线的场景分析，在适当的时候以适当的方式推送到玩家。</li>
-<li>通过离线保障，不单纯依赖TCP长连接，将送达率提高到99.9%以上，降低客户端25%电力消耗。</li>
+<li>通过用户数据分析挖掘，为开发者定义用户群体。根据实际运营目的，做真正意义上的精确化推送；</li>
+<li>通过图表清晰对比每一次的推送的效果，每一个节点游戏数据的变化尽在掌控之中。</li>
+<li>推送（数据指标）、游戏内IM、玩家P2P社交等，紧紧围绕游戏而设计，增强游戏黏性，为游戏而生。</li>
+<li>SDK快速接入，仅需0.5-1天的开发周期。不断完善的文档中心随手查阅，还有客服跟踪与技术对接。</li>
+<li>新游智能推送将互联网免费精神贯彻到底，所有开放功能均免费使用，实实在在为开发者节约成本。</li>
 </ul>
 <h3 id="1.3">1.3 SDK 包内容</h3>
 
@@ -136,9 +138,9 @@
 <ul>
 <li>目前SDK只支持Android 2.2或以上版本的手机系统。</li>
 </ul>
-<h2 id="2">2、开始集成SDK</h2>
+<h2 id="2">2、快速集成SDK</h2>
 
-<h3 id="2.1">2.1 导入包</h3>
+<h3 id="2.1">2.1 依赖建立</h3>
 
 <ul>
 <li><p>拷贝 smart-push-v1.x.x.jar 包到主工程的libs下；</p>
@@ -151,96 +153,99 @@
 </li>
 </ul>
 <ul>
-<li><p>IntelliJ IDEA 下导入包</p>
+<li><p>IntelliJ IDEA 下导入依赖包</p>
 <p>  工程libs目录 &gt; 右键  smart-push-v1.x.x.jar &gt; Add as Library &gt; 选择Project Library &gt; 加为项目依赖：</p>
 <p>  <img src="./Android-SDK-Pic/SetIdea_1.jpg" alt=""></p>
-<p>   <img src="./Android-SDK-Pic/SetIdea_2.jpg" alt=""></p>
+<p>  <img src="./Android-SDK-Pic/SetIdea_2.jpg" alt=""></p>
 </li>
 </ul>
-<h3 id="2.2">2.2 资源配置</h3>
+<h3 id="2.2">2.2 AndroidManifest.xml配置</h3>
 
 <ul>
-<li><p>在主工程 AndroidManifest.xml 的 manifest 标签下添加：</p>
-<pre><code>  &lt;!-- 必需： 权限配置 --&gt;
-  &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.BATTERY_STATS&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.CHANGE_NETWORK_STATE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.CHANGE_WIFI_STATE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.VIBRATE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.BROADCAST_STICKY&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;
-  &lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot; /&gt;
+<li><p>manifest 标签下添加：</p>
+<pre><code> &lt;!-- 必需： 权限配置 --&gt;
+ &lt;uses-permission android:name=&quot;android.permission.INTERNET&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.BATTERY_STATS&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.ACCESS_WIFI_STATE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.ACCESS_NETWORK_STATE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.CHANGE_NETWORK_STATE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.CHANGE_WIFI_STATE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.VIBRATE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.WRITE_EXTERNAL_STORAGE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.BROADCAST_STICKY&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.READ_PHONE_STATE&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.SYSTEM_ALERT_WINDOW&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.RECEIVE_BOOT_COMPLETED&quot; /&gt;
+ &lt;uses-permission android:name=&quot;android.permission.WAKE_LOCK&quot; /&gt;
 </code></pre></li>
 </ul>
 <ul>
-<li><p>在主工程 AndroidManifest.xml 的 application 标签下添加：</p>
-<pre><code>    &lt;!-- 必需： 应用ID --&gt;
-  &lt;meta-data
-      android:name=&quot;NGDS_APPID&quot;
-      android:value=&quot;8&quot; /&gt;
-  &lt;!-- 必需： 应用KEY --&gt;
-  &lt;meta-data
-      android:name=&quot;NGDS_APPKEY&quot;
-      android:value=&quot;sVDIlIiDUm7tWPYWhi6kfNbrqui3ez44&quot; /&gt;
-  &lt;!-- 可选： 渠道号，默认14 --&gt;
-  &lt;meta-data
-      android:name=&quot;NGDS_CHANNEL&quot;
-      android:value=&quot;14&quot; /&gt;
+<li><p>application 标签下添加：</p>
+<pre><code>   &lt;!-- 必需： 应用ID --&gt;
+ &lt;meta-data
+     android:name=&quot;NGDS_APPID&quot;
+     android:value=&quot;xxxx&quot; /&gt;
+ &lt;!-- 必需： 应用KEY --&gt;
+ &lt;meta-data
+     android:name=&quot;NGDS_APPKEY&quot;
+     android:value=&quot;xxxxxxxxxxxxxxx&quot; /&gt;
+ &lt;!-- 可选： 渠道号，默认14 --&gt;
+ &lt;meta-data
+     android:name=&quot;NGDS_CHANNEL&quot;
+     android:value=&quot;14&quot; /&gt;
 
-  &lt;!-- 必需： 推送页面配置 --&gt;
-  &lt;activity android:name=&quot;com.gameservice.sdk.push.ui.SmartPushActivity&quot; /&gt;
+ &lt;!-- 必需： 推送页面配置 --&gt;
+ &lt;activity android:name=&quot;com.gameservice.sdk.push.ui.SmartPushActivity&quot; /&gt;
 
-  &lt;!-- 必需： push 服务配置 --&gt;
-  &lt;service
-      android:name=&quot;com.gameservice.sdk.push.api.SmartPushService&quot;
-      android:process=&quot;:ngds&quot; /&gt;
+ &lt;!-- 必需： push 服务配置 --&gt;
+ &lt;service
+     android:name=&quot;com.gameservice.sdk.push.api.SmartPushService&quot;
+     android:process=&quot;:ngds&quot; /&gt;
 
-  &lt;!-- 必需： push 消息接收配置 --&gt;
-  &lt;receiver
-      android:name=&quot;com.gameservice.sdk.push.api.SmartPushReceiver&quot;
-      android:enabled=&quot;true&quot;
-      android:exported=&quot;false&quot;
-      android:priority=&quot;90000&quot;
-      android:process=&quot;:ngds&quot;&gt;
-      &lt;intent-filter&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_ADDED&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_CHANGED&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_DATA_CLEARED&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_INSTALL&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_REMOVED&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_REPLACED&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.PACKAGE_RESTARTED&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.USER_PRESENT&quot; /&gt;
-          &lt;action android:name=&quot;android.net.conn.CONNECTIVITY_CHANGE&quot; /&gt;
-          &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt;
-          &lt;action android:name=&quot;cn.ngds.android.intent.alarm&quot; /&gt;
-      &lt;/intent-filter&gt;
-  &lt;/receiver&gt;
+ &lt;!-- 必需： push 消息接收配置 --&gt;
+ &lt;receiver
+     android:name=&quot;com.gameservice.sdk.push.api.SmartPushReceiver&quot;
+     android:enabled=&quot;true&quot;
+     android:exported=&quot;false&quot;
+     android:priority=&quot;90000&quot;
+     android:process=&quot;:ngds&quot;&gt;
+     &lt;intent-filter&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_ADDED&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_CHANGED&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_DATA_CLEARED&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_INSTALL&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_REMOVED&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_REPLACED&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.PACKAGE_RESTARTED&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.USER_PRESENT&quot; /&gt;
+         &lt;action android:name=&quot;android.net.conn.CONNECTIVITY_CHANGE&quot; /&gt;
+         &lt;action android:name=&quot;android.intent.action.BOOT_COMPLETED&quot; /&gt;
+         &lt;action android:name=&quot;cn.ngds.android.intent.alarm&quot; /&gt;
+     &lt;/intent-filter&gt;
+ &lt;/receiver&gt;
 </code></pre></li>
 </ul>
 <ul>
 <li>meta-data 标签配置说明：<ul>
-<li>NGDS_APPID（应用ID）的value值配置成<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的AppId。</li>
-<li>NGDS_APPKEY（应用KEY）的value值配置成<a href="http://developers.gameservice.com/">GameService 开发网站</a>里真实分配到的AppKey。</li>
+<li>NGDS_APPID（应用ID）的value值配置成您在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里所添加游戏对应的AppId。</li>
+<li>NGDS_APPKEY（应用KEY）的value值配置成您在<a href="http://developers.gameservice.com/">GameService 开发网站</a>里所添加游戏对应的AppKey。</li>
 <li>NGDS_CHANNEL（渠道号）的value值默认配置成14，有发渠道包的请填具体的渠道号。</li>
 </ul>
 </li>
 </ul>
-<h3 id="2.3">2.3 配置推送</h3>
+<h3 id="2.3">2.3 添加推送代码</h3>
 
+<ul>
+<li>推送服务包括：<ul>
+<li>推送通知：通知以状态栏Notification的形式展现，无需开发者处理。</li>
+<li>推送消息：处理消息需开发者实现 IMsgReceiver 子类。</li>
+</ul>
+</li>
+</ul>
 <h4 id="2.3.1">2.3.1 添加推送服务代码</h4>
 
 <ul>
-<li><p>在Activity或者Application子类中添加代码：</p>
-<pre><code>  SmartPush.registerReceiver(new MessageReceiver());
-  SmartPush.registerService(this);
-</code></pre></li>
-<li><p>说明：MessageReceiver类为IMsgReceiver的实现类，要开启服务必先实现一个此接口并注册，并重写<strong>onMessage</strong>方法处理接收到的消息(可参考demo)。</p>
+<li><p>创建一个类(如MessageReceiver)实现IMsgReceiver接口，请参考<a href="#5.1">IMsgReceiver类介绍</a>。</p>
 <pre><code>  private class MessageReceiver implements IMsgReceiver {
       @Override
       public void onMessage(String message) {
@@ -258,18 +263,20 @@
       public void onDeviceToken(String deviceToken)  {
           //SmartPushOpenUtils本地化deviceToken的帮助类，开发者可以自己实现本地化存储deviceToken
           SmartPushOpenUtils.saveDeviceToken(PushActivity.this, deviceToken);
-          // 在取得DeviceToken时，玩家id与设备绑定,“playerId”为当前玩家id
+          // 在取得DeviceToken时，玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)与设备绑定,“playerId”为当前玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)
           SmartPush.bindDevice(PushActivity.this, deviceToken, &quot;playerId&quot;);
       }
   }
 </code></pre></li>
-<li><p>说明：SmartPushOpenUtils类为为开发者提供的工具类，用于本地化deviceToken，开发者也可以自己实现本地化存储deviceToken。 </p>
-</li>
+<li><p>在Activity或者Application子类中注册实现的类(如MessageReceiver)，并开启服务，如下：</p>
+<pre><code>  SmartPush.registerReceiver(new MessageReceiver());
+  SmartPush.registerService(this);
+</code></pre></li>
 </ul>
-<h4 id="2.3.2">2.3.2 添加错误上报功能</h4>
+<h4 id="2.3.2">2.3.2 添加异常捕获功能</h4>
 
 <ul>
-<li><p>Application的子类中进行如下调用：</p>
+<li><p>Application的子类中添加如下代码，设置全局的异常捕获处理，帮助开发者分析异常原因。</p>
 <pre><code>  public class BaseApp extends Application {
       private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
 
@@ -287,95 +294,127 @@
       }
   }
 </code></pre></li>
-<li><p>AndroidManifest.xml 的 application 标签添加    </p>
+<li><p>AndroidManifest.xml 的 application 标签添加代码配置Application类</p>
 <pre><code>  &lt;application
          android:name=&quot;.BaseApp&quot;
               ......
 </code></pre></li>
-<li><p>说明：添加以上代码，收集SDK错误信息。</p>
-</li>
 </ul>
 <h4 id="2.3.3">2.3.3 设置Debug模式</h4>
 
 <ul>
-<li><p>Application的子类onCreate()方法中进行如下调用，以此来设置Debug模式。</p>
+<li><p>Application的子类中进行如下调用，以此来设置Debug模式。若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为debug模式)。</p>
 <pre><code>  @Override
   public void onCreate() {
       super.onCreate();
       SmartPush.setDebugMode(true);
   }
 </code></pre></li>
-<li><p>说明：若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为debug模式)。</p>
-</li>
 </ul>
-<h3 id="2.4">2.4 采集配置</h3> 
-
-<h4 id="2.4.1">2.4.1 添加采集代码</h4> 
+<h3 id="2.4">2.4 测试确认</h3>
 
 <ul>
-<li><p>在Activity的onResume和onPause方法中作如下调用：</p>
+<li>请确认 AndroidManifest.xml 中的<strong>NGDS_APPKEY</strong>、<strong>NGDS_APPID</strong>、<strong>NGDS_CHANNEL</strong>的value值是否正常填写。</li>
+<li>请确认主项目包名是否与<a href="http://developers.gameservice.com/">GameService 开发网站</a>里相应的App一致。</li>
+<li>smart-push-v1.x.x.jar 包是否添加为依赖。</li>
+</ul>
+<h4 id="2.4.1">2.4.1 测试推送通知</h4>
+* 登入<a href="http://developers.gameservice.com/push">GameService 开发网站</a>，在要推送应用下点击创建推送 &gt; 网页推送 &gt; 推送通知：
+
+    <img src="./Android-SDK-Pic/TestSDK_1.jpg" alt="">
+
+    <img src="./Android-SDK-Pic/TestSDK_2.jpg" alt="">
+
+
+<h4 id="2.4.2">2.4.2 测试推送消息</h4>
+
+<ul>
+<li><p>登入<a href="http://developers.gameservice.com/push">GameService 开发网站</a>，在要推送应用下点击创建推送 &gt; 网页推送 &gt; 推送消息：</p>
+<p>  <img src="./Android-SDK-Pic/TestSDK_1.jpg" alt=""></p>
+<p>  <img src="./Android-SDK-Pic/TestSDK_7.jpg" alt=""></p>
+</li>
+</ul>
+<h2 id="3">3 采集的配置与使用</h2> 
+
+<ul>
+<li>SDK提供采集功能，开发者调用采集API可记录用户行为，并在<a href="http://developers.gameservice.com/">GameService 开发网站</a>会呈现“日活跃用户数量”等统计信息；商家可依据这些采集到的行为进行分析作出争对性推送，增加高活跃用户，提高盈利。<strong>若不使用采集API，无法使用此功能</strong>。</li>
+</ul>
+<h3 id="3.1">3.1 添加采集代码</h3> 
+
+<ul>
+<li><p>在Activity的onResume和onPause方法中作如下调用，以此来支持采集API的使用,若不添加如下代码，采集登入登出的相关API无法正常使用</p>
 <pre><code>  @Override
   protected void onPause() {
-      SmartPush.onActivityPause(this, &quot;serverId&quot;);
+      SmartPush.onActivityPause(this);
       super.onPause();
   }
 
   @Override
   protected void onResume() {
-      SmartPush.onActivityPause(this, &quot;serverId&quot;);
+      SmartPush.onActivityPause(this);
       super.onResume();
-  }     
+  }
 </code></pre></li>
-<li><p>说明：必须添加以上代码才能正确获取玩家行为数据，&quot;serverId&quot;为服务器id。    </p>
+<li><p>玩家连接服务器后添加以下代码，记录当前服务器id和对应名称：</p>
+<pre><code>  // 这边serverId和serverName规则为开发者自定义，键值对形式
+  SmartPush.recordServer(&quot;1001&quot;, &quot;春暖花开&quot;);
+</code></pre></li>
+<li><p>应用开始时即可记录当前渠道id和渠道id对应名称：</p>
+<pre><code>  // 这边channelId和channelName规则为开发者自定义，键值对形式
+  SmartPush.recordChannel(&quot;1&quot;, &quot;新游互联&quot;);
+</code></pre></li>
+<li><p>SDK提供了采集玩家各种行为的API，供开发者使用，调用方式和场景请参考<a href="#4.2">采集API介绍</a>。</p>
 </li>
 </ul>
-<h4 id="2.4.2">2.4.2 添加采集的其他功能</h4> 
+<h3 id="3.2">3.2 查看统计信息</h3> 
 
 <ul>
-<li>SDK提供了采集玩家各种行为的API，供开发者在需要的时候使用，请参考<a href="#3.2">采集API介绍</a>。</li>
+<li><p>登入<a href="http://developers.gameservice.com/">GameService 开发网站</a>，在要查看的应用下点击：推送记录 &gt; 精确推送 &gt; 提高在线玩家数，即可查看统计信息:</p>
+<p>  <img src="./Android-SDK-Pic/Collection_1.jpg" alt="">    </p>
+</li>
 </ul>
-<h3 id="2.5">2.5 测试确认</h3>
-
+<h3 id="3.3">3.3 自定义规则</h3> 
 
 <ul>
-<li>请确认 AndroidManifest.xml 中的 <strong>NGDS_APPKEY</strong>、<strong>NGDS_APPID</strong>、<strong>NGDS_CHANNEL</strong>的value值是否正常填写。</li>
-<li>请确认主项目包名是否与<a href="http://developers.gameservice.com/">GameService 开发网站</a>里相应的App一致。</li>
-<li>smart-push-v1.x.x.jar 包是否添加为依赖。</li>
+<li><p>登入<a href="http://developers.gameservice.com/">GameService 开发网站</a>，在要查看的应用下点击：推送记录 &gt; 精确推送 &gt; 提高在线玩家数 &gt; 自定义规则 ，根据采集信息创建特定推送规则。</p>
+<p>  <img src="./Android-SDK-Pic/Collection_2.jpg" alt="">    </p>
+<p>  <img src="./Android-SDK-Pic/Collection_3.jpg" alt="">    </p>
+</li>
 </ul>
-<h2 id="3">3、API 介绍</h2>
+<h2 id="4">4、API 介绍</h2>
 
-<h3 id="3.1">推送 API </h3>
+<h3 id="4.1">推送 API </h3>
 
 <ul>
 <li><p>注册启动push服务</p>
 <ul>
-<li>方法： SmartPush.<strong>registerService</strong> (Context context) </li>
-<li>功能： 注册启动push服务</li>
-<li>参数： context 当前上下文</li>
+<li>调用方法： SmartPush.<strong>registerService</strong> (Context context) </li>
+<li>使用场景： 开发者需要开启push服务时调用</li>
+<li>参数说明： context 当前上下文</li>
 </ul>
 </li>
 <li><p>注销消息接收者</p>
 <ul>
-<li>方法： SmartPush.<strong>unRegisterReceiver</strong>()</li>
-<li>功能： 为App注销消息接收回调接口</li>
-<li>参数： 无</li>
+<li>调用方法： SmartPush.<strong>unRegisterReceiver</strong>()</li>
+<li>使用场景： 开发者需要关闭push服务时调用</li>
+<li>参数说明： 无</li>
 </ul>
 </li>
 <li><p>注册消息接收者</p>
 <ul>
-<li>方法： SmartPush.<strong>registerReceiver</strong>(IMsgReceiver receiver)</li>
-<li>功能： 为App注册消息接收回调接口</li>
-<li>参数： receiver消息处理接口类</li>
+<li>调用方法： SmartPush.<strong>registerReceiver</strong>(IMsgReceiver receiver)</li>
+<li>使用场景： 开发者需要开启push服务前，注册IMsgReceiver</li>
+<li>参数说明： receiver消息处理接口类</li>
 </ul>
 </li>
 <li><p>玩家绑定设备接口</p>
 <ul>
-<li>方法： SmartPush.<strong>bindDevice</strong>(Context context, String deviceToken, String playerId)</li>
-<li>功能： 为App注册消息接收回调接口</li>
-<li>参数： <ul>
+<li>调用方法： SmartPush.<strong>bindDevice</strong>(Context context, String deviceToken, String playerId)</li>
+<li>使用场景： 当成功取得deviceToken时，需调用此方法使玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)和设备绑定</li>
+<li>参数说明： <ul>
 <li>context       当前上下文</li>
 <li>deviceToken   设备token<ul>
-<li>playerId      玩家id</li>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 </ul>
 </li>
 </ul>
@@ -384,48 +423,42 @@
 </li>
 <li><p>设置Debug模式</p>
 <ul>
-<li>方法： SmartPush.<strong>setDebugMode</strong>(boolean isDebugable)</li>
-<li>功能： 用于设置是否处于DebugMode</li>
-<li>参数： isDebugable 是否设为Debug状态布尔值（true为Debug状态）</li>
+<li>调用方法： SmartPush.<strong>setDebugMode</strong>(boolean isDebugable)</li>
+<li>使用场景： 在应用开启时设定是否为debug模式</li>
+<li>参数说明： isDebugable 是否设为Debug状态布尔值（true为Debug状态）</li>
 </ul>
 </li>
 </ul>
-<h3 id="3.2">采集 API </h3>
+<h3 id="4.2">采集 API </h3>
 
 <ul>
 <li><p>记录玩家离开当前页面行为</p>
 <ul>
-<li>方法： SmartPush.<strong>onActivityPause</strong>(Context context, String serverId)</li>
-<li>功能： 玩家离开当前页面行为记录</li>
-<li>参数： <ul>
-<li>context       当前上下文<ul>
-<li>serverId      服务器id    </li>
-</ul>
-</li>
+<li>调用方法： SmartPush.<strong>onActivityPause</strong>(Context context)</li>
+<li>使用场景： 当Activity进入onPause状态时调用</li>
+<li>参数说明： <ul>
+<li>context       当前上下文</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>记录玩家返回当前页面行为</p>
 <ul>
-<li>方法： SmartPush.<strong>onActivityResume</strong>(Context context, String serverId)</li>
-<li>功能： 玩家返回当前页面行为记录</li>
-<li>参数： <ul>
-<li>context       当前上下文<ul>
-<li>serverId      服务器id    </li>
-</ul>
-</li>
+<li>调用方法： SmartPush.<strong>onActivityResume</strong>(Context context)</li>
+<li>使用场景： 当Activity进入onResume状态时调用</li>
+<li>参数说明： <ul>
+<li>context       当前上下文</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>玩家登录记录</p>
 <ul>
-<li>方法： SmartPush.<strong>recordLogin</strong>(Context context, String playerId)</li>
-<li>功能： 玩家登录记录</li>
-<li>参数：      <ul>
+<li>调用方法： SmartPush.<strong>recordLogin</strong>(Context context, String playerId)</li>
+<li>使用场景： 当玩家登入时调用</li>
+<li>参数说明：      <ul>
 <li>context       当前上下文<ul>
-<li>playerId      玩家id</li>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 </ul>
 </li>
 </ul>
@@ -434,42 +467,53 @@
 </li>
 <li><p>玩家登出记录</p>
 <ul>
-<li>方法： SmartPush.<strong>recordLogout</strong>(Context context)</li>
-<li>功能： 玩家登出记录</li>
-<li>参数： context    当前上下文</li>
+<li>调用方法： SmartPush.<strong>recordLogout</strong>(Context context)</li>
+<li>使用场景： 当玩家登出时调用</li>
+<li>参数说明： context    当前上下文</li>
 </ul>
 </li>
-<li><p>玩家支付记录</p>
+<li><p>记录当前服务器id和对应名称</p>
 <ul>
-<li>方法： SmartPush.<strong>recordPay</strong>(Context context,  String serverId, String playerId,
+<li>调用方法： SmartPush.<strong>recordServer</strong>(String serverId, String serverName)</li>
+<li>使用场景： 当玩家连接上服务器时调用</li>
+<li>参数说明： <ul>
+<li>serverId   服务器id,开发者服务器自定义id(采用英文字母、数字、下划线的组合，如&quot;91Store_1&quot;)<ul>
+<li>serverName 服务器id对应名称</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>记录当前渠道id和渠道id对应名称</p>
+<ul>
+<li>调用方法： SmartPush.<strong>recordChannel</strong>(String channelId, String channelName)</li>
+<li>使用场景： 可在应用开始时调用</li>
+<li>参数说明： <ul>
+<li>channelId   渠道id,开发者自定义渠道id(采用英文字母、数字、下划线的组合,例如&quot;91_store&quot;)<ul>
+<li>channelName 渠道id对应名称       </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>玩家充值记录</p>
+<ul>
+<li>调用方法： SmartPush.<strong>recordPay</strong>(Context context, String playerId,
   float amount, String paymentChanel,
   String currency, int coinAmount, 
   String orderId, int level)</li>
-<li>功能： 玩家支付行为记录</li>
-<li>参数：     <ul>
+<li>使用场景： 当玩家完成充值后调用</li>
+<li>参数说明：     <ul>
 <li>context       当前上下文<ul>
-<li>serverId      服务器id     </li>
-<li>playerId      玩家id</li>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 <li>amount        充值金额</li>
 <li>paymentChanel 支付渠道</li>
 <li>currency      金额币种</li>
 <li>coinAmount    充值游戏币个数</li>
 <li>orderId       订单号</li>
-<li>level         玩家等级    </li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>注册玩家统计</p>
-<ul>
-<li>方法： SmartPush.<strong>recordRegister</strong>(Context context, String serverId , String playerId)</li>
-<li>功能： 注册玩家统计</li>
-<li>参数： <ul>
-<li>context       当前上下文</li>
-<li>serverId      服务器id<ul>
-<li>playerId      玩家id</li>
+<li>level         玩家等级(0-100的数字)    </li>
 </ul>
 </li>
 </ul>
@@ -478,78 +522,74 @@
 </li>
 <li><p>记录玩家开始游戏的时间</p>
 <ul>
-<li>方法： SmartPush.<strong>recordPlayerStartTime</strong>(Context context, String serverId, String playerId, int playerLevel)</li>
-<li>功能： 玩家开始游戏时间的记录</li>
-<li>参数： <ul>
-<li>context       当前上下文</li>
-<li>serverId      服务器id<ul>
-<li>playerId      玩家id</li>
+<li>调用方法： SmartPush.<strong>recordPlayerStartTime</strong>(Context context,  String playerId, int playerLevel)</li>
+<li>使用场景： 当玩家进入游戏时调用</li>
+<li>参数说明： <ul>
+<li>context       当前上下文<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 </ul>
 </li>
-<li>playerLevel   玩家等级</li>
+<li>playerLevel   玩家等级(0-100的数字)</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>记录玩家离开游戏的时间</p>
 <ul>
-<li>方法： SmartPush.<strong>recordPlayerEndTime</strong>(Context context, String serverId, String playerId, int playerLevel)</li>
-<li>功能： 玩家离开游戏时间的记录</li>
-<li>参数： <ul>
-<li>context       当前上下文</li>
-<li>serverId      服务器id<ul>
-<li>playerId      玩家id</li>
+<li>调用方法： SmartPush.<strong>recordPlayerEndTime</strong>(Context context, String playerId, int playerLevel)</li>
+<li>使用场景： 当玩家退出游戏时调用</li>
+<li>参数说明： <ul>
+<li>context       当前上下文<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 </ul>
 </li>
-<li>playerLevel   玩家等级</li>
+<li>playerLevel   玩家等级(0-100的数字)</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>记录玩家进入关卡的时间</p>
 <ul>
-<li>方法： SmartPush.<strong>recordMissionStartTime</strong>(Context context, String serverId, 
-String playerId, int missionId)</li>
-<li>功能： 玩家进入关卡时间的记录</li>
-<li>参数： <ul>
-<li>context       当前上下文</li>
-<li>serverId      服务器id<ul>
-<li>playerId      玩家id</li>
+<li>调用方法： SmartPush.<strong>recordMissionStartTime</strong>(Context context, String playerId, String missionId, String missionName)</li>
+<li>使用场景： 当玩家进入特定关卡时调用</li>
+<li>参数说明： <ul>
+<li>context       当前上下文<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 </ul>
 </li>
-<li>missionId     关卡id</li>
+<li>missionId     关卡id(使用100001~199999之间字符串表示)</li>
+<li>missionName   关卡id对应名称</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>记录玩家离开关卡的时间</p>
 <ul>
-<li>方法： SmartPush.<strong>recordMissionEndTime</strong>(Context context, String serverId, 
-String playerId, int missionId)</li>
-<li>功能： 玩家离开关卡时间的记录</li>
-<li>参数： <ul>
-<li>context       当前上下文</li>
-<li>serverId      服务器id<ul>
-<li>playerId      玩家id</li>
+<li>调用方法： SmartPush.<strong>recordMissionEndTime</strong>(Context context, String playerId, String missionId, String missionName)</li>
+<li>使用场景： 当玩家离开特定关卡时调用</li>
+<li>参数说明： <ul>
+<li>context       当前上下文<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)</li>
 </ul>
 </li>
-<li>missionId     关卡id</li>
+<li>missionId     关卡id(使用100001~199999之间字符串表示)</li>
+<li>missionName   关卡id对应名称</li>
 </ul>
 </li>
 </ul>
 </li>
 <li><p>玩家虚拟消费记录</p>
 <ul>
-<li>方法： SmartPush.<strong>recordConsumption</strong>(Context context, String serverId, String playerId,
-  int itemId,
+<li>调用方法： SmartPush.<strong>recordConsumption</strong>(Context context, String playerId, String itemId,
+  String itemName,
   int itemAmount,
   int coinAmount)</li>
-<li>功能： 玩家消费行为记录</li>
-<li>参数： <ul>
+<li>使用场景： 当玩家在App中有虚拟消费行为时调用</li>
+<li>参数说明： <ul>
 <li>context       当前上下文</li>
-<li>serverId      服务器id</li>
-<li>playerId      玩家id<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)<ul>
 <li>itemId        消费商品id</li>
+<li>itemName      消费商品id对应名称</li>
 <li>itemAmount    消费商品数量</li>
 <li>coinAmount    消费虚拟币数量  </li>
 </ul>
@@ -560,12 +600,11 @@ String playerId, int missionId)</li>
 </li>
 <li><p>玩家剩余金币记录</p>
 <ul>
-<li>方法： SmartPush.<strong>recordCoinAmount</strong>(Context context, String serverId, String playerId, int coinAmount)</li>
-<li>功能： 玩家剩余金币记录</li>
-<li>参数： <ul>
+<li>调用方法： SmartPush.<strong>recordCoinAmount</strong>(Context context, String playerId, int coinAmount)</li>
+<li>使用场景： 当玩家在App中虚拟消费后调用</li>
+<li>参数说明： <ul>
 <li>context       当前上下文</li>
-<li>serverId      服务器id</li>
-<li>playerId      玩家id<ul>
+<li>playerId      玩家id(为字符串，若没有玩家id，请设置为&quot;0&quot;)<ul>
 <li>coinAmount    消费虚拟币数量  </li>
 </ul>
 </li>
@@ -574,9 +613,9 @@ String playerId, int missionId)</li>
 </ul>
 </li>
 </ul>
-<h2 id="4">4、相关类介绍</h2>
+<h2 id="5">5、相关类介绍</h2>
 
-<h3 id="4.1">4.1 IMsgReceiver（消息接收接口）</h3>
+<h3 id="5.1">5.1 IMsgReceiver（消息接收接口）</h3>
 
 <table>
 <thead>
@@ -589,17 +628,17 @@ String playerId, int missionId)</li>
 <tbody>
 <tr>
 <td>透传消息接口</td>
-<td>回调透传消息</td>
+<td>透传消息</td>
 <td>onMessage</td>
 </tr>
 <tr>
 <td>调试消息接口</td>
-<td>回调 debug 消息</td>
+<td>debug 消息</td>
 <td>onDebug</td>
 </tr>
 <tr>
 <td>deviceToken信息接口</td>
-<td>回调 deviceToken</td>
+<td>deviceToken</td>
 <td>onDeviceToken</td>
 </tr>
 </tbody>
@@ -608,26 +647,26 @@ String playerId, int missionId)</li>
 <li><p>接收到的push消息</p>
 <ul>
 <li>方法： public void <strong>onMessage</strong>(String message)</li>
-<li>功能： 接受到的透传消息处理</li>
+<li>功能： 提供开发者message消息用于处理透传消息</li>
 <li>参数： message 为Json字符串</li>
 </ul>
 </li>
 <li><p>接收到的debug消息</p>
 <ul>
 <li>方法： public void <strong>onDebug</strong>(String debugInfo)</li>
-<li>功能： 接收到的debug信息回调，用于debug使用</li>
+<li>功能： 提供开发者debug信息用于调试</li>
 <li>参数： debugInfo 为debug内容信息</li>
 </ul>
 </li>
 <li><p>接收分配到的deviceToken信息</p>
 <ul>
 <li>方法： public void <strong>onDeviceToken</strong>(String deviceToken) </li>
-<li>功能： 回调时玩家id绑定设备</li>
+<li>功能： 提供开发者deviceToken用于deviceToken的本地化和玩家id的绑定</li>
 <li>参数： deviceToken 设备token</li>
 </ul>
 </li>
 </ul>
-<h3 id="4.2">4.2 SmartPushOpenUtils 工具类</h3>
+<h3 id="5.2">5.2 SmartPushOpenUtils 工具类</h3>
 
 <ul>
 <li><p>本地化DeviceToken</p>
@@ -646,17 +685,6 @@ String playerId, int missionId)</li>
 <li>方法： public static String <strong>loadDeviceToken</strong>(Context context)</li>
 <li>功能： 取得保存的deviceToken</li>
 <li>参数： context      当前上下文 </li>
-</ul>
-</li>
-</ul>
-<h2 id="5">5、常见问题</h2> 
-
-<h3 id="5.1">5.1 关于推送服务</h3>
-
-<ul>
-<li>推送服务包括：<ul>
-<li>推送通知：通知以状态栏Notification的形式展现，无需开发者处理。</li>
-<li>推送消息：处理消息需开发者在 IMsgReceiver 实现类的<strong>onMessage</strong>(String message)方法内自定义(参考demo)。</li>
 </ul>
 </li>
 </ul>
