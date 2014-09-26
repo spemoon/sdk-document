@@ -43,23 +43,12 @@
 - 操作失败:
 状态码:400
 
-
-### 获取应用的tag
-- 请求地址：**POST /gc1/push/android/&lt;int:client_id&gt;/tags**
-- 是否认证：是
-- 成功响应:
-
-        [
-            {
-                "id":"tag的ID",
-                "tag":"tag名称",
-                "create_time":"创建时间戳",
-            }
-        ]
+        | 错误码       |  错误消息                  |
+        | --------- |:---------------------------:| 
+        | 6011       |  非法的clientid             |        
+        | 6009       |  post的内容为空             |  
+        | 6010       |  非法的json对象             |
         
-- 操作失败:
-状态码:400
-
 
 ### android推送
 - 请求地址：**POST /gc1/push/android/&lt;int:client_id&gt;**
@@ -118,64 +107,97 @@
 - 操作失败:
 状态码:400
 
-
-### 在时间区间内，统计某个应用的下发 回执 和离线回执情况
-- 请求地址：**GET /gc1/push/android/receipt/&lt;int:client_id&gt;?begin_date={yyyy-mm-dd}&end_date={yyyy-mm-dd}**
-- 是否认证：是
-- 请求内容：
-    
-* begin_date  开始日期，yyyy-mm-dd格式，默认为今天
-* end_date 结束日期，yyyy-mm-dd格式，默认为今天
-
+        | 错误码       |  错误消息                  |
+        | --------- |:---------------------------:| 
+        | 6011       |  非法的clientid             |        
+        | 6009       |  post的内容为空             |  
+        | 6010       |  非法的json对象             |
+        | 6004       |  必须指定app的启动页面       |
+        | 6003       |  必须指定打开的网站地址      |
+        | 6005       |  必须指定下载的url          |
+        | 6006       |  弹出框内容为空             |
+        | 6007       |  错误的通知类型             |
         
-- 成功响应: 200
 
-        [
-            {
-                "reciver": "一天的发送总量, int",
-                "offline": "一天离线接收的总量, int",
-                "send": "一天的发送总量, int",
-                "time":  "日期，yyyy-mm-dd格式"
-            },
-            ...
-        ]
-
-    
-- 操作失败:
-状态码:400
-
-
-### 分页查询应用的发送情况，时间为倒叙
-- 请求地址：**GET /gc1/push/android/send_info/&lt;int:client_id&gt;?pushed_status=0&title=&offset=0&limit=20**
-- 是否认证：是
-- 请求内容：
-* pushed_status: 查询任务的状态1:已发送 2：未发送; 0:全部
-* title 推送的标题作为查询条件, 需要URLencode
-* offset 起始游标, 默认 0
-* limit 条数， 默认 20
-        
-- 成功响应 200
+### 推送记录
+- 请求地址：**GET /push/records/<int:client_id\>**
+- 请求参数: offset=开始记录数&limit=获取记录数&push_channel={}&push_type={}&pushed_status={}
+- 参数说明：
+* push_type 传5为消息，传-5为通知
+- 是否认证：是，客户端认证
+- 成功响应：
 
         {
             "pagination": {
-                "rows_found": "总记录数"
-                "limit": "条数"
-                "offset": "起始游标"
+                "rows_found": "总记录数,整型",
+                "limit": "获取记录数，整型",
+                "offset": "开始记录数，整型"
             },
+            "meta": {},
             "data": [
                 {
-                    "push_channel": "该任务的被创建的来源渠道：0:普通（内部接口创建） 1：pushrule自动推送；2：接口（第三方推送",
-                    "task_id": "任务ID，long",
-                    "send": "该任务的发送量, int",
-                    "content": "任务的标题, String",
-                    "reciver": "该任务在线接收量, int",
-                    "is_sended": "该任务的是否已经下发了, bool",
-                    "send_time": "任务下发的时间, long",
-                    "offline": "该任务离线接收量, int"
+                    "title": "内容标题，字符串",
+                    "push_channel": "来源，0 广播 1 精确推送",
+                    "order_time": "发送时间戳，整型",
+                    "push_type": "推送类型，1-4 通知(1打开应用,2下载应用,3打开网页,4打开应用指定页面),5 消息",
+                    "send_count": "发送数量，整型",
+                    "pushed_status": "发送状态，1 发送 0 未发送",
+                    "platform_id": "平台ID 1 Android， 2 iOS",
+                    "developer_id": "开发者ID，整型",
+                    "create_time": "创建时间戳，整型",
+                    "client_id": "客户端ID，整型",
+                    "id": "通知ID，整型",
+                    "content": { // 通知内容
+                      <Android> 或 <iOS> // 字段为apns推送或android推送的输入参数定义，可只传有值的项目
+                    },
+                    "rule": {
+                        "update_time": "更新时间戳，整型",
+                        "name": "规则名称，字符串",
+                        "enable": "是否启用，整型",
+                        "items": { // 规则字段
+                            "channel_id": 1
+                        },
+                        "developer_id": "开发者ID，整型",
+                        "create_time": "创建时间戳，整型",
+                        "id": "规则ID，整型",
+                        "platform_id": "平台ID，整型"
+                    }
                 }
             ]
         }
-        
+
 - 操作失败:
 状态码:400
+
+错误码 错误消息
+
+1001 client不存在
+
+### 推送报表
+- 请求地址：**GET /push/statistic/<int:client_id\>**
+- 说明： 只有android支持推送报表
+- 请求参数: begin_date=开始日期(2014-05-01)&end_date=结束日期(2014-05-02)
+- 是否认证：是，客户端认证
+- 成功响应：
+
+        {
+            "meta": {},
+            "data": [
+                {
+                    "received": "接收数，整型",
+                    "received_rate": "接收率，浮点型，已乘以100",
+                    "received_15m_rate": "15分钟接收率，浮点型，已乘以100",
+                    "received_15m": "15分钟接收数，整型",
+                    "date": "日期，格式：2014-09-08",
+                    "sent": "发送数，整型"
+                }
+            ]
+        }
+
+- 操作失败:
+状态码:400
+
+错误码 错误消息
+
+1001 client不存在
 
