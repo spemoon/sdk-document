@@ -1,7 +1,7 @@
-# SmartPush SDK 说明文档
-版本：V1.0.8
+# SmartPush SDK 接入指南
+版本：V1.0.9
 
-<a href="../../static/download/SmartPush_SDK_V1.0.8.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
+<a href="../../static/download/SmartPush_SDK_V1.0.9.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
 
 
 ## 目录
@@ -59,13 +59,13 @@
 
 <h3 id="1.3">1.3 SDK 包内容</h3>
 
+* SDK开发包：**smart-push-v1.x.x.jar**，在SmartPushExample/libs目录下
+* 开发文档：**SmartPush SDK 接入指南.pdf**
 * 示例程序工程：**SmartPushExample**
 
 	* SmartPushExample/src下: 示例代码
 
-* 工程依赖包：**smart-push-v1.x.x.jar**	
 * 示例程序安装包：**SmartPushExample.apk**
-* 说明文档：**SmartPush SDK说明文档.pdf**
 
 <h3 id="1.4">1.4 Android SDK版本</h3>
 
@@ -173,63 +173,42 @@
 
 <h4 id="2.3.1">2.3.1 添加推送服务代码</h4>
 
-* 创建一个类(如MessageReceiver)实现IMsgReceiver接口，请参考[IMsgReceiver类介绍](#5.1)。
-		
-		private class MessageReceiver implements IMsgReceiver {
-	        @Override
-	        public void onMessage(String message) {
-	        	// 处理透传消息 message是Json字符串
-	            android.util.Log.i("TGX", "message:" * message);
-	        }
 
-	        @Override
-	        public void onDebug(String debugInfo) {
-	        	// SDK发出的debug信息，可不处理
-	        	android.util.Log.i("TGX", "message:" * debugInfo);
-	        }
+* 简易的接入流程可以参照Demo中的BaseApp内方法startPushService()的内容如下,其中IMsgReceiver说明可以参考[IMsgReceiver类介绍](#5.1):
 
-	        @Override
-	        public void onDeviceToken(String deviceToken)  {
-	            //SmartPushOpenUtils本地化deviceToken的帮助类，开发者可以自己实现本地化存储deviceToken
-	            SmartPushOpenUtils.saveDeviceToken(PushActivity.this, deviceToken);
-	            // 在取得DeviceToken时，玩家id(为字符串，若没有玩家id，请设置为"0")与设备绑定,“playerId”为当前玩家id(为字符串，若没有玩家id，请设置为"0")
-	            SmartPush.bindDevice(PushActivity.this, deviceToken, "playerId");
-	        }
-    	}
+		  // 注册消息接受者
+        SmartPush.registerReceiver(new IMsgReceiver() {
+            @Override
+            public void onMessage(String message) {
+                // 处理透传消息 message是开发者在网站上填的消息内容
+                Log.i("PUSH", "message:" + message);
+            }
 
-* 在Activity或者Application子类中注册实现的类(如MessageReceiver)，并开启服务，如下：
+            @Override
+            public void onDebug(String debugInfo) {
+                // SDK发出的debug信息，如果SmartPush.setDebugMode(false),开发者不需处理;
+                Log.i("PUSH", "debugInfo:" + debugInfo);
+            }
 
-		SmartPush.registerReceiver(new MessageReceiver());
-		SmartPush.registerService(this);
+            @Override
+            public void onDeviceToken(String deviceToken) {
+                //SmartPushOpenUtils是 sdk提供本地化deviceToken的帮助类，开发者也可以自己实现本地化存储deviceToken
+                SmartPushOpenUtils.saveDeviceToken(BaseApp.this, deviceToken);
+                if (!TextUtils.isEmpty(sPlayerId)) {
+                    //玩家已登录
+                    //***用于接收推送, 一定要调用该接口后才能接受推送
+                    SmartPush.bindDevice(BaseApp.this, deviceToken, sPlayerId);
+                } else {
+                    //***用于接收推送,一定要调用该接口后才能接受推送  用户id与设备绑定,"0"为默认没有任何玩家登录时的默认id
+                    SmartPush.bindDevice(BaseApp.this, deviceToken, "0");
+                }
+            }
+        });
+        // 注册服务，并启动服务
+        SmartPush.registerService(this);
 				
-<h4 id="2.3.2">2.3.2 添加异常捕获功能</h4>
 
-* Application的子类中添加如下代码，设置全局的异常捕获处理，帮助开发者分析异常原因。
-
-		public class BaseApp extends Application {
-		    private Thread.UncaughtExceptionHandler mDefaultUncaughtExceptionHandler;
-
-		    @Override
-		    public void onCreate() {
-		        super.onCreate();
-		        initErrorHandler();
-		    }
-
-		    private void initErrorHandler() {
-		        mDefaultUncaughtExceptionHandler 
-		        = Thread.getDefaultUncaughtExceptionHandler();
-		        Thread.setDefaultUncaughtExceptionHandler(
-		            new NGDSCrashHandler(this, mDefaultUncaughtExceptionHandler));
-		    }
-		}
-
-* AndroidManifest.xml 的 application 标签添加代码配置Application类
-
-	    <application
-       		android:name=".BaseApp"
-        			......
-
-<h4 id="2.3.3">2.3.3 设置Debug模式</h4>
+<h4 id="2.3.3">2.3.2 设置Debug模式(可选)</h4>
 
 * Application的子类中进行如下调用，以此来设置Debug模式。若设置为Debug模式，SDK会记录程序信息并在logcat中打印调试log；若设置为非Debug模式，SDK不会做这些操作(默认为非debug模式)。
 
@@ -328,7 +307,7 @@
 	* 使用场景： 可在页面消亡时解除绑定
 	* 参数说明： 无
 	
-* 玩家绑定设备接口
+* 玩家绑定设备接口(**此方法用于正常收到推送,必须调用)
 	* 调用方法： SmartPush.**bindDevice**(Context context, String deviceToken, String playerId)
 	* 使用场景： 当成功取得deviceToken时，需调用此方法使玩家id和设备绑定
 	* 参数说明： 
@@ -459,13 +438,13 @@
 | 分类        		| 功能           	| 方法  	            |
 | -----------------	|-------------	    | --------------------  |
 | 透传消息接口    	    | 透传消息		| onMessage    |
-| 调试消息接口     	|  debug 消息     	|   onDebug    |
-| deviceToken信息接口   | deviceToken     	|   onDeviceToken   |
+| 调试信息接口     	|  debug信息     	|   onDebug    |
+| deviceToken信息接口   | deviceToken 信息     	|   onDeviceToken   |
 
 * 接收透传消息
 	* 方法： public void **onMessage**(String message)
-	* 功能： 开发者可以接收到透传消息，用于消息处理
-	* 参数： message 为Json字符串
+	* 功能： 开发者可以接收到透传消息，开发者可根据业务需求自行处理
+	* 参数： message 为开发者在网站上填的消息内容
 	
 * 接收debug信息
 	* 方法： public void **onDebug**(String debugInfo)
@@ -477,8 +456,9 @@
 	* 功能： 开发者可以接收到deviceToken信息，用于deviceToken的本地化和玩家id的绑定
 	* 参数： deviceToken 设备token
 
-<h3 id="5.2">5.2 SmartPushOpenUtils 工具类</h3>
+<h3 id="5.2">5.2 SmartPushOpenUtils 工具类(可选用)</h3>
 
+#####一个可以帮助用户实现本地化deviceToken的工具类,具体使用可见Demo
 * 本地化DeviceToken
 	* 方法： public static void **saveDeviceToken**(Context context, String deviceToken)
 	* 功能： 保存DeviceToken
@@ -490,4 +470,5 @@
 	* 方法： public static String **loadDeviceToken**(Context context)
 	* 功能： 取得保存的deviceToken
 	* 参数： context      当前上下文 
+
 	
