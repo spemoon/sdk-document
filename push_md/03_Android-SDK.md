@@ -1,7 +1,7 @@
 # SmartPush SDK 接入指南
-版本：V1.0.9
+版本：V1.1.0
 
-<a href="../../static/download/SmartPush_SDK_V1.0.9.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
+<a href="../../static/download/SmartPush_SDK_V1.1.0.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
 
 
 ## 目录
@@ -37,9 +37,11 @@
 
 5. [相关类介绍](#5)
 
-	5.1 [IMsgReceiver](#5.1)
+	5.1 [PushInfo](#5.1)
 
-	5.2 [SmartPushOpenUtils](#5.2)
+	5.2 [IMsgReceiver](#5.2)
+
+	5.3 [SmartPushOpenUtils](#5.3)
 
 
 <h2 id="1">1、产品说明</h2>
@@ -59,7 +61,7 @@
 
 <h3 id="1.3">1.3 SDK 包内容</h3>
 
-* SDK开发包：**smart-push-v1.x.x.jar**，在SmartPushExample/libs目录下
+* SDK开发包：**smart-push-v1.x.x.jar**
 * 开发文档：**SmartPush SDK 接入指南.pdf**
 * 示例程序工程：**SmartPushExample**
 
@@ -174,20 +176,33 @@
 <h4 id="2.3.1">2.3.1 添加推送服务代码</h4>
 
 
-* 简易的接入流程可以参照Demo中的BaseApp内方法startPushService()的内容如下,其中IMsgReceiver说明可以参考[IMsgReceiver类介绍](#5.1):
+* 简易的接入流程可以参照Demo中的BaseApp内方法startPushService()的内容如下,其中PushInfo和IMsgReceiver类说明可以分别参考[PushInfo类介绍](#5.1)、[IMsgReceiver类介绍](#5.2):
 
-		  // 注册消息接受者
         SmartPush.registerReceiver(new IMsgReceiver() {
             @Override
-            public void onMessage(String message) {
-                // 处理透传消息 message是开发者在网站上填的消息内容
-                Log.i("PUSH", "message:" + message);
-            }
-
-            @Override
-            public void onDebug(String debugInfo) {
-                // SDK发出的debug信息，如果SmartPush.setDebugMode(false),开发者不需处理;
-                Log.i("PUSH", "debugInfo:" + debugInfo);
+            public void onMessage(PushInfo pushInfo) {
+                // 处理消息
+                switch (pushInfo.getType()) {
+                    case PushInfo.PUSH_TYPE_DELIVER:
+                        // 收到透传消息，需要开发者自行处理;
+                        Log.i("PUSH", "透传消息:" + pushInfo.getContent());
+                        break;
+                    case PushInfo.PUSH_TYPE_APP:
+                        // 收到启动应用消息，已经在通知栏显示，开发者可以不用处理;
+                        break;
+                    case PushInfo.PUSH_TYPE_DOWNLOAD:
+                        // 收到下载消息，已经在通知栏显示，开发者可以不用处理;
+                        break;
+                    case PushInfo.PUSH_TYPE_WEB:
+                        // 收到打开网页消息，已经在通知栏显示，开发者可以不用处理;
+                        break;
+                    case PushInfo.PUSH_TYPE_ACTIVITY:
+                        // 收到打开应用指定页面消息，已经在通知栏显示，开发者可以不用处理;
+                        break;
+                    default:
+                        break;
+                }
+                Log.i("PUSH", "message:" + pushInfo.getContent());
             }
 
             @Override
@@ -432,31 +447,88 @@
     	* coinAmount    消费虚拟币数量  
 
 <h2 id="5">5、相关类介绍</h2>
- 	
-<h3 id="5.1">5.1 IMsgReceiver（消息接收接口）</h3>
+
+<h3 id="5.1">5.1 PushInfo 推送信息类</h3>
+
+* 获取推送类型
+	* 方法： public int **getType**()
+	* 功能： 获取推送类型
+	* 返回值：为int类型	
+		* 返回1 启动应用
+		* 返回2 下载
+		* 返回3 打开网页
+		* 返回4 启动应用指定页面
+		* 返回5 透传消息
+	
+* 获取推送标题
+	* 方法： public String **getTitle**()
+	* 功能： 获取推送标题
+	* 返回值：标题String	
+
+* 获取推送内容
+	* 方法： public String **getContent**()
+	* 功能： 获取推送内容
+	* 返回值：内容String	
+
+* 推送是否可清除
+	* 方法： public boolean **isClearable**()
+	* 功能： 推送是否可清除
+	* 返回值：
+		* true 可以清除
+		* false 不可清除		
+
+* 推送是否是振动消息
+	* 方法： public boolean **isVibrate**()
+	* 功能： 推送是否振动
+	* 返回值：
+		* true 振动
+		* false 不振动	
+
+* 推送是否有响铃
+	* 方法： public boolean **isRing**()
+	* 功能： 推送是否有响铃
+	* 返回值：
+		* true 有响铃
+		* false 无响铃
+
+* 获取打开Web的网址
+	* 方法： public String **getWebUrl**()
+	* 功能： 获取Web网址
+	* 返回值：Web网址String
+
+* 获取推送的可选参数
+	* 方法： public JSONObject **getOptionParams**()
+	* 功能： 获取可选参数
+	* 返回值：包含参数的JSONObject对象
+
+* 获取启动应用的包名
+	* 方法： public String **getPackageName**()
+	* 功能： 获取启动应用的包名
+	* 返回值：应用的包名String
+
+* 获取待打开的指定页面名称
+	* 方法： public String **getActivity**()
+	* 功能： 获取待打开的指定页面名称
+	* 返回值：待打开的指定页面名称String	
+
+<h3 id="5.2">5.2 IMsgReceiver（消息接收接口）</h3>
 
 | 分类        		| 功能           	| 方法  	            |
 | -----------------	|-------------	    | --------------------  |
 | 透传消息接口    	    | 透传消息		| onMessage    |
-| 调试信息接口     	|  debug信息     	|   onDebug    |
 | deviceToken信息接口   | deviceToken 信息     	|   onDeviceToken   |
 
 * 接收透传消息
-	* 方法： public void **onMessage**(String message)
-	* 功能： 开发者可以接收到透传消息，开发者可根据业务需求自行处理
-	* 参数： message 为开发者在网站上填的消息内容
+	* 方法： public void **onMessage**(PushInfo pushInfo)
+	* 功能： 开发者可以接收到消息对象，开发者可根据业务需求自行处理
+	* 参数： pushInfo 为收到的消息的消息对象
 	
-* 接收debug信息
-	* 方法： public void **onDebug**(String debugInfo)
-	* 功能： 开发者可以接收到debug信息，用于调试
-	* 参数： debugInfo 为debug内容信息
-
 * 接收deviceToken信息
 	* 方法： public void **onDeviceToken**(String deviceToken) 
 	* 功能： 开发者可以接收到deviceToken信息，用于deviceToken的本地化和玩家id的绑定
 	* 参数： deviceToken 设备token
 
-<h3 id="5.2">5.2 SmartPushOpenUtils 工具类(可选用)</h3>
+<h3 id="5.3">5.3 SmartPushOpenUtils 工具类(可选用)</h3>
 
 #####一个可以帮助用户实现本地化deviceToken的工具类,具体使用可见Demo
 * 本地化DeviceToken
