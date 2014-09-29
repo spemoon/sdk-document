@@ -1,7 +1,7 @@
 # SmartPush SDK 接入指南
 版本：V1.1.0
 
-<a href="../../static/download/SmartPush_SDK_V1.1.0.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
+<a href="../../static/download/SmartPush_Android_SDK_V1.1.0.zip" target="_blank" class="sdk-download">下载Android  SDK</a>
 
 
 ## 目录
